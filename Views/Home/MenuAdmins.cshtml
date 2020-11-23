@@ -1,0 +1,143 @@
+﻿@model FlipWeb.Models.MenuUsuariosViewModel
+@{
+    ViewBag.Title = "ListadoOfertas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Menu de Administradores</h2>
+
+<h3>Ofertas de Carga</h3>
+<table class="table">
+
+    <tr>
+        <th>
+            País de partida
+        </th>
+        <th>
+            Ciudad de partida
+        </th>
+        <th>
+            País de destino
+        </th>
+        <th>
+            Ciudad de destino
+        </th>
+        <th>
+            Fecha de oferta
+        </th>
+        <th>
+            Descripción de mercadería
+        </th>
+        <th>
+            Requiere exclusividad
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListadoOfertasCarga)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionMercaderia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "DetallesOfertaCargaCliente", "Clientes", new { id = item.OfertaId }, null) |
+            </td>
+        </tr>
+    }
+
+</table>
+<h3>Ofertas de Transporte</h3>
+<table class="table">
+    <tr>
+        <th>
+            País de partida
+        </th>
+        <th>
+            Ciudad de partida
+        </th>
+        <th>
+            País de destino
+        </th>
+        <th>
+            Ciudad de destino
+        </th>
+        <th>
+            Fecha de oferta
+        </th>
+        <th>
+            Medidas caja
+        </th>
+        <th>
+            Tipo de caja
+        </th>
+        <th>
+            Tipo de Camión
+        </th>
+        <th>
+            Costo total
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListadoOfertasTransporte)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedidasCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCamion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Costo)
+            </td>
+            <td>
+                @*@Html.ActionLink("Editar", "Edit","OfertasTransporte", new { id = item.OfertaId },null) |*@
+                @Html.ActionLink("Detalles", "DetallesOfertaTransporteCliente", "Clientes", new { id = item.OfertaId }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Clientes*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+@Html.ActionLink("Ofertas de Carga*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+@Html.ActionLink("Ofertas de Transporte*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+@Html.ActionLink("Ver Ofertas reportadas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+@Html.ActionLink("Volver a Menu de Clientes", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
