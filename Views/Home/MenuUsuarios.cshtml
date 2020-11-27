@@ -132,8 +132,7 @@
                     @Html.DisplayFor(modelItem => item.Costo)
                 </td>
                 <td>
-                    @*@Html.ActionLink("Editar", "Edit","OfertasTransporte", new { id = item.OfertaId },null) |*@
-                    @Html.ActionLink("Detalles", "DetallesOfertaTransporteCliente", "Clientes", new { id = item.OfertaId }, null)
+                    @Html.ActionLink("Detalles", "DetallesOfertaTransporteCliente", "Home", new { id = item.OfertaId }, null)
                 </td>
             </tr>
         }

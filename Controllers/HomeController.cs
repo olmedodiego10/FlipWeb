@@ -144,7 +144,19 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaCarga);
         }
-
+        public ActionResult DetallesOfertaTransporteCliente(int? id)
+        {
+            if (id == null)
+            {
+               // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+            if (ofertaTransporte == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaTransporte);
+        }
         public ActionResult CreateContacto(int idOferta)
         {
             //Duda: ESTO LO VE TODO EL MUNDO?
