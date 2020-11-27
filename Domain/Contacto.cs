@@ -15,7 +15,7 @@ namespace FlipWeb.Domain
         //Estados: En Progreso, Cerrado, Reporte
         public string Estado { get; set; }
         public int IdOfertaContactada { get; set; }
-        public int IdContactante { get; set; }
+        public string IdContactante { get; set; }
         //[Range(1, 5)] se hace not null y no pasa el ModelState.IsValid al crearse
         public int Calificacion { get; set; }
         public string Comentario { get; set; }

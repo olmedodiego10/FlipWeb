@@ -251,6 +251,9 @@
     <Content Include="Views\Home\CreateOfertaCarga.cshtml" />
     <Content Include="Views\Home\CreateOfertaTransporte.cshtml" />
     <Content Include="Views\Home\MenuAdmins.cshtml" />
+    <Content Include="Views\Home\DetallesOfertaCargaCliente.cshtml" />
+    <Content Include="Views\Home\DatosOfertante.cshtml" />
+    <Content Include="Views\Home\CreateContacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

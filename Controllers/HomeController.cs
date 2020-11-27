@@ -128,5 +128,78 @@ namespace FlipWeb.Controllers
 
             return RedirectToAction("MenuUsuarios", "Home");
         }
+
+        public ActionResult DetallesOfertaCargaCliente(int? id)
+        {
+            if (id == null)
+            {
+                // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            // OfertaCarga ofertaCarga = db.OfertasCarga.Include(o => o.of).FirstOrDefault(o => o.OfertaId == id);
+            // OfertaCarga ofertaCarga db.Users.Include(u => u.ListaOfertasCargaCreadas).First(u => u.Id == id);
+            OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+            if (ofertaCarga == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaCarga);
+        }
+
+        public ActionResult CreateContacto(int idOferta)
+        {
+            //Duda: ESTO LO VE TODO EL MUNDO?
+            Session.Add("idOferta", idOferta);
+            return View();
+        }
+
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
+        {// Busco en la bd porque necesito traer ListaContactos y Ofertante
+            int idAux = (int)Session["idOferta"]; //id validado en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
+            var OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idAux);
+            if (OfertaCAux == null)
+            {
+                var OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idAux);
+                contacto.ContactoId = contacto.ContactoId++;
+                db.Entry(OfertaTAux).State = EntityState.Modified;
+            }
+            else
+            {
+                contacto.ContactoId = contacto.ContactoId++;
+                db.Entry(OfertaCAux).State = EntityState.Modified;
+            }
+            contacto.FechaContacto = DateTime.Now;
+            contacto.Estado = "En progreso";
+            contacto.IdOfertaContactada = (int)Session["idOferta"];
+            var userId = User.Identity.GetUserId();
+            contacto.IdContactante = userId;
+            Session.Remove("idOferta");
+            if (ModelState.IsValid)
+            {
+                db.Contactos.Add(contacto);
+                db.SaveChanges();
+                return RedirectToAction("DatosOfertante", new { id = contacto.IdOfertaContactada });
+            }
+            return RedirectToAction("Error", "Clientes");
+        }
+
+        public ActionResult DatosOfertante(int? id)
+        {
+
+
+            Oferta oferta = db.Ofertas.Find(id);
+            var userAux = db.Users.Find(oferta.OfertanteId);
+
+
+            if (userAux == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userAux);
+        }
+
     }
 }
