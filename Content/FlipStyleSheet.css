@@ -1,0 +1,28 @@
+﻿#infoDetalles,
+#infoPaisPartida,
+#infoCiudadPartida,
+#infoDireccionPartida,
+#infoPaisDestino,
+#infoCiudadDestino,
+#infoDireccionDestino,
+#infoFechaOferta,
+#infoDescripcionMercaderia,
+#infoRequiereExclusividad,
+#infoMedidasCaja,
+#infoTipoCaja,
+#infoTipoCamion,
+#infoITV,
+#infoHabilitacionBromatologica,
+#infoCosto {
+    background-color: lightgray;
+    border-style: solid;
+    border-width: thin;
+    max-width: 500px;
+}
+
+small {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    display: block;
+}

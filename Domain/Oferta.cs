@@ -21,7 +21,6 @@ namespace FlipWeb.Domain
         [DataType(DataType.MultilineText)]
         public string Detalles { get; set; }
         [Required(ErrorMessage = "Campo requerido")]
-        [StringLength(20, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "País de partida")]
         public string PaisPartida { get; set; }
         [Required(ErrorMessage = "Campo requerido")]
@@ -33,7 +32,6 @@ namespace FlipWeb.Domain
         [Display(Name = "Dirección de partida")]
         public string DireccionPartida { get; set; }
         [Required(ErrorMessage = "Campo requerido")]
-        [StringLength(20, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "País de destino")]
         public string PaisDestino { get; set; }
         [Required(ErrorMessage = "Campo requerido")]

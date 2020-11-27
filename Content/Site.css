@@ -1,6 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url('../Images/fondoruta.jpg');
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +25,12 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+div {
+    background-color: white;
+}
+
+#topMenu {
+    background-color: black;
 }

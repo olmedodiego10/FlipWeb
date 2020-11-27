@@ -31,7 +31,10 @@ namespace FlipWeb.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var cargas = db.OfertasCarga.ToList();
+            var transporte = db.OfertasTransporte.ToList();
+            MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
+            return View(vista);
         }
 
         public ActionResult MenuUsuarios()

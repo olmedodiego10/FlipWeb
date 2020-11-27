@@ -1,31 +1,160 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model FlipWeb.Models.MenuUsuariosViewModel
+@{
+    ViewBag.Title = "Inicio";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Ofertas recientes</h1>
+    @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+    <h3>Ofertas de Carga</h3>
+    <div style="overflow-x:auto;">
+        <table class="table">
+
+            <tr>
+                <th>
+                    País de partida
+                </th>
+                <th>
+                    Ciudad de partida
+                </th>
+                <th>
+                    País de destino
+                </th>
+                <th>
+                    Ciudad de destino
+                </th>
+                <th>
+                    Fecha de oferta
+                </th>
+                <th>
+                    Descripción de mercadería
+                </th>
+                <th>
+                    Requiere exclusividad
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.ListadoOfertasCarga)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaisPartida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CiudadPartida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaisDestino)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CiudadDestino)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaOferta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescripcionMercaderia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <h3>Ofertas de Transporte</h3>
+    <div style="overflow-x:auto;">
+        <table class="table">
+            <tr>
+                <th>
+                    País de partida
+                </th>
+                <th>
+                    Ciudad de partida
+                </th>
+                <th>
+                    País de destino
+                </th>
+                <th>
+                    Ciudad de destino
+                </th>
+                <th>
+                    Fecha de oferta
+                </th>
+                <th>
+                    Medidas caja
+                </th>
+                <th>
+                    Tipo de caja
+                </th>
+                <th>
+                    Tipo de camión
+                </th>
+                <th>
+                    Costo total
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.ListadoOfertasTransporte)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaisPartida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CiudadPartida)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaisDestino)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CiudadDestino)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaOferta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedidasCaja)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoCaja)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoCamion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Costo)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Novedades</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+        ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Novedades</h2>
+        <p>
+        Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
+        </p>
+        @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Noticias</h2>
+        <p>El gobierno nacional pondrá énfasis en la recuperación de las rutas del norte del país, para generar más oportunidades de crecimiento en esa región.</p>
+        <p><a class="btn btn-default" href="http://www.mtop.gub.uy/-/se-hara-hincapie-en-la-rehabilitacion-de-las-rutas-del-nor-1?p_p_state=maximized">Leer noticia &raquo;</a></p>
     </div>
 </div>

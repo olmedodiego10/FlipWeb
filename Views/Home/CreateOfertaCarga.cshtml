@@ -1,15 +1,51 @@
 ﻿@model FlipWeb.Domain.OfertaCarga
-
+@Styles.Render("~/Content/FlipStyleSheet.css")
 @{
     ViewBag.Title = "CreateOfertaCarga";
 }
 
+<script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Uruguay",
+        Value = "Uruguay",
+        Selected = true
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Argentina",
+        Value = "Argentina"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Brasil",
+        Value = "Brasil"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Chile",
+        Value = "Chile"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Paraguay",
+        Value = "Paraguay"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Otro",
+        Value = "Otro"
+    });
+}
+
 <h2>Crear Oferta de carga</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -18,14 +54,30 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Detalles, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Detalles, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="myFunction()">Click para saber más</a>
+                <div id="infoDetalles" style="display:none">
+                    <small>
+                        Aquí puede indicar detalles generales como horarios, modalidades de pago aceptadas y todo aquello
+                        que desee informar por fuera del formulario. También puede indicar el destino en caso de no figurar dentro del formulario.
+                        <br><strong>*Recuerde que datos personales no están permitidos y son motivo de baja de la oferta.</strong>
+                    </small>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PaisPartida, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PaisPartida, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.PaisPartida, listItems, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PaisPartida, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divPaisPartida()">Click para saber más</a>
+                <div id="infoPaisPartida" style="display:none">
+                    <small>
+                        Aquí debe indicar el país de donde partirá la carga, en caso de no estar en la lista seleccione la opción <strong>Otro</strong>
+                        y especifique el país en los detalles de la oferta.
+                        <br><strong>*Recuerde que datos personales no están permitidos y son motivo de baja de la oferta.</strong>
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -34,6 +86,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CiudadPartida, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CiudadPartida, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divCiudadPartida()">Click para saber más</a>
+                <div id="infoCiudadPartida" style="display:none">
+                    <small>
+                        Aquí debe indicar el nombre de la ciudad en la que se encuentra la carga.
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -42,14 +100,28 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DireccionPartida, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DireccionPartida, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divDireccionPartida()">Click para saber más</a>
+                <div id="infoDireccionPartida" style="display:none">
+                    <small>
+                        Aquí debe indicar la dirección en la que se encuentra la carga.
+                    </small>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PaisDestino, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PaisDestino, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.PaisDestino, listItems, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PaisDestino, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divPaisDestino()">Click para saber más</a>
+                <div id="infoPaisDestino" style="display:none">
+                    <small>
+                        Aquí debe indicar el país a donde esta destinada la carga, en caso de no estar en la lista seleccione la opción <strong>Otro</strong>
+                        y especifique el país en los detalles de la oferta.
+                        <br><strong>*Recuerde que datos personales no están permitidos y son motivo de baja de la oferta.</strong>
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -58,6 +130,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CiudadDestino, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CiudadDestino, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divCiudadDestino()">Click para saber más</a>
+                <div id="infoCiudadDestino" style="display:none">
+                    <small>
+                        Aquí debe indicar el nombre de la ciudad a la que esta destinada la carga.
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -66,6 +144,12 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DireccionDestino, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DireccionDestino, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divDireccionDestino()">Click para saber más</a>
+                <div id="infoDireccionDestino" style="display:none">
+                    <small>
+                        Aquí debe indicar la dirección a la que esta destinada la carga.
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -74,6 +158,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FechaOferta, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FechaOferta, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divFechaOferta()">Click para saber más</a>
+                <div id="infoFechaOferta" style="display:none">
+                    <small>
+                        Aquí debe indicar la fecha aproximada en la que debe partir la carga. <br />
+                        <strong>Es importante indicar una fecha posterior al día de hoy (@DateTime.Now) de lo contrario la oferta no se mostrará para los posible interesados.</strong>
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -82,22 +173,35 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DescripcionMercaderia, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DescripcionMercaderia, "", new { @class = "text-danger" })
+                <a class="btn btn-primary btn-xs" role="button" onclick="divDescripcionMercaderia()">Click para saber más</a>
+                <div id="infoDescripcionMercaderia" style="display:none">
+                    <small>
+                        Aquí debe indicar una pequeña descripción de la mercadería que necesita transportar así como las necesidades de la misma para ser transportada correctamente.
+                    </small>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RequiereExclusividad, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.RequiereExclusividad)
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.RequiereExclusividad)
                     @Html.ValidationMessageFor(model => model.RequiereExclusividad, "", new { @class = "text-danger" })
+                    <a class="btn btn-primary btn-xs" role="button" onclick="divRequiereExclusividad()">Click para saber más</a>
+                    <div id="infoRequiereExclusividad" style="display:none">
+                        <small>
+                            Marque la casilla en caso de necesitar que la mercadería sea transportada exclusivamente y sea importante que no comparta la caja del camión con ninguna otra mercadería.
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crear oferta de Carga" class="btn btn-default" />
+                @Html.ActionLink("Cancelar", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
             </div>
         </div>
     </div>

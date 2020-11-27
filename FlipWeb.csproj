@@ -190,6 +190,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\FlipStyleSheet.css" />
+    <Content Include="Images\fondoruta.jpg" />
+    <Content Include="Images\logoFlip.jpg" />
+    <Content Include="Images\logoFlip2.jpg" />
+    <Content Include="Images\logoFlipA.jpg" />
+    <Content Include="Scripts\FlipJS.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
