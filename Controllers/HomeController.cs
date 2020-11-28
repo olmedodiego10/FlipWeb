@@ -56,7 +56,7 @@ namespace FlipWeb.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+            
             return View();
         }
 
@@ -213,5 +213,9 @@ namespace FlipWeb.Controllers
             return View(userAux);
         }
 
+        public ActionResult ListadoClientes()
+        {
+            return View(db.Users.ToList());
+        }
     }
 }

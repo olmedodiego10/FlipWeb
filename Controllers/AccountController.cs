@@ -83,6 +83,10 @@ namespace FlipWeb.Controllers
             {
                 case SignInStatus.Success:
                     //return RedirectToLocal(returnUrl);
+                    if (model.Email == "adrianrodriguez0510@gmail.com")
+                    {
+                        return RedirectToAction("MenuAdmin", "Home"); ;
+                    }
                     return RedirectToAction("MenuUsuarios", "Home"); ;
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -155,7 +159,7 @@ namespace FlipWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula, Celular = model.Celular , Telefono = model.Telefono };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula, Celular = model.Celular , Telefono = model.Telefono};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

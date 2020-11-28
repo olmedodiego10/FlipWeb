@@ -102,11 +102,11 @@ namespace FlipWeb.Models
         [StringLength(20, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
-
         public List<OfertaTransporte> ListaOfertasTransporteCreadas { get; set; }
         public List<OfertaCarga> ListaOfertasCargaCreadas { get; set; }
         public List<Contacto> ListaContactados { get; set; }
         public bool Premium { get; set; }
+       
     }
 
     public class ResetPasswordViewModel
