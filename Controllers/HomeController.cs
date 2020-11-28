@@ -133,10 +133,8 @@ namespace FlipWeb.Controllers
         {
             if (id == null)
             {
-                // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "Home");
             }
-            // OfertaCarga ofertaCarga = db.OfertasCarga.Include(o => o.of).FirstOrDefault(o => o.OfertaId == id);
-            // OfertaCarga ofertaCarga db.Users.Include(u => u.ListaOfertasCargaCreadas).First(u => u.Id == id);
             OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
             if (ofertaCarga == null)
             {
@@ -148,7 +146,7 @@ namespace FlipWeb.Controllers
         {
             if (id == null)
             {
-               // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "Home");
             }
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
             if (ofertaTransporte == null)
@@ -159,43 +157,61 @@ namespace FlipWeb.Controllers
         }
         public ActionResult CreateContacto(int idOferta)
         {
-            //Duda: ESTO LO VE TODO EL MUNDO?
+            //Duda: ESTO LO VE TODO EL MUNDO? R: Aparentemente se almacena en el servidor y no en el navegador.
             Session.Add("idOferta", idOferta);
             return View();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //Este metodo debe impactar 3 cosas en la bd:
+        //1) Crear contacto con IdOfertaContactada e IdContactante
+        //2) Guardar contacto en lista de contactos de la Oferta (como cada oferta tiene el Id de su creador este podra acceder y ver quienes lo contactaron).
+        //3) Guardar Contacto en la lista de contactados del User que es el Cliente "Contactante"
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
         {// Busco en la bd porque necesito traer ListaContactos y Ofertante
-            int idAux = (int)Session["idOferta"]; //id validado en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
-            var OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idAux);
+            int idOfertaAux = (int)Session["idOferta"]; //id obtenido en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
+            contacto.FechaContacto = DateTime.Now;
+            contacto.Estado = "En progreso";
+            contacto.IdOfertaContactada = idOfertaAux;
+            var userId = User.Identity.GetUserId();
+            contacto.IdContactante = userId;
+            OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
             if (OfertaCAux == null)
             {
-                var OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idAux);
-                contacto.ContactoId = contacto.ContactoId++;
-                db.Entry(OfertaTAux).State = EntityState.Modified;
+                OfertaTransporte OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
+                if(OfertaTAux != null)
+                {
+                    OfertaTAux.ListaContactos.Add(contacto); //Agrego contacto a lista de contactos de la oferta
+                    var userAux = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == OfertaTAux.OfertanteId); //Obtengo User con su lista de contactados
+                    userAux.ListaContactados.Add(contacto); //Agrego contacto a lista de contactados de User
+                    db.Entry(OfertaTAux).State = EntityState.Modified;
+                    db.Entry(userAux).State = EntityState.Modified;
+                }
+                else
+                {
+                    //entra si OfertaTAux == null y OfertaCAux == null
+                    return RedirectToAction("Error", "Home");
+                }
             }
             else
             {
-                contacto.ContactoId = contacto.ContactoId++;
+                OfertaCAux.ListaContactos.Add(contacto); //Agrego contacto a lista de contactos de la oferta
+                var userAux2 = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == OfertaCAux.OfertanteId); //Obtengo User con su lista de contactados
+                userAux2.ListaContactados.Add(contacto);//Agrego contacto a lista de contactados de User
                 db.Entry(OfertaCAux).State = EntityState.Modified;
+                db.Entry(userAux2).State = EntityState.Modified;
             }
-            contacto.FechaContacto = DateTime.Now;
-            contacto.Estado = "En progreso";
-            contacto.IdOfertaContactada = (int)Session["idOferta"];
-            var userId = User.Identity.GetUserId();
-            contacto.IdContactante = userId;
-            Session.Remove("idOferta");
             if (ModelState.IsValid)
-            {
+            {//Si todo esta en orden debería poder guardar contacto en bd y correr SaveChanges();
                 db.Contactos.Add(contacto);
+                Session.Remove("idOferta");
                 db.SaveChanges();
                 return RedirectToAction("DatosOfertante", new { id = contacto.IdOfertaContactada });
             }
-            return RedirectToAction("Error", "Clientes");
+            return RedirectToAction("Error", "Home");
         }
 
         public ActionResult DatosOfertante(int? id)

@@ -255,6 +255,7 @@
     <Content Include="Views\Home\DatosOfertante.cshtml" />
     <Content Include="Views\Home\CreateContacto.cshtml" />
     <Content Include="Views\Home\DetallesOfertaTransporteCliente.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

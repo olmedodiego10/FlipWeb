@@ -27,10 +27,6 @@ textarea {
     max-width: 280px;
 }
 
-div {
-    background-color: white;
-}
-
-#topMenu {
-    background-color: black;
+.semitransparente {
+    background-color: rgba(255,255,255,0.8);
 }
