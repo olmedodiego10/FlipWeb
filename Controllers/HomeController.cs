@@ -80,9 +80,14 @@ namespace FlipWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad")] OfertaCarga ofertaCarga)
         {
+            ofertaCarga.FechaCreacion = DateTime.Now.Date;
+            if (ofertaCarga.FechaOferta < ofertaCarga.FechaCreacion)
+            {
+                TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";
+                return View(ofertaCarga);
+            }
             if (ModelState.IsValid)
             {
-                ofertaCarga.FechaCreacion = DateTime.Now.Date;
                 ofertaCarga.Estado = "En progreso";
                 db.OfertasCarga.Add(ofertaCarga);
                 var userId = User.Identity.GetUserId();
@@ -95,7 +100,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("MenuUsuarios", "Home");
             }
 
-            return RedirectToAction("MenuUsuarios", "Home");
+            return View(ofertaCarga);
         }
 
         // GET
@@ -111,9 +116,14 @@ namespace FlipWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo")] OfertaTransporte ofertaTransporte)
         {
+            ofertaTransporte.FechaCreacion = DateTime.Now.Date;
+            if (ofertaTransporte.FechaOferta < ofertaTransporte.FechaCreacion)
+            {
+                TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";
+                return View(ofertaTransporte);
+            }
             if (ModelState.IsValid)
             {
-                ofertaTransporte.FechaCreacion = DateTime.Now.Date;
                 ofertaTransporte.Estado = "En progreso";
                 db.OfertasTransporte.Add(ofertaTransporte);
                 var userId = User.Identity.GetUserId();
@@ -126,7 +136,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("MenuUsuarios", "Home");
             }
 
-            return RedirectToAction("MenuUsuarios", "Home");
+            return View(ofertaTransporte);
         }
 
         public ActionResult DetallesOfertaCargaCliente(int? id)

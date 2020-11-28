@@ -14,21 +14,21 @@ namespace FlipWeb.Models
     public class ApplicationUser : IdentityUser
     {
 
-        [Required(ErrorMessage = "Campo Nombre requerido")]
+        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         [StringLength(30, ErrorMessage = "Limite de caracteres excedido")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "Campo apellido requerido")]
-        [StringLength(30, ErrorMessage = "Limite de caracteres excedido")]
+        [Required(ErrorMessage = "El campo apellido es obligatorio")]
+        [StringLength(30, ErrorMessage = "Límite de caracteres excedido")]
         public string Apellido { get; set; }
-        [Required(ErrorMessage = "Campo Cédula requerido")]
+        [Required(ErrorMessage = "El campo Cédula es obligatorio")]
         [StringLength(8, MinimumLength = 8, ErrorMessage = "Cédula completa sin puntos ni guiones")]
         [Display(Name = "Cédula")]
         public string Cedula { get; set; }
-        [Required(ErrorMessage = "Campo Celular requerido")]
-        [StringLength(20, ErrorMessage = "Limite de caracteres excedido")]
+        [Required(ErrorMessage = "El campo Celular es obligatorio")]
+        [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
         public string Celular { get; set; }
-        [Required(ErrorMessage = "Campo Teléfono requerido")]
-        [StringLength(20, ErrorMessage = "Limite de caracteres excedido")]
+        [Required(ErrorMessage = "El campo Teléfono es obligatorio")]
+        [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
         public List<OfertaTransporte> ListaOfertasTransporteCreadas { get; set; }

@@ -11,7 +11,7 @@ namespace FlipWeb.Domain
     [Table("OfertasCarga")]
     public class OfertaCarga : Oferta
     {
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Descripción de Mercadería es obligatorio.")]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Descripción de Mercadería")]
         public string DescripcionMercaderia { get; set; }

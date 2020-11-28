@@ -16,29 +16,29 @@ namespace FlipWeb.Domain
         public List<Contacto> ListaContactos { get; set; }
         //Estados: En Progreso, Cerrada, Reportada
         public string Estado { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Detalles es obligatorio.")]
         [StringLength(200, ErrorMessage = "Limite de caracteres excedido")]
         [DataType(DataType.MultilineText)]
         public string Detalles { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo País de partida es obligatorio.")]
         [Display(Name = "País de partida")]
         public string PaisPartida { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Ciudad de Partida es obligatorio.")]
         [StringLength(50, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Ciudad de Partida")]
         public string CiudadPartida { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Dirección de partida es obligatorio.")]
         [StringLength(50, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Dirección de partida")]
         public string DireccionPartida { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo País de destino es obligatorio.")]
         [Display(Name = "País de destino")]
         public string PaisDestino { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Ciudad de destino es obligatorio.")]
         [StringLength(50, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Ciudad de destino")]
         public string CiudadDestino { get; set; }
-        [Required(ErrorMessage = "Campo requerido")]
+        [Required(ErrorMessage = "El campo Dirección de destino es obligatorio.")]
         [StringLength(50, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Dirección de destino")]
         public string DireccionDestino { get; set; }
