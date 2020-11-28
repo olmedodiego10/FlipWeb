@@ -3,10 +3,10 @@
     ViewBag.Title = "Inicio";
 }
 
-<div class="jumbotron">
+<div class="">
     <h1>Ofertas recientes</h1>
     @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
     <h3>Ofertas de Carga</h3>
     <div style="overflow-x:auto;">
         <table class="table">
@@ -136,19 +136,19 @@
         </table>
     </div>
 </div>
-
+<hr />
 <div class="row">
     <div class="col-md-4">
         <h2>Novedades</h2>
         <p>
-        ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
+            ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
         </p>
         @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
     </div>
     <div class="col-md-4">
         <h2>Novedades</h2>
         <p>
-        Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
+            Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
         </p>
         @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
     </div>

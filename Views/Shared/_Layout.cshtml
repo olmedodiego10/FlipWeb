@@ -27,13 +27,13 @@
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Nosotros", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Ofertas", "MenuUsuarios", "Home")</li>
+                    <li>@Html.ActionLink("MenuUsuarios(borrar)", "MenuUsuarios", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content semitransparente">
         @RenderBody()
         <hr />
         <footer>

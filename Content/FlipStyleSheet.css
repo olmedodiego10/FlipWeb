@@ -26,3 +26,8 @@ small {
     margin-bottom: 5px;
     display: block;
 }
+
+.saberMas {
+    display: block;
+    max-width: 280px;
+}
