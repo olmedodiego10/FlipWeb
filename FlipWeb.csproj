@@ -191,6 +191,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\FlipStyleSheet.css" />
+    <Content Include="Images\favicon.JPG" />
     <Content Include="Images\fondoruta.jpg" />
     <Content Include="Images\logoFlip.jpg" />
     <Content Include="Images\logoFlip2.jpg" />

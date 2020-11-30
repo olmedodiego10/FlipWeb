@@ -83,10 +83,6 @@ namespace FlipWeb.Controllers
             {
                 case SignInStatus.Success:
                     //return RedirectToLocal(returnUrl);
-                    if (model.Email == "adrianrodriguez0510@gmail.com")
-                    {
-                        return RedirectToAction("MenuAdmin", "Home"); ;
-                    }
                     return RedirectToAction("MenuUsuarios", "Home"); ;
                 case SignInStatus.LockedOut:
                     return View("Lockout");
