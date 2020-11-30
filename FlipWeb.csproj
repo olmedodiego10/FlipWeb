@@ -256,6 +256,10 @@
     <Content Include="Views\Home\CreateContacto.cshtml" />
     <Content Include="Views\Home\DetallesOfertaTransporteCliente.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Home\ListadoClientes.cshtml" />
+    <Content Include="Views\Home\AsignarAdministrador.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Home\CrearAdministrador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

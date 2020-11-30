@@ -243,5 +243,47 @@ namespace FlipWeb.Controllers
         {
             return View(db.Users.ToList());
         }
+
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return RedirectToAction("MenuUsuarios", "Home");
+               // return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        public ActionResult CrearAdministrador()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CrearAdministrador(string id)
+        {
+            var user = db.Users.Find(id);
+
+            if(user == null)
+            {
+                return HttpNotFound();
+
+            }
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            roleManager.Create(new IdentityRole("Administrador"));
+            UserManager.AddToRole(user.Id, "Administrador");
+            UserManager.RemoveFromRole(user.Id, "Cliente");
+
+            return RedirectToAction("ListadoClientes", "Home");
+        }
     }
+
+
 }
