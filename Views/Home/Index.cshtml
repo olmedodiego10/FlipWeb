@@ -9,9 +9,12 @@
         <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
     <h3>Ofertas de Carga</h3>
     <div style="overflow-x:auto;">
-        <table class="table">
+        <table class="table table-hover">
 
             <tr>
+                <th>
+                    Imagen ilustrativa
+                </th>
                 <th>
                     País de partida
                 </th>
@@ -38,38 +41,43 @@
 
             @foreach (var item in Model.ListadoOfertasCarga)
             {
-                <tr>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaOferta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DescripcionMercaderia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequiereExclusividad)
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga","Home", new { id= item.OfertaId})" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionMercaderia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+            </td>
+        </tr>
             }
 
         </table>
     </div>
     <h3>Ofertas de Transporte</h3>
     <div style="overflow-x:auto;">
-        <table class="table">
+        <table class="table table-hover">
             <tr>
+                <th>
+                    Imagen ilustrativa
+                </th>
                 <th>
                     País de partida
                 </th>
@@ -86,51 +94,42 @@
                     Fecha de oferta
                 </th>
                 <th>
-                    Medidas caja
-                </th>
-                <th>
                     Tipo de caja
                 </th>
                 <th>
                     Tipo de camión
-                </th>
-                <th>
-                    Costo total
                 </th>
                 <th></th>
             </tr>
 
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaOferta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedidasCaja)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoCaja)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoCamion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Costo)
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= item.OfertaId})" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCamion)
+            </td>
+        </tr>
             }
 
         </table>
@@ -143,18 +142,18 @@
         <p>
             ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
         </p>
-        @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+        @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
     </div>
     <div class="col-md-4">
         <h2>Novedades</h2>
         <p>
             Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
         </p>
-        @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+        @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
     </div>
     <div class="col-md-4">
         <h2>Noticias</h2>
         <p>El gobierno nacional pondrá énfasis en la recuperación de las rutas del norte del país, para generar más oportunidades de crecimiento en esa región.</p>
-        <p><a class="btn btn-default" href="http://www.mtop.gub.uy/-/se-hara-hincapie-en-la-rehabilitacion-de-las-rutas-del-nor-1?p_p_state=maximized">Leer noticia &raquo;</a></p>
+        <p><a class="btn btn-success btn-outline" href="http://www.mtop.gub.uy/-/se-hara-hincapie-en-la-rehabilitacion-de-las-rutas-del-nor-1?p_p_state=maximized">Leer noticia &raquo;</a></p>
     </div>
 </div>

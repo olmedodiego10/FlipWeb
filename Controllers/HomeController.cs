@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using FlipWeb.Domain;
 using FlipWeb.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace FlipWeb.Controllers
 {
@@ -78,8 +82,13 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad")] OfertaCarga ofertaCarga)
+        public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad, Imagen1")] OfertaCarga ofertaCarga)
         {
+            HttpPostedFileBase FileBase = Request.Files[0];
+            WebImage image = new WebImage(FileBase.InputStream);
+            ofertaCarga.Imagen1 = image.GetBytes();
+
+
             ofertaCarga.FechaCreacion = DateTime.Now.Date;
             if (ofertaCarga.FechaOferta < ofertaCarga.FechaCreacion)
             {
@@ -114,8 +123,12 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo")] OfertaTransporte ofertaTransporte)
+        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo, Imagen1")] OfertaTransporte ofertaTransporte)
         {
+            HttpPostedFileBase FileBase = Request.Files[0];
+            WebImage image = new WebImage(FileBase.InputStream);
+            ofertaTransporte.Imagen1 = image.GetBytes();
+
             ofertaTransporte.FechaCreacion = DateTime.Now.Date;
             if (ofertaTransporte.FechaOferta < ofertaTransporte.FechaCreacion)
             {
@@ -128,7 +141,6 @@ namespace FlipWeb.Controllers
                 db.OfertasTransporte.Add(ofertaTransporte);
                 var userId = User.Identity.GetUserId();
                 ofertaTransporte.OfertanteId = userId;
-                //var userAux = UserManager.FindById(User.Identity.GetUserId());
                 var userAux = db.Users.Include(u => u.ListaOfertasTransporteCreadas).First(u => u.Id == userId);
                 userAux.ListaOfertasTransporteCreadas.Add(ofertaTransporte);
                 db.Entry(userAux).State = EntityState.Modified;
@@ -139,7 +151,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
-        public ActionResult DetallesOfertaCargaCliente(int? id)
+        public ActionResult DetailsOfertaCargaUser(int? id)
         {
             if (id == null)
             {
@@ -152,7 +164,7 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaCarga);
         }
-        public ActionResult DetallesOfertaTransporteCliente(int? id)
+        public ActionResult DetailsOfertaTransporteUser(int? id)
         {
             if (id == null)
             {
@@ -174,7 +186,7 @@ namespace FlipWeb.Controllers
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //Este metodo debe impactar 3 cosas en la bd:
+        //Este método debe impactar 3 cosas en la bd:
         //1) Crear contacto con IdOfertaContactada e IdContactante
         //2) Guardar contacto en lista de contactos de la Oferta (como cada oferta tiene el Id de su creador este podra acceder y ver quienes lo contactaron).
         //3) Guardar Contacto en la lista de contactados del User que es el Cliente "Contactante"
@@ -239,34 +251,33 @@ namespace FlipWeb.Controllers
             return View(userAux);
         }
 
-        public ActionResult ListadoClientes()
+        public ActionResult UsersList()
         {
             return View(db.Users.ToList());
         }
 
-        public ActionResult Details(string id)
+        public ActionResult DetailsUsers(string id)
         {
             if (id == null)
             {
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Error", "Home");
             }
             var user = db.Users.Find(id);
             if (user == null)
             {
-                return RedirectToAction("MenuUsuarios", "Home");
-               // return HttpNotFound();
+                return RedirectToAction("Error", "Home");
             }
             return View(user);
         }
 
-        public ActionResult CrearAdministrador()
+        public ActionResult AssignRoleAdministrador()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearAdministrador(string id)
+        public ActionResult AssignRoleAdministrador(string id)
         {
             var user = db.Users.Find(id);
 
@@ -281,7 +292,33 @@ namespace FlipWeb.Controllers
             UserManager.AddToRole(user.Id, "Administrador");
             UserManager.RemoveFromRole(user.Id, "Cliente");
 
-            return RedirectToAction("ListadoClientes", "Home");
+            return RedirectToAction("UsersList", "Home");
+        }
+
+        public ActionResult getImageOfertaCarga(int id)
+        {
+
+            OfertaCarga ofertaCarga = db.OfertasCarga.Find(id);
+            byte[] byteImage = ofertaCarga.Imagen1;
+            MemoryStream memoryStream = new MemoryStream(byteImage);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(memoryStream);
+            memoryStream = new MemoryStream();
+            image.Save(memoryStream, ImageFormat.Jpeg);
+            memoryStream.Position = 0;
+            return File(memoryStream, "image/jpg");
+        }
+
+        public ActionResult getImageOfertaTransporte(int id)
+        {
+
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Find(id);
+            byte[] byteImage = ofertaTransporte.Imagen1;
+            MemoryStream memoryStream = new MemoryStream(byteImage);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(memoryStream);
+            memoryStream = new MemoryStream();
+            image.Save(memoryStream, ImageFormat.Jpeg);
+            memoryStream.Position = 0;
+            return File(memoryStream, "image/jpg");
         }
     }
 

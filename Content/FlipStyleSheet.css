@@ -13,7 +13,8 @@
 #infoTipoCamion,
 #infoITV,
 #infoHabilitacionBromatologica,
-#infoCosto {
+#infoCosto,
+#infoImagen {
     background-color: lightgray;
     border-style: solid;
     border-width: thin;
