@@ -83,13 +83,9 @@ namespace FlipWeb.Controllers
             {
                 case SignInStatus.Success:
                     //return RedirectToLocal(returnUrl);
-                    var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-
-                    var user = db.Users.FirstOrDefault(u => u.Email == model.Email);
-                    var usuarioEstaEnRol = userManager.IsInRole(user.Id, "Administrador");
-                    if (usuarioEstaEnRol)
+                    if (model.Email == "adrianrodriguez0510@gmail.com")
                     {
-                        return RedirectToAction("MenuAdmins", "Home"); ;
+                        return RedirectToAction("MenuAdmin", "Home"); ;
                     }
                     return RedirectToAction("MenuUsuarios", "Home"); ;
                 case SignInStatus.LockedOut:
