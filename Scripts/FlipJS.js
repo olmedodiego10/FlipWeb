@@ -141,3 +141,12 @@ function divCosto() {
         y.style.display = "none";
     }
 }
+
+function divImagen() {
+    var y = document.getElementById("infoImagen");
+    if (y.style.display === "none") {
+        y.style.display = "block";
+    } else {
+        y.style.display = "none";
+    }
+}

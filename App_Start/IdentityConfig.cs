@@ -53,11 +53,13 @@ namespace FlipWeb
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
+                //Deshabilitado porque no encontre forma de traducir mensajes de error ni instalando MVC en español ni cambiando cultura en Web.config. 
+                //De momento lo controlamos con regular expression
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

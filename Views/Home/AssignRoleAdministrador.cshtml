@@ -1,0 +1,27 @@
+﻿
+@model FlipWeb.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "AssignRoleAdministrador";
+}
+
+<h2>Asignar Administrador</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <h3>¿Desea asignar rol de Administrador?</h3>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Si, asignar rol" , class="btn btn-success" />
+                @Html.ActionLink("Cancelar.", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
+            </div>
+        </div>
+    </div>
+}

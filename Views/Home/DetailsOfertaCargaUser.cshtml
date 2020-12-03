@@ -1,0 +1,104 @@
+﻿@model FlipWeb.Domain.OfertaCarga
+
+@{
+    ViewBag.Title = "DetailsOfertaCargaUser";
+}
+
+<h2>DetallesOfertaCargaCliente</h2>
+
+<div>
+    <h4>OfertaCarga</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detalles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Detalles)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaisPartida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaisPartida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CiudadPartida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CiudadPartida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DireccionPartida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DireccionPartida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaisDestino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaisDestino)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CiudadDestino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CiudadDestino)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DireccionDestino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DireccionDestino)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaOferta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaOferta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionMercaderia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionMercaderia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiereExclusividad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequiereExclusividad)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Imagen1)
+        </dt>
+        <dd>
+            <img class="rounded border border-success" width="300" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+</p>

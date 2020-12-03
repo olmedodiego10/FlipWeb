@@ -1,0 +1,70 @@
+﻿
+@model IEnumerable<FlipWeb.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "UsersList";
+}
+
+<h2>Lista de Usuarios</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Celular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            Rol
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Celular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Roles)
+                NO HAY FORMA DE ACCEDER AL NOMBRE DEL ROL SOLO AL ID
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "DetailsUsers", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
