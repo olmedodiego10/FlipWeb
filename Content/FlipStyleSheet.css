@@ -14,11 +14,13 @@
 #infoITV,
 #infoHabilitacionBromatologica,
 #infoCosto,
+#imgOferta {
+    height: 400px;
+    margin: 0,0,0,0;
+   
+}
 #infoImagen {
-    background-color: lightgray;
-    border-style: solid;
-    border-width: thin;
-    max-width: 500px;
+
 }
 
 small {
@@ -32,3 +34,8 @@ small {
     display: block;
     max-width: 280px;
 }
+
+.contacto {
+    text-align: center;
+}
+
