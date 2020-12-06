@@ -54,7 +54,7 @@ namespace FlipWeb.Models
         //public DbSet<Image> Images { get; set; }
 
         public ApplicationDbContext()
-            : base("FlipConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
