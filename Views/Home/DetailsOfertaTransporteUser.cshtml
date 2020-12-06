@@ -1,151 +1,77 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
-
+@Styles.Render("~/Content/FlipStyleSheet.css")
 @{
     ViewBag.Title = "DetailsOfertaTransporteUser";
 }
 
-<h2>DetailsOfertaTransporteUser</h2>
-
-<div>
-    <h4>OfertaTransporte</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Detalles)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Detalles)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PaisPartida)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PaisPartida)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CiudadPartida)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CiudadPartida)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DireccionPartida)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DireccionPartida)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PaisDestino)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PaisDestino)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CiudadDestino)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CiudadDestino)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DireccionDestino)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DireccionDestino)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaOferta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaOferta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaCreacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaCreacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MedidasCaja)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MedidasCaja)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoCaja)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoCaja)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoCamion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoCamion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ITV)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ITV)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HabilitacionBromatologica)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HabilitacionBromatologica)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Costo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Costo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Imagen1)
-        </dt>
-        <dd>
-        <img class="rounded border border-success" width="300" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
-        </dd>
-    </dl>
+<h4>Oferta de Transporte</h4>
+<div class="col-md-12">
+    <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
 </div>
-<p>
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+<div>
+    <hr />
+    <div class="row">
+        <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
+            <h5>Origen</h5>
+
+            @Html.DisplayFor(model => model.DireccionPartida)<br />
+            @Html.DisplayFor(model => model.CiudadPartida)<br />
+            @Html.DisplayFor(model => model.PaisPartida)<br />
+
+        </section>
+        <section class=" col-md-4 ">
+            <img class="d-md-flex d-sm-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+            
+        </section>
+        <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
+            <h5>Destino</h5>
+            @Html.DisplayFor(model => model.DireccionDestino)<br />
+            @Html.DisplayFor(model => model.CiudadDestino)<br />
+            @Html.DisplayFor(model => model.PaisDestino)
+
+        </section>
+    </div>
+    <hr />
+    <div class="row">
+        <section class=" col-md-4">
+            <h5>Fecha oferta</h5>
+            @Html.DisplayFor(model => model.FechaOferta)<br />
+        </section>
+        <section class="col-md-4">
+            <h5>ITV</h5>
+            @Html.DisplayFor(model => model.ITV)
+        </section>
+        <section class="col-md-4">
+            <h5>Habilitación Bromatologica</h5>
+            @Html.DisplayFor(model => model.HabilitacionBromatologica)
+        </section>
+    </div>
+    <hr />
+    <div class="row">
+        <section class=" col-md-4">
+            <h5>Tipo de caja</h5>
+            @Html.DisplayFor(model => model.TipoCaja)
+        </section>
+        <section class=" col-md-4">
+            <h5>Tipo de camion</h5>
+            @Html.DisplayFor(model => model.TipoCamion)
+        </section>
+        <section class=" col-md-4">
+            <h5>Medidas de caja</h5>
+            @Html.DisplayFor(model => model.MedidasCaja)
+
+        </section>
+    </div>
+    <hr />
+
+    <div class="col-md-12">
+        <h5>Detalles</h5>
+        @Html.DisplayFor(model => model.Detalles)
+    </div>
+</div>
+<hr />
+<p class="contacto">
+ 
+    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
+    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
 </p>
