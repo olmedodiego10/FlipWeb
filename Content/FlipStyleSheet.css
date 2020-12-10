@@ -13,14 +13,17 @@
 #infoTipoCamion,
 #infoITV,
 #infoHabilitacionBromatologica,
-#infoCosto,
+#infoCosto, 
+#infoImagen {
+    background-color: lightgray;
+    border-style: solid;
+    border-width: thin;
+    max-width: 500px;
+}
+
 #imgOferta {
     height: 400px;
     margin: 0,0,0,0;
-   
-}
-#infoImagen {
-
 }
 
 small {
