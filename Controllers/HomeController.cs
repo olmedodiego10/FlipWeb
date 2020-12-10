@@ -82,12 +82,24 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad, Imagen1")] OfertaCarga ofertaCarga)
+        public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad,Imagen1")] OfertaCarga ofertaCarga)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
+            if (FileBase.ContentLength == 0 && FileBase.FileName == "")
+            {
+                TempData["errorImagen"] = "El campo de imagen es obligatorio.";
+                return View(ofertaCarga);
+            }
             WebImage image = new WebImage(FileBase.InputStream);
-            ofertaCarga.Imagen1 = image.GetBytes();
-
+            if(image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
+            {
+                ofertaCarga.Imagen1 = image.GetBytes();
+            }
+            else
+            {
+                TempData["errorImagen"] = "Su imagen debe estar en formato .jpg / .jpeg";
+                return View(ofertaCarga);
+            }
 
             ofertaCarga.FechaCreacion = DateTime.Now.Date;
             if (ofertaCarga.FechaOferta < ofertaCarga.FechaCreacion)
@@ -123,11 +135,24 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo, Imagen1")] OfertaTransporte ofertaTransporte)
+        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
+            if (FileBase.ContentLength == 0 && FileBase.FileName == "")
+            {
+                TempData["errorImagen"] = "El campo de imagen es obligatorio.";
+                return View(ofertaTransporte);
+            }
             WebImage image = new WebImage(FileBase.InputStream);
-            ofertaTransporte.Imagen1 = image.GetBytes();
+            if (image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
+            {
+                ofertaTransporte.Imagen1 = image.GetBytes();
+            }
+            else
+            {
+                TempData["errorImagen"] = "Su imagen debe estar en formato .jpg / .jpeg";
+                return View(ofertaTransporte);
+            }
 
             ofertaTransporte.FechaCreacion = DateTime.Now.Date;
             if (ofertaTransporte.FechaOferta < ofertaTransporte.FechaCreacion)
