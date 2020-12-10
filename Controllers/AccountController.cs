@@ -163,7 +163,7 @@ namespace FlipWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula, Celular = model.Celular , Telefono = model.Telefono};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, Apellido = model.Apellido, Cedula = model.Cedula, Celular = model.Celular , Telefono = model.Telefono, RolString = "Cliente"};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -171,6 +171,7 @@ namespace FlipWeb.Controllers
                     var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
                     roleManager.Create(new IdentityRole("Cliente"));
                     var userAux = db.Users.FirstOrDefault(u => u.Email == user.Email);
+                   // userAux.RolString = "Cliente";
                     UserManager.AddToRole(userAux.Id.ToString(), "Cliente");
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

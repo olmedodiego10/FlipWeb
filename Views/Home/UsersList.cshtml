@@ -5,9 +5,18 @@
     ViewBag.Title = "UsersList";
 }
 
-<h2>Lista de Usuarios</h2>
+<h2>Lista de usuarios</h2>
+
+@using (Html.BeginForm("UsersList", "Home", FormMethod.Post))
+{
+    <div>
+        @Html.TextBox("email", "", new { @placeholder = "Email", @class = "form-control" })
+        <button type="submit"  class="btn btn-success">Buscar</button>
+    </div>
+}
 
 
+@if (Model != null) {
 <table class="table">
     <tr>
         <th>
@@ -58,13 +67,15 @@
             </td>
             
             <td>
-                @Html.DisplayFor(modelItem => item.Roles)
-                NO HAY FORMA DE ACCEDER AL NOMBRE DEL ROL SOLO AL ID
+                @Html.DisplayFor(modelItem => item.RolString)
             </td>
             <td>
-                @Html.ActionLink("Detalles", "DetailsUsers", new { id = item.Id })
+                @Html.ActionLink("Detalles", "DetailsUsers", new { id = item.Id }) <br>
+                @if (item.RolString == "Cliente")
+                {@Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", new { id = item.Id })}
             </td>
         </tr>
     }
 
 </table>
+}

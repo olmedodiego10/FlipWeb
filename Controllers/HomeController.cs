@@ -20,6 +20,7 @@ namespace FlipWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
+      
 
         public ApplicationUserManager UserManager
         {
@@ -162,8 +163,25 @@ namespace FlipWeb.Controllers
             {
                 return HttpNotFound();
             }
+            if (ofertaCarga.OfertanteId == User.Identity.GetUserId())
+            {
+                return RedirectToAction("DetallesOfertaCargaPropia", new {id = ofertaCarga.OfertaId });
+         
+            }
             return View(ofertaCarga);
         }
+
+        public ActionResult DetallesOfertaCargaPropia(int? id)
+        {
+            OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+
+            if (ofertaCarga == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaCarga);
+        }
+
         public ActionResult DetailsOfertaTransporteUser(int? id)
         {
             if (id == null)
@@ -175,8 +193,24 @@ namespace FlipWeb.Controllers
             {
                 return HttpNotFound();
             }
+            if (ofertaTransporte.OfertanteId == User.Identity.GetUserId())
+            {
+                return RedirectToAction("DetallesOfertaTransportePropia", new { id = ofertaTransporte.OfertaId });
+
+            }
             return View(ofertaTransporte);
         }
+        public ActionResult DetallesOfertaTransportePropia(int? id)
+        {
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+
+            if (ofertaTransporte == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaTransporte);
+        }
+
         public ActionResult CreateContacto(int idOferta)
         {
             //Duda: ESTO LO VE TODO EL MUNDO? R: Aparentemente se almacena en el servidor y no en el navegador.
@@ -238,8 +272,6 @@ namespace FlipWeb.Controllers
 
         public ActionResult DatosOfertante(int? id)
         {
-
-
             Oferta oferta = db.Ofertas.Find(id);
             var userAux = db.Users.Find(oferta.OfertanteId);
 
@@ -251,9 +283,18 @@ namespace FlipWeb.Controllers
             return View(userAux);
         }
 
-        public ActionResult UsersList()
-        {
-            return View(db.Users.ToList());
+
+        public ActionResult UsersList(string email = "")
+        { 
+            IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email );
+            if (usuarios != null)
+            {
+                return View(usuarios);
+            }
+            else
+            {
+                return View();
+            }  
         }
 
         public ActionResult DetailsUsers(string id)
@@ -281,16 +322,17 @@ namespace FlipWeb.Controllers
         {
             var user = db.Users.Find(id);
 
-            if(user == null)
+            if (user == null)
             {
                 return HttpNotFound();
 
             }
-
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             roleManager.Create(new IdentityRole("Administrador"));
             UserManager.AddToRole(user.Id, "Administrador");
             UserManager.RemoveFromRole(user.Id, "Cliente");
+            user.RolString = "Administrador";
+            db.SaveChanges();
 
             return RedirectToAction("UsersList", "Home");
         }

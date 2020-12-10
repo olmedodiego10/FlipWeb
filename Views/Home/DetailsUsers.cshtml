@@ -66,10 +66,12 @@
         <dd>
             @Html.DisplayFor(model => model.Premium)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-    @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+     @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+    @if (Model.RolString == "Cliente")
+    {
+        @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+    }
 </p>

@@ -1,0 +1,70 @@
+﻿@model FlipWeb.Domain.OfertaCarga
+@Styles.Render("~/Content/FlipStyleSheet.css")
+
+@{
+    ViewBag.Title = "DetailsOfertaCargaUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<h4>Oferta de carga</h4>
+<div>
+    <div class="row">
+        <figure class="col-md-12">
+            <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
+        </figure>
+        <br />
+    </div>
+    <hr />
+    <div class="row">
+        <section class="col-md-12">
+            <h5>Detalles</h5>
+            @Html.DisplayFor(model => model.Detalles)
+        </section>
+    </div>
+    <hr />
+    <div class="row">
+        <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
+            <h5>Origen</h5>
+
+            @Html.DisplayFor(model => model.DireccionPartida)<br />
+            @Html.DisplayFor(model => model.CiudadPartida)<br />
+            @Html.DisplayFor(model => model.PaisPartida)<br />
+
+        </section>
+        <section class=" col-md-4 ">
+            <img class="d-md-flex d-sm-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+
+        </section>
+        <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
+            <h5>Destino</h5>
+            @Html.DisplayFor(model => model.DireccionDestino)<br />
+            @Html.DisplayFor(model => model.CiudadDestino)<br />
+            @Html.DisplayFor(model => model.PaisDestino)
+
+        </section>
+    </div>
+    <hr />
+
+    <div class="row">
+        <section class="col-md-6 text-center text-sm-left">
+            <h5>Fecha</h5>
+            @Html.DisplayFor(model => model.FechaOferta)
+        </section>
+        <section class="col-md-6 text-center text-sm-left">
+            <h5>Requiere exclusividad</h5>
+            @Html.DisplayFor(model => model.RequiereExclusividad)
+        </section>
+    </div>
+    <hr />
+    <div>
+        <h5>Descripción</h5>
+        @Html.DisplayFor(model => model.DescripcionMercaderia)
+    </div>
+    <hr />
+</div>
+<div class="contacto">
+    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new {,@class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Modificar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Finalizar oferta", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+
+</div>

@@ -31,6 +31,8 @@ namespace FlipWeb.Models
         [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
+
+        public string RolString { get; set; }
         public List<OfertaTransporte> ListaOfertasTransporteCreadas { get; set; }
         public List<OfertaCarga> ListaOfertasCargaCreadas { get; set; }
         public List<Contacto> ListaContactados { get; set; }
