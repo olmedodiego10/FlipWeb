@@ -157,8 +157,8 @@
         @Html.LabelFor(model => model.FechaOferta, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.FechaOferta, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FechaOferta, "", new { @class = "text-danger" })
             <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divFechaOferta()">Click para saber más</a>
+            @Html.ValidationMessageFor(model => model.FechaOferta, "", new { @class = "text-danger" })
             <p class="text-danger" style="max-width:300px">@TempData["errorFecha"]</p>
             <div id="infoFechaOferta" style="display:none">
                 <small>
@@ -201,15 +201,15 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.Imagen1, htmlAttributes: new { @class = "control-label col-md-2" })
-        <input type="file" name="imageload" />
         <div class="col-md-10">
             <div>
+                <br /><input type="file" name="imageload" />
                 @Html.ValidationMessageFor(model => model.Imagen1, "", new { @class = "text-danger" })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divImagen()">Click para saber más</a>
                 <p class="text-danger" style="max-width:500px">@TempData["errorImagen"]</p>
                 <div id="infoImagen" style="display:none">
                     <small>
-                        IMAGEN
+                        Aquí debe cargar una imagen de la carga a transportar. 
                     </small>
                 </div>
             </div>

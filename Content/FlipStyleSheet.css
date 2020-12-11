@@ -13,8 +13,9 @@
 #infoTipoCamion,
 #infoITV,
 #infoHabilitacionBromatologica,
-#infoCosto, 
-#infoImagen {
+#infoCosto,
+#infoImagen,
+#EditFechaOferta {
     background-color: lightgray;
     border-style: solid;
     border-width: thin;

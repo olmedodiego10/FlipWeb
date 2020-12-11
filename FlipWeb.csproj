@@ -397,6 +397,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\DetallesOfertaCargaPropia.cshtml" />
     <Content Include="Views\Home\DetallesOfertaTransportePropia.cshtml" />
+    <Content Include="Views\Home\EditOfertaCarga.cshtml" />
+    <Content Include="Views\Home\EditOfertaTransporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

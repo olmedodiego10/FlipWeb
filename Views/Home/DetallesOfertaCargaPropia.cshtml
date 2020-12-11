@@ -7,6 +7,7 @@
 
 }
 <h4>Oferta de carga</h4>
+<p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <div>
     <div class="row">
         <figure class="col-md-12">
@@ -63,8 +64,7 @@
     <hr />
 </div>
 <div class="contacto">
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new {,@class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Modificar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Finalizar oferta", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-
+    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Modificar", "EditOfertaCarga", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Finalizar oferta", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
 </div>

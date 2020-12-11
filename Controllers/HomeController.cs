@@ -126,6 +126,65 @@ namespace FlipWeb.Controllers
         }
 
         // GET
+        public ActionResult EditOfertaCarga(int idOferta)
+        {
+            OfertaCarga ofertaCarga = db.OfertasCarga.Find(idOferta);
+            TempData["FechaOriginalOferta"] = ofertaCarga.FechaOferta;
+            return View(ofertaCarga);
+        }
+
+
+        // POST:
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOfertaCarga([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad,Imagen1")] OfertaCarga ofertaCarga)
+        {
+            HttpPostedFileBase FileBase = Request.Files[0];
+            if (FileBase.ContentLength != 0 && FileBase.FileName != "")
+            {
+                WebImage image = new WebImage(FileBase.InputStream);
+                if (image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
+                {
+                    ofertaCarga.Imagen1 = image.GetBytes();
+                }
+                else
+                {
+                    TempData["errorImagen"] = "Su imagen debe estar en formato .jpg / .jpeg";
+                    return View(ofertaCarga);
+                }
+            }
+
+            //HiddenFor para fecha oferta no se esta sobrescribiendo
+            //por lo que lo quitamos y lo validamos en el controlador
+            if (ofertaCarga.FechaOferta.ToString() == "01/01/0001 0:00:00")
+            {
+                //El usuario debe volver a confirmar manualmente la fecha de su oferta
+                //de lo contrario no pasa las validaciones del modelo y no podemos quitar 
+                //las validaciones del modelo sin hacer un view model
+                ofertaCarga.FechaOferta = (DateTime)TempData["FechaOriginalOferta"];
+                return View(ofertaCarga);
+            }
+
+            if (ofertaCarga.FechaOferta < DateTime.Now.Date)
+            {
+                TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";
+                return View(ofertaCarga);
+            }
+            if (ModelState.IsValid)
+            {
+                db.Entry(ofertaCarga).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["mensajeOk"] = "Oferta modificada.";
+                return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = ofertaCarga.OfertaId });
+            }
+
+            return View(ofertaCarga);
+        }
+
+
+        // GET
         public ActionResult CreateOfertaTransporte()
         {
             return View();
@@ -136,7 +195,7 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
+        public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
             if (FileBase.ContentLength == 0 && FileBase.FileName == "")
@@ -172,6 +231,63 @@ namespace FlipWeb.Controllers
                 db.Entry(userAux).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("MenuUsuarios", "Home");
+            }
+
+            return View(ofertaTransporte);
+        }
+
+        // GET
+        public ActionResult EditOfertaTransporte(int idOferta)
+        {
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Find(idOferta);
+            TempData["FechaOriginalOferta"] = ofertaTransporte.FechaOferta;
+            return View(ofertaTransporte);
+        }
+
+        // POST
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOfertaTransporte([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
+        {
+            HttpPostedFileBase FileBase = Request.Files[0];
+            if (FileBase.ContentLength != 0 && FileBase.FileName != "")
+            {
+                WebImage image = new WebImage(FileBase.InputStream);
+                if (image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
+                {
+                    ofertaTransporte.Imagen1 = image.GetBytes();
+                }
+                else
+                {
+                    TempData["errorImagen"] = "Su imagen debe estar en formato .jpg / .jpeg";
+                    return View(ofertaTransporte);
+                }
+            }
+
+            //HiddenFor para fecha oferta no se esta sobrescribiendo
+            //por lo que lo quitamos y lo validamos en el controlador
+            if (ofertaTransporte.FechaOferta.ToString() == "01/01/0001 0:00:00")
+            {
+                //El usuario debe volver a confirmar manualmente la fecha de su oferta
+                //de lo contrario no pasa las validaciones del modelo y no podemos quitar 
+                //las validaciones del modelo sin hacer un view model
+                ofertaTransporte.FechaOferta = (DateTime)TempData["FechaOriginalOferta"];
+                return View(ofertaTransporte);
+            }
+
+            if (ofertaTransporte.FechaOferta < DateTime.Now.Date)
+            {
+                TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";
+                return View(ofertaTransporte);
+            }
+            if (ModelState.IsValid)
+            {
+                db.Entry(ofertaTransporte).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["mensajeOk"] = "Oferta modificada.";
+                return RedirectToAction("DetallesOfertaTransportePropia", "Home", new { id = ofertaTransporte.OfertaId });
             }
 
             return View(ofertaTransporte);

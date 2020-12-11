@@ -5,6 +5,7 @@
 }
 
 <h4>Oferta de Transporte</h4>
+<p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <div class="col-md-12">
     <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
 </div>
@@ -73,7 +74,7 @@
 <p class="contacto">
 
     @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
-    @Html.ActionLink("Modificar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
+    @Html.ActionLink("Modificar", "EditOfertaTransporte", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
     @Html.ActionLink("Finalizar oferta", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
 
 </p>
