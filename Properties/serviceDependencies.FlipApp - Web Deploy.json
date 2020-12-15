@@ -1,10 +1,3 @@
 {
-  "dependencies": {
-    "mssql1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/serverflip/databases/BdFlipDeploy",
-      "type": "mssql.azure",
-      "connectionId": "FlipConnection",
-      "secretStore": "AzureAppSettings"
-    }
-  }
+  "dependencies": {}
 }
