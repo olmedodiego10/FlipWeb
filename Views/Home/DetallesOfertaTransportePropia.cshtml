@@ -6,74 +6,75 @@
 
 <h4>Oferta de Transporte</h4>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
-<div class="col-md-12">
-    <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
+<div class="fondoImagen">
+    <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
 </div>
+<hr />
 <div>
-    <hr />
-    <div class="row">
-        <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
-            <h5>Origen</h5>
+    <h5> Precio </h5> $ @Html.DisplayFor(model => model.Costo)
+</div>
+<hr />
+<div class="row">
+    <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
+        <h5>Origen</h5>
 
-            @Html.DisplayFor(model => model.DireccionPartida)<br />
-            @Html.DisplayFor(model => model.CiudadPartida)<br />
-            @Html.DisplayFor(model => model.PaisPartida)<br />
+        @Html.DisplayFor(model => model.DireccionPartida)<br />
+        @Html.DisplayFor(model => model.CiudadPartida)<br />
+        @Html.DisplayFor(model => model.PaisPartida)<br />
 
-        </section>
-        <section class=" col-md-4 ">
-            <img class="d-md-flex d-sm-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+    </section>
+    <section class=" col-md-4 ">
+        <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
 
-        </section>
-        <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
-            <h5>Destino</h5>
-            @Html.DisplayFor(model => model.DireccionDestino)<br />
-            @Html.DisplayFor(model => model.CiudadDestino)<br />
-            @Html.DisplayFor(model => model.PaisDestino)
+    </section>
+    <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
+        <h5>Destino</h5>
+        @Html.DisplayFor(model => model.DireccionDestino)<br />
+        @Html.DisplayFor(model => model.CiudadDestino)<br />
+        @Html.DisplayFor(model => model.PaisDestino)
 
-        </section>
-    </div>
-    <hr />
-    <div class="row">
-        <section class=" col-md-4">
-            <h5>Fecha oferta</h5>
-            @Html.DisplayFor(model => model.FechaOferta)<br />
-        </section>
-        <section class="col-md-4">
-            <h5>ITV</h5>
-            @Html.DisplayFor(model => model.ITV)
-        </section>
-        <section class="col-md-4">
-            <h5>Habilitación Bromatologica</h5>
-            @Html.DisplayFor(model => model.HabilitacionBromatologica)
-        </section>
-    </div>
-    <hr />
-    <div class="row">
-        <section class=" col-md-4">
-            <h5>Tipo de caja</h5>
-            @Html.DisplayFor(model => model.TipoCaja)
-        </section>
-        <section class=" col-md-4">
-            <h5>Tipo de camion</h5>
-            @Html.DisplayFor(model => model.TipoCamion)
-        </section>
-        <section class=" col-md-4">
-            <h5>Medidas de caja</h5>
-            @Html.DisplayFor(model => model.MedidasCaja)
+    </section>
+</div>
+<hr />
+<div class="row">
+    <section class=" col-md-4">
+        <h5>Fecha oferta</h5>
+        @Html.DisplayFor(model => model.FechaOferta)<br />
+    </section>
+    <section class="col-md-4">
+        <h5>ITV</h5>
+        @Html.DisplayFor(model => model.ITV)
+    </section>
+    <section class="col-md-4">
+        <h5>Habilitación Bromatologica</h5>
+        @Html.DisplayFor(model => model.HabilitacionBromatologica)
+    </section>
+</div>
+<hr />
+<div class="row">
+    <section class=" col-md-4">
+        <h5>Tipo de caja</h5>
+        @Html.DisplayFor(model => model.TipoCaja)
+    </section>
+    <section class=" col-md-4">
+        <h5>Tipo de camion</h5>
+        @Html.DisplayFor(model => model.TipoCamion)
+    </section>
+    <section class=" col-md-4">
+        <h5>Medidas de caja</h5>
+        @Html.DisplayFor(model => model.MedidasCaja)
 
-        </section>
-    </div>
-    <hr />
+    </section>
+</div>
+<hr />
 
-    <div class="col-md-12">
-        <h5>Detalles</h5>
-        @Html.DisplayFor(model => model.Detalles)
-    </div>
+<div class="col-md-12">
+    <h5>Detalles</h5>
+    @Html.DisplayFor(model => model.Detalles)
 </div>
 <hr />
 <p class="contacto">
 
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
     @Html.ActionLink("Modificar", "EditOfertaTransporte", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
     @Html.ActionLink("Finalizar oferta", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
 

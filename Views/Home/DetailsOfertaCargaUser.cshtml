@@ -7,12 +7,10 @@
 
 }
 <h4>Oferta de carga</h4>
+<p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <div>
-    <div class="row">
-        <figure class="col-md-12">
-            <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
-        </figure>
-        <br />
+    <div class="fondoImagen">
+        <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
     </div>
     <hr />
     <div class="row">
@@ -23,7 +21,7 @@
     </div>
     <hr />
     <div class="row">
-        <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
+        <section class=" col-md-4 text-md-right col-sm-12 text-sm-left ">
             <h5>Origen</h5>
 
             @Html.DisplayFor(model => model.DireccionPartida)<br />
@@ -32,7 +30,7 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img class="d-md-flex d-sm-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
 
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
@@ -46,11 +44,13 @@
     <hr />
 
     <div class="row">
-        <section class="col-md-6 text-center">
+        <section class="col-md-4 text-md-right col-sm-12 text-sm-left ">
             <h5>Fecha</h5>
             @Html.DisplayFor(model => model.FechaOferta)
         </section>
-        <section class="col-md-6 text-center">
+        <section class="col-md-4 text-md-right col-sm-12 text-sm-left ">
+        </section>
+        <section class="col-md-4 text-md-left col-sm-12 text-sm-left ">
             <h5>Requiere exclusividad</h5>
             @Html.DisplayFor(model => model.RequiereExclusividad)
         </section>
@@ -63,6 +63,5 @@
     <hr />
 </div>
 <div class="contacto">
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new {  @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
 </div>
