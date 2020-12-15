@@ -5,10 +5,14 @@
 }
 
 <h4>Oferta de Transporte</h4>
-<div class="col-md-12">
-    <img class="container-fluid" id="imgOferta" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
+<div class="fondoImagen">
+    <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
 </div>
 <div>
+    <hr />
+    <div>
+        <h5> Precio </h5> $ @Html.DisplayFor(model => model.Costo)
+    </div>
     <hr />
     <div class="row">
         <section class=" col-md-4 text-md-right col-sm-12 text-sm-left  ">
@@ -20,8 +24,8 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img class="d-md-flex d-sm-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
-            
+            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
             <h5>Destino</h5>
@@ -72,6 +76,5 @@
 <hr />
 <p class="contacto">
  
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
     @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
 </p>
