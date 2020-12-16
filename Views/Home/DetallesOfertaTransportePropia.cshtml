@@ -5,6 +5,7 @@
 }
 
 <h4>Oferta de Transporte</h4>
+@if (Model.OfertaFinalizada()){<h3>Oferta FINALIZADA</h3>}
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <div class="fondoImagen">
     <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
@@ -73,9 +74,12 @@
     @Html.DisplayFor(model => model.Detalles)
 </div>
 <hr />
-<p class="contacto">
-
+<div class="contacto">
+    @if (Model.OfertaFinalizada())
+    {<h3>Oferta FINALIZADA</h3>}
+    else
+    {
     @Html.ActionLink("Modificar", "EditOfertaTransporte", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
-    @Html.ActionLink("Finalizar oferta", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
-
-</p>
+    @Html.ActionLink("Finalizar oferta", "FinalizarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
+    }
+</div>

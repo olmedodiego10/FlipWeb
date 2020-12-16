@@ -341,6 +341,7 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaTransporte);
         }
+        
         public ActionResult DetallesOfertaTransportePropia(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -350,6 +351,44 @@ namespace FlipWeb.Controllers
                 return HttpNotFound();
             }
             return View(ofertaTransporte);
+        }
+
+        public ActionResult FinalizarOferta(int idOferta)
+        {
+           return View(idOferta);
+        }
+
+        public ActionResult VolverADetallesOfertaPropia(int idOferta)
+        {
+            if(db.OfertasCarga.Any(o => o.OfertaId == idOferta))
+                return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
+            else
+                return RedirectToAction("DetallesOfertaTransportePropia", "Home", new { id = idOferta });
+        }
+
+        public ActionResult FinalizarOfertaConfirmado(int idOferta)
+        {
+            OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
+            if (OfertaCAux == null)
+            {
+                OfertaTransporte OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
+                if (OfertaTAux != null)
+                {
+                    OfertaTAux.Estado = "Finalizada";
+                    db.Entry(OfertaTAux).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("DetallesOfertaTransportePropia", "Home", new { id = idOferta });
+                }
+                else
+                {
+                    //entra si OfertaTAux == null y OfertaCAux == null
+                    return RedirectToAction("Error", "Home");
+                }
+            }
+            OfertaCAux.Estado = "Finalizada";
+            db.Entry(OfertaCAux).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
         }
 
         public ActionResult CreateContacto(int idOferta)
@@ -423,7 +462,6 @@ namespace FlipWeb.Controllers
             }
             return View(userAux);
         }
-
 
         public ActionResult UsersList(string email = "")
         { 

@@ -14,7 +14,7 @@ namespace FlipWeb.Domain
         public int OfertaId { get; set; }
         public string OfertanteId { get; set; }
         public List<Contacto> ListaContactos { get; set; }
-        //Estados: En Progreso, Cerrada, Reportada
+        //Estados: En Progreso, Finalizada, Reportada
         public string Estado { get; set; }
         [Required(ErrorMessage = "El campo Detalles es obligatorio.")]
         [StringLength(200, ErrorMessage = "Limite de caracteres excedido")]
@@ -49,5 +49,13 @@ namespace FlipWeb.Domain
         public DateTime FechaCreacion { get; set; }
         [Display(Name = "Imagen ilustrativa")]
         public byte[] Imagen1 { get; set; }
+
+        public bool OfertaFinalizada()
+        {
+            if (Estado == "Finalizada")
+                return true;
+            else
+                return false;
+        }
     }
 }

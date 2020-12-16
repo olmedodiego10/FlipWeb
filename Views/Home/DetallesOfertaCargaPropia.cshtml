@@ -64,6 +64,13 @@
     <hr />
 </div>
 <div class="contacto">
-    @Html.ActionLink("Modificar", "EditOfertaCarga", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Finalizar oferta", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @*@Html.ActionLink("Ver contactos de Oferta", "ContactosOferta", "Home", routeValues: new { Oferta = Model }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })*@
+    @if (Model.OfertaFinalizada())
+    {<h3>Oferta FINALIZADA</h3>}
+    else
+    {
+        @Html.ActionLink("Modificar", "EditOfertaCarga", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Finalizar oferta", "FinalizarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    }
+
 </div>
