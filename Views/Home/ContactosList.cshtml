@@ -1,0 +1,69 @@
+﻿@model IEnumerable<FlipWeb.Domain.Contacto>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdOfertaContactada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdContactante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Calificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comentario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaContacto)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdOfertaContactada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdContactante)
+            </td>
+            <td>
+                @if (item.Calificacion == 0)
+                {
+                    @Html.Label("Calificación pendiente")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Calificacion)
+                }
+            </td>
+            <td>
+                @if (item.Comentario == null || item.Comentario == "")
+                {
+                    @Html.Label("Sin comentario")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Comentario)
+                }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaContacto)
+            </td>
+            <td>
+                @Html.ActionLink("Datos de contacto", "DatosContactante", new { idContacto = item.ContactoId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<input class = "btn btn-success" type='button' onclick='history.back();' value='Volver' />

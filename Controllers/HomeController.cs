@@ -391,6 +391,25 @@ namespace FlipWeb.Controllers
             return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
         }
 
+        public ActionResult ContactosList(int idOferta)
+        {
+            OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
+            if (OfertaCAux == null)
+            {
+                OfertaTransporte OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
+                if (OfertaTAux != null)
+                {
+                    return View(OfertaTAux.ListaContactos);
+                }
+                else
+                {
+                    //entra si OfertaTAux == null y OfertaCAux == null
+                    return RedirectToAction("Error", "Home");
+                }
+            }
+            return View(OfertaCAux.ListaContactos);
+        }
+
         public ActionResult CreateContacto(int idOferta)
         {
             //Duda: ESTO LO VE TODO EL MUNDO? R: Aparentemente se almacena en el servidor y no en el navegador.
@@ -445,22 +464,31 @@ namespace FlipWeb.Controllers
                 db.Contactos.Add(contacto);
                 Session.Remove("idOferta");
                 db.SaveChanges();
-                return RedirectToAction("DatosOfertante", new { id = contacto.IdOfertaContactada });
+                return RedirectToAction("DatosOfertante", new { idOferta = contacto.IdOfertaContactada });
             }
             return RedirectToAction("Error", "Home");
         }
 
-        public ActionResult DatosOfertante(int? id)
+        //Nota: el nombre de la vista de este método quedó mal y puede ser usado con cualquier usuario (ej. DatosContactante(int idContactante))
+        //se cargó una tarea de rename al backlog de tareas pendientes, NO intentar hacerlo rápido porque hay lugares que no cambia automático.
+        public ActionResult DatosOfertante(int idOferta)
         {
-            Oferta oferta = db.Ofertas.Find(id);
+            //No podemos pasar como parámetro de ruta el id de los usuarios debido a que es muy complejo
+            //Esto nos lleva a tener que hacer una doble búsqueda cada vez que necesitamos obtener un usuario
+            //que no sea el que tiene su sesión abierta
+            Oferta oferta = db.Ofertas.Find(idOferta);
             var userAux = db.Users.Find(oferta.OfertanteId);
-
-
-            if (userAux == null)
-            {
-                return HttpNotFound();
-            }
             return View(userAux);
+        }
+
+        public ActionResult DatosContactante(int idContacto)
+        {
+            //No podemos pasar como parámetro de ruta el id de los usuarios debido a que es muy complejo
+            //Esto nos lleva a tener que hacer una doble búsqueda cada vez que necesitamos obtener un usuario
+            //que no sea el que tiene su sesión abierta
+            Contacto con = db.Contactos.Find(idContacto);
+            var Contactante = db.Users.Find(con.IdContactante);
+            return View("DatosOfertante", Contactante);
         }
 
         public ActionResult UsersList(string email = "")
