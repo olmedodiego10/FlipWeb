@@ -73,6 +73,8 @@
                 @Html.ActionLink("Detalles", "DetailsUsers", new { id = item.Id }) <br>
                 @if (item.RolString == "Cliente")
                 {@Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", new { id = item.Id })}
+                @if (item.RolString == "Administrador")
+                {@Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", new { id = item.Id })}
             </td>
         </tr>
     }

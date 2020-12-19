@@ -400,6 +400,7 @@
     <Content Include="Views\Home\EditOfertaTransporte.cshtml" />
     <Content Include="Views\Home\FinalizarOferta.cshtml" />
     <Content Include="Views\Home\ContactosList.cshtml" />
+    <Content Include="Views\Home\AssignRoleCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

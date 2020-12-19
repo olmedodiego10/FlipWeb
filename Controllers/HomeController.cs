@@ -544,6 +544,30 @@ namespace FlipWeb.Controllers
             return RedirectToAction("UsersList", "Home");
         }
 
+        public ActionResult AssignRoleCliente()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignRoleCliente(string id)
+        {
+            var user = db.Users.Find(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+
+            }
+            UserManager.AddToRole(user.Id, "Cliente");
+            UserManager.RemoveFromRole(user.Id, "Administrador");
+            user.RolString = "Cliente";
+            db.SaveChanges();
+
+            return RedirectToAction("UsersList", "Home");
+        }
+
         public ActionResult getImageOfertaCarga(int id)
         {
 
