@@ -7,11 +7,21 @@
         @Html.AntiForgeryToken()
 <ul class="nav navbar-nav navbar-right mr-auto">
     <li class="nav-item">@Html.ActionLink("Menu ofertas", "MenuUsuarios", "Home", null, new { @class = "nav-link" })</li>
-    <li class="nav-item">@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })</li>
-    <li class="nav-item">@Html.ActionLink("Cambiar contraseña", "ChangePassword", "Manage", null, new { @class = "nav-link" })</li>
 
-    <li class="nav-item"><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="botondrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @User.Identity.GetUserName()
+        </a>
+        <div class="dropdown-menu " aria-labelledby="botondrop">
+            <a class="nav-item">@Html.ActionLink("Cambiar contraseña", "ChangePassword", "Manage", null, new { @class = "nav-link" })</a>
+            <a class="nav-item">@Html.ActionLink("Editar datos", "", "Manage", null, new { @class = "nav-link" })</a>
+            <hr />
+            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+    </div>
+    </li>
+
 </ul>
+   
     }
 }
 else
