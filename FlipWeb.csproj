@@ -401,6 +401,8 @@
     <Content Include="Views\Home\FinalizarOferta.cshtml" />
     <Content Include="Views\Home\ContactosList.cshtml" />
     <Content Include="Views\Home\AssignRoleCliente.cshtml" />
+    <Content Include="Views\Home\BusquedaRapidaOfertaCarga.cshtml" />
+    <Content Include="Views\Home\BusquedaRapidaOferta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

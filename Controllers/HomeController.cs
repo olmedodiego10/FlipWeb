@@ -50,6 +50,45 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
 
+        public ActionResult BusquedaRapidaOferta(int? idOferta)
+        {
+            if (!idOferta.HasValue)
+            {
+                TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
+                return RedirectToAction("MenuUsuarios", "Home");
+            }
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            if(oferta == null)
+            {
+                TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta";
+                return RedirectToAction("MenuUsuarios", "Home");
+            } // si la oferta es de carga redirecciona al action que muestra la oferta de carga
+            if (oferta is OfertaCarga)
+            {
+                return RedirectToAction("BusquedaRapidaOfertaCarga", "Home", new { OfertaId = oferta.OfertaId });
+            }//si la oferta es de transporte muestra la vista con la oferta de transporte
+            if (oferta is OfertaTransporte)
+            {
+                return View(oferta);
+            }
+
+            return View(oferta);
+        }
+
+        public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId )
+            {
+            Oferta ofertaCarga = db.Ofertas.Find(OfertaId);
+            if (ofertaCarga != null)
+                {
+                    return View(ofertaCarga);
+         
+            }
+            return RedirectToAction("MenuUsuarios", "Home");
+        }
+
+       
+
+
         public ActionResult MenuAdmins()
         {
             var cargas = db.OfertasCarga.ToList();

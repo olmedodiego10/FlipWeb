@@ -1,0 +1,81 @@
+﻿@model FlipWeb.Domain.OfertaTransporte
+@{
+    ViewBag.Title = "BusquedaRapidaOferta";
+}
+<h2>Menu</h2>
+<div>
+    <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
+    
+            <h5>Busqueda oferta</h5>
+            @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
+            {
+                @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+                <button type="submit" class="btn btn-success">Busqueda rapida</button>
+            }
+</div>
+
+
+<h3>Oferta de Transporte</h3>
+<div style="overflow-x:auto;">
+    <table class="table table-hover">
+        <tr>
+            <th>
+                Imagen ilustrativa
+            </th>
+            <th>
+                País de partida
+            </th>
+            <th>
+                Ciudad de partida
+            </th>
+            <th>
+                País de destino
+            </th>
+            <th>
+                Ciudad de destino
+            </th>
+            <th>
+                Fecha de oferta
+            </th>
+            <th>
+                Tipo de caja
+            </th>
+            <th>
+                Tipo de camión
+            </th>
+            <th></th>
+        </tr>
+
+        <tr>
+            <td>
+                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.TipoCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.TipoCamion)
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+            </td>
+        </tr>
+
+
+    </table>
+</div>
