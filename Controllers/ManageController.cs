@@ -55,7 +55,7 @@ namespace FlipWeb.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiada"
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido modificada"
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -64,13 +64,20 @@ namespace FlipWeb.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var UserAux = UserManager.FindById(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Email = UserAux.Email,
+                Nombre = UserAux.Nombre,
+                Apellido = UserAux.Apellido,
+                Cedula = UserAux.Cedula,
+                Celular = UserAux.Celular,
+                Telefono = UserAux.Telefono
             };
             return View(model);
         }
@@ -241,6 +248,40 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
+            return View(model);
+        }
+
+        // GET: /Manager/EditRegister
+        [AllowAnonymous]
+        public ActionResult EditRegister()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            return View(user);
+        }
+
+        //
+        // POST: /Manager/EditRegister
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditRegister(ApplicationUser model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.Identity.GetUserId();
+                var UserEdit = UserManager.FindById(userId);
+                UserEdit.Email = model.Email;
+                UserEdit.Nombre = model.Nombre;
+                UserEdit.Apellido = model.Apellido;
+                UserEdit.Cedula = model.Cedula;
+                UserEdit.Celular = model.Celular;
+                UserEdit.Telefono = model.Telefono;
+                await UserManager.UpdateAsync(UserEdit);
+                TempData["mensajeOk"] = "Datos modificados con éxito.";
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
 
