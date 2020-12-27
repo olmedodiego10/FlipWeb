@@ -17,7 +17,7 @@ namespace FlipWeb.Models
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         [StringLength(30, ErrorMessage = "Limite de caracteres excedido")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "El campo apellido es obligatorio")]
+        [Required(ErrorMessage = "El campo Apellido es obligatorio")]
         [StringLength(30, ErrorMessage = "Límite de caracteres excedido")]
         public string Apellido { get; set; }
         [Required(ErrorMessage = "El campo Cédula es obligatorio")]
@@ -53,7 +53,6 @@ namespace FlipWeb.Models
         public DbSet<OfertaCarga> OfertasCarga { get; set; }
         public DbSet<OfertaTransporte> OfertasTransporte { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
-        //public DbSet<Image> Images { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

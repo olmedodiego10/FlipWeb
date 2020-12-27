@@ -12,11 +12,26 @@ namespace FlipWeb.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        [Required(ErrorMessage = "El campo Correo electrónico es obligatorio")]
+        [EmailAddress]
+        [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
+        [StringLength(30, ErrorMessage = "Límite de caracteres excedido")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El campo Apellido es obligatorio")]
+        [StringLength(30, ErrorMessage = "Límite de caracteres excedido")]
         public string Apellido { get; set; }
+        [Required(ErrorMessage = "El campo Cédula es obligatorio")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "Cédula completa sin puntos ni guiones")]
+        [Display(Name = "Cédula")]
         public string Cedula { get; set; }
+        [Required(ErrorMessage = "El campo Celular es obligatorio")]
+        [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
         public string Celular { get; set; }
+        [Required(ErrorMessage = "El campo Teléfono es obligatorio")]
+        [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
+        [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
     }
 
