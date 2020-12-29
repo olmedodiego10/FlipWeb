@@ -403,6 +403,7 @@
     <Content Include="Views\Home\AssignRoleCliente.cshtml" />
     <Content Include="Views\Home\BusquedaRapidaOfertaCarga.cshtml" />
     <Content Include="Views\Home\BusquedaRapidaOferta.cshtml" />
+    <Content Include="Views\Manage\EditRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

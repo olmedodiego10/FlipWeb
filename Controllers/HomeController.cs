@@ -86,15 +86,6 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuUsuarios", "Home");
         }
 
-        public ActionResult BusquedaOfertaConFiltros(string ciudadPartida)
-        {
-            List<Oferta> oferta = db.Ofertas.ToList().Where(u => u.OfertaId == 1); ;
-
-            return View()
-        }
-            
-
-
         public ActionResult MenuAdmins()
         {
             var cargas = db.OfertasCarga.ToList();
@@ -201,7 +192,7 @@ namespace FlipWeb.Controllers
                 }
             }
 
-            //HiddenFor para fecha oferta no se esta sobrescribiendo
+            //con HiddenFor la fecha oferta no se esta sobrescribiendo
             //por lo que lo quitamos y lo validamos en el controlador
             if (ofertaCarga.FechaOferta.ToString() == "01/01/0001 0:00:00")
             {
