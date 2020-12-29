@@ -86,7 +86,13 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuUsuarios", "Home");
         }
 
-       
+        public ActionResult BusquedaOfertaConFiltros(string ciudadPartida)
+        {
+            List<Oferta> oferta = db.Ofertas.ToList().Where(u => u.OfertaId == 1); ;
+
+            return View()
+        }
+            
 
 
         public ActionResult MenuAdmins()
