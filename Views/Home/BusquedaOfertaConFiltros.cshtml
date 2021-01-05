@@ -1,0 +1,206 @@
+﻿@model FlipWeb.Models.MenuUsuariosViewModel
+@{
+    ViewBag.Title = "ListadoOfertas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+
+    <h2>Menu</h2>
+
+    <div>
+        <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
+        <p class="text-danger" style="max-width:500px">@TempData["errorFiltros"]</p>
+
+        <h5>Busqueda oferta</h5>
+        @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
+        {
+            @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+            <button type="submit" class="btn btn-success">Busqueda rapida</button>
+        }
+    </div>
+    @using (Html.BeginForm("BusquedaOfertaConFiltros", "Home", FormMethod.Post))
+    {
+        <div class="container">
+            <h3>Busqueda con filtros</h3>
+            <div class=" form-inline">
+                <div>
+                    <h5>Tipo de oferta</h5>
+                    @Html.Label("Tipo de oferta")
+                    @Html.TextBox("tipoOferta", "", new { @class = "form-control" })
+                </div>
+                <div>
+                    <h5>Origen</h5>
+                    @Html.Label("Pais de partida")
+                    @Html.TextBox("paisPartida", "", new { @class = "form-control" })
+                    @Html.Label("Ciudad de partida")
+                    @Html.TextBox("ciudadPartida", "", new { @class = "form-control" })
+                </div>
+                <div>
+                    <h5>Destino</h5>
+                    @Html.Label("Pais de destino")
+                    @Html.TextBox("paisDestino", "", new { @class = "form-control" })
+                    @Html.Label("Ciudad de destino")
+                    @Html.TextBox("ciudadDestino", "", new { @class = "form-control" })
+                </div>
+                <div>
+                    <h5>Fechas</h5>
+                    @Html.Label("Fecha desde")
+                    @Html.TextBox("fechaDesde", "", new { @placeholder = "Aun no funciona", @class = "form-control" })
+                    @Html.Label("Fecha hasta")
+                    @Html.TextBox("fechaHasta", "", new { @placeholder = "Aun no funciona", @class = "form-control" })
+                </div>
+                <div>
+                    <h5>Camion</h5>
+                    @Html.Label("Tipo de camion")
+                    @Html.TextBox("tipoCamion", "", new { @class = "form-control" })
+                    @Html.Label("Tipo de caja")
+                    @Html.TextBox("tipoCaja", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-inline">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </div>
+        </div>
+    }
+
+    @if (Model.ListadoOfertasCarga != null)
+    {
+        <h3>Ofertas de Carga</h3>
+        <div style="overflow-x:auto;">
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Imagen ilustrativa
+                    </th>
+                    <th>
+                        País de partida
+                    </th>
+                    <th>
+                        Ciudad de partida
+                    </th>
+                    <th>
+                        País de destino
+                    </th>
+                    <th>
+                        Ciudad de destino
+                    </th>
+                    <th>
+                        Fecha de oferta
+                    </th>
+                    <th>
+                        Requiere exclusividad
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.ListadoOfertasCarga)
+                {
+                    <tr>
+                        <td>
+                            <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaOferta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    }
+    @if (Model.ListadoOfertasTransporte != null)
+    {
+        <h3>Ofertas de Transporte</h3>
+        <div style="overflow-x:auto;">
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Imagen ilustrativa
+                    </th>
+                    <th>
+                        País de partida
+                    </th>
+                    <th>
+                        Ciudad de partida
+                    </th>
+                    <th>
+                        País de destino
+                    </th>
+                    <th>
+                        Ciudad de destino
+                    </th>
+                    <th>
+                        Fecha de oferta
+                    </th>
+                    <th>
+                        Tipo de caja
+                    </th>
+                    <th>
+                        Tipo de camión
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.ListadoOfertasTransporte)
+                {
+                    <tr>
+                        <td>
+                            <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaOferta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoCaja)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoCamion)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    }
+    <div class="row">
+        @Html.ActionLink("Crear Oferta de Carga", "CreateOfertaCarga", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Crear Oferta de Transporte", "CreateOfertaTransporte", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Mis Ofertas activas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Contactados*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Historial de Ofertas creadas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Administradores", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    </div>
+</div>

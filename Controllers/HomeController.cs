@@ -75,15 +75,99 @@ namespace FlipWeb.Controllers
             return View(oferta);
         }
 
-        public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId )
-            {
+        public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId)
+        {
             Oferta ofertaCarga = db.Ofertas.Find(OfertaId);
             if (ofertaCarga != null)
-                {
-                    return View(ofertaCarga);
-         
+            {
+
+                return View(ofertaCarga);
+
             }
             return RedirectToAction("MenuUsuarios", "Home");
+        }
+        public ActionResult BusquedaOfertaConFiltros(string tipoOferta, string paisPartida, string  ciudadPartida, string paisDestino, string ciudadDestino, string fechaDesde, string fechaHasta, string tipoCamion, string tipoCaja)
+        {
+            //DateTime fechaD = DateTime.Parse(fechaDesde);
+          // DateTime fechaH = DateTime.Parse(fechaHasta);
+      
+            if (tipoOferta == "" && tipoCamion == "" && tipoCaja == "")
+            {
+                var carg = (from o in db.OfertasCarga
+                            where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
+                             //((fechaDesde == null) || (o.FechaOferta > fechaD)) &&
+                             //((fechaHasta == null) || (o.FechaOferta < fechaH)) 
+                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
+                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
+                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper())) 
+                            select o).ToList();
+
+                var transp = (from o in db.OfertasTransporte
+                              where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
+                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
+                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
+                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper()))
+                              select o).ToList();
+
+                
+                if(transp.Count() == 0)
+                {
+                    MenuUsuariosViewModel vistaTransp = new MenuUsuariosViewModel() { ListadoOfertasTransporte = null, ListadoOfertasCarga = carg };
+                    return View(vistaTransp);
+                }
+                if (carg.Count() == 0)
+                {
+                    MenuUsuariosViewModel vistaCarg = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = null };
+                    return View(vistaCarg);
+                }
+                if (transp.Count() == 0 && carg.Count == 0)
+                {
+                    TempData["errorFiltros"] = "No existe oferta que coincida con los parametros ingresados";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                }
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = carg };
+                return View(vista);
+            }
+
+            if (tipoOferta.ToUpper() == "OFERTA DE CARGA" )
+            {
+                var carg = (from o in db.OfertasCarga
+                            where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
+                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
+                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
+                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper()))
+                            select o).ToList();
+                if (carg.Count() == 0)
+                {
+                    TempData["errorFiltros"] = "No existe oferta de carga que coincida con los parametros ingresados";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                }
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = null, ListadoOfertasCarga = carg };
+                  return View(vista);
+            
+            }
+            
+            if(tipoOferta.ToUpper() == "OFERTA DE TRANSPORTE" || tipoCaja == "" || tipoCamion == "" )
+            {
+
+                var transporte = (from o in db.OfertasTransporte
+                                               where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
+                                             ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
+                                             ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
+                                             ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper())) &&
+                                             ((tipoCamion == "") || (o.TipoCamion.ToUpper() == tipoCamion.ToUpper())) &&
+                                             ((tipoCaja == "") || (o.TipoCaja.ToUpper() == tipoCaja.ToUpper())) 
+                                               select o).ToList();
+                if (transporte.Count() == 0)
+                {
+                    TempData["errorFiltros"] = "No existe oferta de transporte que coincida con los parametros ingresados";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                }
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = null };
+                  return View(vista);
+            }
+             
+            return View();
         }
 
         public ActionResult MenuAdmins()
