@@ -21,7 +21,6 @@ namespace FlipWeb.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
       
-
         public ApplicationUserManager UserManager
         {
             get
@@ -86,6 +85,7 @@ namespace FlipWeb.Controllers
             }
             return RedirectToAction("MenuUsuarios", "Home");
         }
+        
         public ActionResult BusquedaOfertaConFiltros(string tipoOferta, string paisPartida, string  ciudadPartida, string paisDestino, string ciudadDestino, string fechaDesde, string fechaHasta, string tipoCamion, string tipoCaja)
         {
             //DateTime fechaD = DateTime.Parse(fechaDesde);
@@ -253,7 +253,6 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
-
         // POST:
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -302,7 +301,6 @@ namespace FlipWeb.Controllers
 
             return View(ofertaCarga);
         }
-
 
         // GET
         public ActionResult CreateOfertaTransporte()
@@ -479,8 +477,8 @@ namespace FlipWeb.Controllers
         }
 
         public ActionResult VolverADetallesOfertaPropia(int idOferta)
-        {
-            if(db.OfertasCarga.Any(o => o.OfertaId == idOferta))
+        {// esto se resuelve con un boton con onclick='history.back() no es necesario entrar 2 veces a la bd 
+            if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
                 return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
             else
                 return RedirectToAction("DetallesOfertaTransportePropia", "Home", new { id = idOferta });
@@ -530,8 +528,23 @@ namespace FlipWeb.Controllers
             return View(OfertaCAux.ListaContactos);
         }
 
+        public ActionResult ContactadosList()
+        {
+            var userId = User.Identity.GetUserId();
+            IEnumerable<Contacto> listaContactados = db.Contactos.Where(c => c.IdContactante == userId);
+            return View(listaContactados);
+        }
+
         public ActionResult CreateContacto(int idOferta)
         {
+            //Con este if evitamos conflictos con volver acceder a esta instancia ya habiendo creado el contacto
+            //ej: por ruta / por botón atrás (history.back())
+            var userId = User.Identity.GetUserId();
+            if (db.Contactos.Any(c => c.IdOfertaContactada == idOferta && c.IdContactante == userId))
+            {
+                TempData["mensaje"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
+                return RedirectToAction("DatosOfertante", new { idOferta = idOferta });
+            }
             //Duda: ESTO LO VE TODO EL MUNDO? R: Aparentemente se almacena en el servidor y no en el navegador.
             Session.Add("idOferta", idOferta);
             return View();
@@ -548,10 +561,15 @@ namespace FlipWeb.Controllers
         public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
         {// Busco en la bd porque necesito traer ListaContactos y Ofertante
             int idOfertaAux = (int)Session["idOferta"]; //id obtenido en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
+            var userId = User.Identity.GetUserId();
+            if(db.Contactos.Any(c => c.IdOfertaContactada == idOfertaAux && c.IdContactante == userId))
+            {
+                TempData["mensaje"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
+                return RedirectToAction("DatosOfertante", new { idOferta = idOfertaAux });
+            }
             contacto.FechaContacto = DateTime.Now;
             contacto.Estado = "En progreso";
             contacto.IdOfertaContactada = idOfertaAux;
-            var userId = User.Identity.GetUserId();
             contacto.IdContactante = userId;
             OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
             if (OfertaCAux == null)
@@ -584,7 +602,8 @@ namespace FlipWeb.Controllers
                 db.Contactos.Add(contacto);
                 Session.Remove("idOferta");
                 db.SaveChanges();
-                return RedirectToAction("DatosOfertante", new { idOferta = contacto.IdOfertaContactada });
+                TempData["mensaje"] = "Contacto realizado, el propietario de la oferta también podrá visualizar sus datos de contacto.";
+                return RedirectToAction("DatosOfertantePrimerContacto", new { idOferta = contacto.IdOfertaContactada });
             }
             return RedirectToAction("Error", "Home");
         }
@@ -596,6 +615,15 @@ namespace FlipWeb.Controllers
             //No podemos pasar como parámetro de ruta el id de los usuarios debido a que es muy complejo
             //Esto nos lleva a tener que hacer una doble búsqueda cada vez que necesitamos obtener un usuario
             //que no sea el que tiene su sesión abierta
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            var userAux = db.Users.Find(oferta.OfertanteId);
+            return View(userAux);
+        }
+
+        public ActionResult DatosOfertantePrimerContacto(int idOferta)
+        {
+        //Duplicamos esta instancia para evitar los posibles problemas que se generan entre la primera vez que se crea el contacto
+        //y las siguientes veces que el usuario por error o con otras intenciones intente acceder nuevamente ya habiendo contactado.
             Oferta oferta = db.Ofertas.Find(idOferta);
             var userAux = db.Users.Find(oferta.OfertanteId);
             return View(userAux);

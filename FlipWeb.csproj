@@ -448,6 +448,8 @@
     <Content Include="Views\Home\BusquedaRapidaOferta.cshtml" />
     <Content Include="Views\Manage\EditRegister.cshtml" />
     <Content Include="Views\Home\BusquedaOfertaConFiltros.cshtml" />
+    <Content Include="Views\Home\ContactadosList.cshtml" />
+    <Content Include="Views\Home\DatosOfertantePrimerContacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

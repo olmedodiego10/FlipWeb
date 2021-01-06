@@ -12,9 +12,6 @@
             @Html.DisplayNameFor(model => model.Estado)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdContactante)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Calificacion)
         </th>
         <th>
@@ -34,9 +31,6 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Estado)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IdContactante)
     </td>
     <td>
         @if (item.Calificacion == 0)
@@ -59,7 +53,7 @@
         }
     </td>
     <td>
-        @Html.ActionLink("Datos de contacto", "DatosContactante", new { idContacto = item.ContactoId })
+        @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada })
     </td>
 </tr>
     }
