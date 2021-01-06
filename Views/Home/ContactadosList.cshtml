@@ -53,7 +53,8 @@
         }
     </td>
     <td>
-        @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada })
+        @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada }) |
+        @Html.ActionLink("Ver Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada })
     </td>
 </tr>
     }

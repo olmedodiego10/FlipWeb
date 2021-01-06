@@ -471,17 +471,17 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
+        public ActionResult DetallesOfertaGeneral(int idOferta)
+        {
+            if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
+                return RedirectToAction("DetailsOfertaCargaUser", "Home", new { id = idOferta });
+            else
+                return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
+        }
+
         public ActionResult FinalizarOferta(int idOferta)
         {
            return View(idOferta);
-        }
-
-        public ActionResult VolverADetallesOfertaPropia(int idOferta)
-        {// esto se resuelve con un boton con onclick='history.back() no es necesario entrar 2 veces a la bd 
-            if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
-                return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
-            else
-                return RedirectToAction("DetallesOfertaTransportePropia", "Home", new { id = idOferta });
         }
 
         public ActionResult FinalizarOfertaConfirmado(int idOferta)
