@@ -86,31 +86,35 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuUsuarios", "Home");
         }
         
-        public ActionResult BusquedaOfertaConFiltros(string tipoOferta, string paisPartida, string  ciudadPartida, string paisDestino, string ciudadDestino, string fechaDesde, string fechaHasta, string tipoCamion, string tipoCaja)
+        public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string  CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
-            //DateTime fechaD = DateTime.Parse(fechaDesde);
-          // DateTime fechaH = DateTime.Parse(fechaHasta);
-      
-            if (tipoOferta == "" && tipoCamion == "" && tipoCaja == "")
+            
+            if (TipoOferta == "todasLasOfertas" && TipoCamion == "" && TipoCaja == "")
             {
                 var carg = (from o in db.OfertasCarga
-                            where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
-                             //((fechaDesde == null) || (o.FechaOferta > fechaD)) &&
-                             //((fechaHasta == null) || (o.FechaOferta < fechaH)) 
-                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
-                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
-                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper())) 
+                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                            ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                            ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                            ((PaisPartida == "") || (o.PaisPartida.ToUpper() ==PaisPartida.ToUpper())) &&
+                            ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                            ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) 
                             select o).ToList();
 
                 var transp = (from o in db.OfertasTransporte
-                              where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
-                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
-                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
-                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper()))
+                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                            ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                            ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                            ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
+                            ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                            ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
                               select o).ToList();
 
-                
-                if(transp.Count() == 0)
+                if (transp.Count() == 0 && carg.Count == 0)
+                {
+                    TempData["errorFiltros"] = "No existe oferta que coincida con los parametros ingresados";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                }
+                if (transp.Count() == 0)
                 {
                     MenuUsuariosViewModel vistaTransp = new MenuUsuariosViewModel() { ListadoOfertasTransporte = null, ListadoOfertasCarga = carg };
                     return View(vistaTransp);
@@ -120,22 +124,20 @@ namespace FlipWeb.Controllers
                     MenuUsuariosViewModel vistaCarg = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = null };
                     return View(vistaCarg);
                 }
-                if (transp.Count() == 0 && carg.Count == 0)
-                {
-                    TempData["errorFiltros"] = "No existe oferta que coincida con los parametros ingresados";
-                    return RedirectToAction("MenuUsuarios", "Home");
-                }
+                
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = carg };
                 return View(vista);
             }
 
-            if (tipoOferta.ToUpper() == "OFERTA DE CARGA" )
+            if (TipoOferta == "ofertaCarga")
             {
                 var carg = (from o in db.OfertasCarga
-                            where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
-                            ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
-                            ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
-                            ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper()))
+                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                            ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                            ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                            ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
+                            ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                            ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
                             select o).ToList();
                 if (carg.Count() == 0)
                 {
@@ -147,16 +149,18 @@ namespace FlipWeb.Controllers
             
             }
             
-            if(tipoOferta.ToUpper() == "OFERTA DE TRANSPORTE" || tipoCaja == "" || tipoCamion == "" )
+            if(TipoOferta == "ofertaTransporte" || TipoCaja == "" || TipoCamion == "" )
             {
 
                 var transporte = (from o in db.OfertasTransporte
-                                               where ((ciudadPartida == "") || (o.CiudadPartida.ToUpper() == ciudadPartida.ToUpper())) &&
-                                             ((paisPartida == "") || (o.PaisPartida.ToUpper() == paisPartida.ToUpper())) &&
-                                             ((ciudadDestino == "") || (o.CiudadDestino.ToUpper() == ciudadDestino.ToUpper())) &&
-                                             ((paisDestino == "") || (o.PaisDestino.ToUpper() == paisDestino.ToUpper())) &&
-                                             ((tipoCamion == "") || (o.TipoCamion.ToUpper() == tipoCamion.ToUpper())) &&
-                                             ((tipoCaja == "") || (o.TipoCaja.ToUpper() == tipoCaja.ToUpper())) 
+                                             where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
+                                             ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                                             ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) &&
+                                             ((TipoCamion == "") || (o.TipoCamion.ToUpper() == TipoCamion.ToUpper())) &&
+                                             ((TipoCaja == "") || (o.TipoCaja.ToUpper() == TipoCaja.ToUpper())) 
                                                select o).ToList();
                 if (transporte.Count() == 0)
                 {
