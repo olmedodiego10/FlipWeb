@@ -7,6 +7,15 @@
     }
 }
 
+function busquedaAvanzada() {
+    var x = document.getElementById("divBusquedaAvanzada");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
 function divPaisPartida() {
     var y = document.getElementById("infoPaisPartida");
     if (y.style.display === "none") {
@@ -15,7 +24,14 @@ function divPaisPartida() {
         y.style.display = "none";
     }
 }
-
+function divBusquedaAvanzada() {
+    var y = document.getElementById("busquedaAvanzada");
+    if (y.style.display === "none") {
+        y.style.display = "block";
+    } else {
+        y.style.display = "none";
+    }
+}
 function divCiudadPartida() {
     var y = document.getElementById("infoCiudadPartida");
     if (y.style.display === "none") {
@@ -150,3 +166,5 @@ function divImagen() {
         y.style.display = "none";
     }
 }
+
+

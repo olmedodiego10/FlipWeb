@@ -23,6 +23,9 @@
                 Imagen ilustrativa
             </th>
             <th>
+               Codigo de oferta
+            </th>
+            <th>
                 País de partida
             </th>
             <th>
@@ -49,6 +52,9 @@
         <tr>
             <td>
                 <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfertaId)
             </td>
             <td>
                 @Html.DisplayFor(model => model.PaisPartida)

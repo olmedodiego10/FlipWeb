@@ -260,8 +260,10 @@
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\faviconOLD.JPG" />
     <Content Include="Images\flipLogoH.jpg" />
+    <Content Include="Images\flipLogoH.png" />
     <Content Include="Images\flipLogoV.jpg" />
     <Content Include="Images\fondoruta.jpg" />
+    <Content Include="Images\flipLogoTransp.png" />
     <Content Include="Images\lineas.png" />
     <Content Include="Images\LogoFlip.jpg" />
     <Content Include="Images\ms-icon-144x144.png" />

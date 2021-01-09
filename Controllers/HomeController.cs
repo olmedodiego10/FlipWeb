@@ -88,7 +88,7 @@ namespace FlipWeb.Controllers
         
         public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string  CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
-            
+
             if (TipoOferta == "todasLasOfertas" && TipoCamion == "" && TipoCaja == "")
             {
                 var carg = (from o in db.OfertasCarga
