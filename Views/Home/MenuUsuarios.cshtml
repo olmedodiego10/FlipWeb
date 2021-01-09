@@ -76,17 +76,17 @@
             @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
             {
                 @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
-                <button type="submit" class="btn btn-success">Busqueda rapida</button>
+                <button type="submit" class="btn btn-success">Búsqueda rapida</button>
             }
         </section>
         <section class="col-md-6  text-md-right ">
-            <input type="button" class="btn btn-light btn-lg font-weight-bolder " onclick="busquedaAvanzada()" value="Busqueda Avanzada" />
+            <input type="button" class="btn btn-light btn-lg font-weight-bolder " onclick="busquedaAvanzada()" value="Búsqueda Avanzada" />
         </section>
     </div>
 
-    
+
     <div id="divBusquedaAvanzada" style="display:none">
-  
+
         @using (Html.BeginForm("BusquedaOfertaConFiltros", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
@@ -139,144 +139,150 @@
         }
     </div>
     <hr />
-    <h3>Ofertas de Carga</h3>
-    <div style="overflow-x:auto;">
-        <table class="table table-hover">
+    @if (Model.ListadoOfertasCarga != null)
+    {
+        <h3>Ofertas de Carga</h3>
+        <div style="overflow-x:auto;">
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Imagen ilustrativa
+                    </th>
+                    <th>
+                        Código de oferta
+                    </th>
+                    <th>
+                        País de partida
+                    </th>
+                    <th>
+                        Ciudad de partida
+                    </th>
+                    <th>
+                        País de destino
+                    </th>
+                    <th>
+                        Ciudad de destino
+                    </th>
+                    <th>
+                        Fecha de oferta
+                    </th>
+                    <th>
+                        Requiere exclusividad
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.ListadoOfertasCarga)
+                {
             <tr>
-                <th>
-                    Imagen ilustrativa
-                </th>
-                <th>
-                    Codigo de oferta
-                </th>
-                <th>
-                    País de partida
-                </th>
-                <th>
-                    Ciudad de partida
-                </th>
-                <th>
-                    País de destino
-                </th>
-                <th>
-                    Ciudad de destino
-                </th>
-                <th>
-                    Fecha de oferta
-                </th>
-                <th>
-                    Requiere exclusividad
-                </th>
-                <th></th>
+                <td>
+                    <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfertaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaisPartida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CiudadPartida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaisDestino)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CiudadDestino)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaOferta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                </td>
             </tr>
+                }
 
-            @foreach (var item in Model.ListadoOfertasCarga)
-            {
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga","Home", new { id= item.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfertaId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequiereExclusividad)
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-            </td>
-        </tr>
-            }
+            </table>
+        </div>
+    }
+    @if (Model.ListadoOfertasTransporte != null)
+    {
+        <h3>Ofertas de Transporte</h3>
+        <div style="overflow-x:auto;">
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Imagen ilustrativa
+                    </th>
+                    <th>
+                        Código de oferta
+                    </th>
+                    <th>
+                        País de partida
+                    </th>
+                    <th>
+                        Ciudad de partida
+                    </th>
+                    <th>
+                        País de destino
+                    </th>
+                    <th>
+                        Ciudad de destino
+                    </th>
+                    <th>
+                        Fecha de oferta
+                    </th>
+                    <th>
+                        Tipo de caja
+                    </th>
+                    <th>
+                        Tipo de camión
+                    </th>
+                    <th></th>
+                </tr>
 
-        </table>
-    </div>
-    <h3>Ofertas de Transporte</h3>
-    <div style="overflow-x:auto;">
-        <table class="table table-hover">
+                @foreach (var item in Model.ListadoOfertasTransporte)
+                {
             <tr>
-                <th>
-                    Imagen ilustrativa
-                </th>
-                <th>
-                    Codigo de oferta
-                </th>
-                <th>
-                    País de partida
-                </th>
-                <th>
-                    Ciudad de partida
-                </th>
-                <th>
-                    País de destino
-                </th>
-                <th>
-                    Ciudad de destino
-                </th>
-                <th>
-                    Fecha de oferta
-                </th>
-                <th>
-                    Tipo de caja
-                </th>
-                <th>
-                    Tipo de camión
-                </th>
-                <th></th>
+                <td>
+                    <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfertaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaisPartida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CiudadPartida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaisDestino)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CiudadDestino)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaOferta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoCaja)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoCamion)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                </td>
             </tr>
+                }
 
-            @foreach (var item in Model.ListadoOfertasTransporte)
-            {
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= item.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfertaId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoCaja)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoCamion)
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-            </td>
-        </tr>
-            }
-
-        </table>
-    </div>
+            </table>
+        </div>
+    }
     <div class="row">
         @Html.ActionLink("Crear Oferta de Carga", "CreateOfertaCarga", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Crear Oferta de Transporte", "CreateOfertaTransporte", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })

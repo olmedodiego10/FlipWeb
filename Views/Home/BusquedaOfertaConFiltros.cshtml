@@ -139,12 +139,17 @@
         }
     </div>
     <hr />
+    @if (Model.ListadoOfertasCarga != null)
+    {
     <h3>Ofertas de Carga</h3>
     <div style="overflow-x:auto;">
         <table class="table table-hover">
             <tr>
                 <th>
                     Imagen ilustrativa
+                </th>
+                <th>
+                    Codigo de oferta
                 </th>
                 <th>
                     País de partida
@@ -169,42 +174,51 @@
 
             @foreach (var item in Model.ListadoOfertasCarga)
             {
-                <tr>
-                    <td>
-                        <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga","Home", new { id= item.OfertaId})" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaOferta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequiereExclusividad)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfertaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+            </td>
+        </tr>
             }
 
         </table>
     </div>
+    }
+    @if (Model.ListadoOfertasTransporte != null)
+    {
     <h3>Ofertas de Transporte</h3>
     <div style="overflow-x:auto;">
         <table class="table table-hover">
             <tr>
                 <th>
                     Imagen ilustrativa
+                </th>
+                <th>
+                    Codigo de oferta
                 </th>
                 <th>
                     País de partida
@@ -232,36 +246,40 @@
 
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
-                <tr>
-                    <td>
-                        <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= item.OfertaId})" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadPartida)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaisDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CiudadDestino)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaOferta)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoCaja)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TipoCamion)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfertaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadPartida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaisDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CiudadDestino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaOferta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoCamion)
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+            </td>
+        </tr>
             }
 
         </table>
     </div>
+    }

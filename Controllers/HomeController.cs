@@ -149,7 +149,7 @@ namespace FlipWeb.Controllers
             
             }
             
-            if(TipoOferta == "ofertaTransporte" || TipoCaja == "" || TipoCamion == "" )
+            if(TipoOferta == "ofertaTransporte" || TipoCaja != "" || TipoCamion != "" )
             {
 
                 var transporte = (from o in db.OfertasTransporte
