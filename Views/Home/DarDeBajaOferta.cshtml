@@ -1,0 +1,14 @@
+﻿@model int
+@{
+    ViewBag.Title = "FinalizarOferta";
+}
+
+
+<h2>Dar de baja oferta</h2>
+
+<h4>Lo oferta pasará a figurar como reportada y no aparecerá en ningún listado.</h4>
+
+<div class="col-md-offset-2 col-md-10">
+    @Html.ActionLink("Dar de baja", "DarDeBajaOfertaConfirmado", "Home", routeValues: new { idOferta = Model }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+    <input class="btn btn-danger" type='button' onclick='history.back();' value='No. Cambié de parecer. Cancelar.' />
+</div>

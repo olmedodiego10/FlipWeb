@@ -69,6 +69,7 @@
 
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
     <p class="text-danger" style="max-width:500px">@TempData["errorFiltros"]</p>
+    <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 
     <div class="row">
         <section class="col-md-6">
@@ -174,35 +175,35 @@
 
                 @foreach (var item in Model.ListadoOfertasCarga)
                 {
-            <tr>
-                <td>
-                    <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfertaId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaisPartida)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CiudadPartida)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaisDestino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CiudadDestino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaOferta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequiereExclusividad)
-                </td>
-                <td>
-                    @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OfertaId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaOferta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequiereExclusividad)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                        </td>
+                    </tr>
                 }
 
             </table>
@@ -246,50 +247,51 @@
 
                 @foreach (var item in Model.ListadoOfertasTransporte)
                 {
-            <tr>
-                <td>
-                    <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfertaId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaisPartida)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CiudadPartida)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaisDestino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CiudadDestino)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaOferta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoCaja)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoCamion)
-                </td>
-                <td>
-                    @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OfertaId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadPartida)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaisDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CiudadDestino)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaOferta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoCaja)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoCamion)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                        </td>
+                    </tr>
                 }
 
             </table>
         </div>
     }
-    <div class="row">
-        @Html.ActionLink("Crear Oferta de Carga", "CreateOfertaCarga", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Crear Oferta de Transporte", "CreateOfertaTransporte", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Mis Ofertas activas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Contactados", "ContactadosList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Historial de Ofertas creadas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Administradores", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    </div>
+<div class="row">
+    @Html.ActionLink("Crear Oferta de Carga", "CreateOfertaCarga", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Crear Oferta de Transporte", "CreateOfertaTransporte", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Mis Ofertas activas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Contactados", "ContactadosList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Historial de Ofertas creadas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Administradores", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
+
+</div>
 </div>
 

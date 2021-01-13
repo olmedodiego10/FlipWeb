@@ -1,0 +1,55 @@
+﻿@model FlipWeb.Domain.Reporte
+@{
+    ViewBag.Title = "DenunciarOferta";
+}
+@{
+
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Seleccionar motivo",
+        Value = ""
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Tiene datos de contacto. Ej: telefono, e-mail",
+        Value = "Tiene datos de contacto. Ej: telefono, e-mail"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Tiene contenido ofensivo, obsceno o discriminatorio",
+        Value = "Tiene contenido ofensivo, obsceno o discriminatorio"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "La imagen no corresponden a ofertas de carga ni transporte",
+        Value = "La imagen no corresponden a ofertas de carga ni transporte"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Otros",
+        Value = "Otros"
+
+    });
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h2>Selecciona el motivo por el que quieres denunciar esta oferta</h2>
+
+
+    @Html.DropDownListFor(model => model.Motivo, listItems, htmlAttributes: new { @class = "form-control-lg" })
+
+    <h3>Cuentános más sobre tu denuncia</h3>
+
+    @Html.TextAreaFor(model => model.Detalle, new { @class = "form-control" })
+
+<div class="col-md-offset-2 col-md-10">
+    <input type="submit" value="Denunciar" , class="btn btn-success" />
+    @Html.ActionLink("No. Cambié de parecer. Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+</div>
+}

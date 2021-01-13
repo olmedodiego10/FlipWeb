@@ -71,9 +71,12 @@
             </td>
             <td>
                 @Html.ActionLink("Detalles", "DetailsUsers", new { id = item.Id }) <br>
-                @if (item.RolString == "Cliente")
+                @if(item.LockoutEndDateUtc > DateTime.Now)
+                {@Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", new { idUsuario = item.Id })}
+
+                @if (item.RolString == "Cliente" && (item.LockoutEndDateUtc < DateTime.Now || item.LockoutEndDateUtc == null))
                 {@Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", new { id = item.Id })}
-                @if (item.RolString == "Administrador")
+                @if (item.RolString == "Administrador" && (item.LockoutEndDateUtc < DateTime.Now || item.LockoutEndDateUtc == null))
                 {@Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", new { id = item.Id })}
             </td>
         </tr>

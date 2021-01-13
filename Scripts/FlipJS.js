@@ -16,6 +16,16 @@ function busquedaAvanzada() {
     }
 }
 
+function reportesCerrados() {
+    var x = document.getElementById("divReportesCerrados");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+
 function divPaisPartida() {
     var y = document.getElementById("infoPaisPartida");
     if (y.style.display === "none") {

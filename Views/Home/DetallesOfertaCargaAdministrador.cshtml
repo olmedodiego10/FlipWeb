@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+@if (Model.ofertaReportada()){<h3>Oferta DADA DE BAJA</h3>}
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <h4>Oferta de carga</h4>
@@ -32,7 +33,7 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf"  />
+            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
 
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
@@ -64,8 +65,14 @@
     </div>
     <hr />
 </div>
-<div class="contacto">
-    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Denunciar oferta", "DenunciarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+@if (Model.ofertaReportada())
+{<h3>Oferta DADA DE BAJA</h3>
+    @Html.ActionLink("Re-activar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
+}
+else
+{
+    <div class="contacto">
+        @Html.ActionLink("Dar de baja", "DarDeBajaOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
 
-</div>
+    </div>
+}

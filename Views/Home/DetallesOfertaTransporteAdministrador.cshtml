@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "DetailsOfertaTransporteUser";
 }
-
+@if (Model.ofertaReportada()){<h3>Oferta DADA DE BAJA</h3>}
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <h4>Oferta de Transporte</h4>
@@ -76,8 +76,13 @@
     </div>
 </div>
 <hr />
+@if (Model.ofertaReportada())
+{<h3>Oferta DADA DE BAJA</h3>
+    @Html.ActionLink("Re-activar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
+}
+else {
 <div class="contacto">
-    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @Html.ActionLink("Denunciar oferta", "DenunciarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Dar de baja", "DarDeBajaOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
 
 </div>
+}

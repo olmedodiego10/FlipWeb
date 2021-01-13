@@ -20,7 +20,7 @@ namespace FlipWeb.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
-      
+
         public ApplicationUserManager UserManager
         {
             get
@@ -43,8 +43,12 @@ namespace FlipWeb.Controllers
 
         public ActionResult MenuUsuarios()
         {
-            var cargas = db.OfertasCarga.ToList();
-            var transporte = db.OfertasTransporte.ToList();
+            var cargas  = (from o in db.OfertasCarga
+                            where (o.Estado == "En progreso")
+                                     select o).ToList();
+            var transporte = (from o in db.OfertasTransporte
+                              where (o.Estado == "En progreso")
+                              select o).ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
@@ -57,7 +61,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("MenuUsuarios", "Home");
             }
             Oferta oferta = db.Ofertas.Find(idOferta);
-            if(oferta == null)
+            if (oferta == null)
             {
                 TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta";
                 return RedirectToAction("MenuUsuarios", "Home");
@@ -85,8 +89,8 @@ namespace FlipWeb.Controllers
             }
             return RedirectToAction("MenuUsuarios", "Home");
         }
-        
-        public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string  CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
+
+        public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
 
             if (TipoOferta == "todasLasOfertas" && TipoCamion == "" && TipoCaja == "")
@@ -95,18 +99,18 @@ namespace FlipWeb.Controllers
                             where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
-                            ((PaisPartida == "") || (o.PaisPartida.ToUpper() ==PaisPartida.ToUpper())) &&
-                            ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
-                            ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) 
-                            select o).ToList();
-
-                var transp = (from o in db.OfertasTransporte
-                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
-                            ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
-                            ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
                             ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
                             ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
+                            select o).ToList();
+
+                var transp = (from o in db.OfertasTransporte
+                              where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                              ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                              ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                              ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
+                              ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                              ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
                               select o).ToList();
 
                 if (transp.Count() == 0 && carg.Count == 0)
@@ -124,7 +128,7 @@ namespace FlipWeb.Controllers
                     MenuUsuariosViewModel vistaCarg = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = null };
                     return View(vistaCarg);
                 }
-                
+
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transp, ListadoOfertasCarga = carg };
                 return View(vista);
             }
@@ -145,32 +149,32 @@ namespace FlipWeb.Controllers
                     return RedirectToAction("MenuUsuarios", "Home");
                 }
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = null, ListadoOfertasCarga = carg };
-                  return View(vista);
-            
+                return View(vista);
+
             }
-            
-            if(TipoOferta == "ofertaTransporte" || TipoCaja != "" || TipoCamion != "" )
+
+            if (TipoOferta == "ofertaTransporte" || TipoCaja != "" || TipoCamion != "")
             {
 
                 var transporte = (from o in db.OfertasTransporte
-                                             where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
-                                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
-                                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
-                                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
-                                             ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
-                                             ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) &&
-                                             ((TipoCamion == "") || (o.TipoCamion.ToUpper() == TipoCamion.ToUpper())) &&
-                                             ((TipoCaja == "") || (o.TipoCaja.ToUpper() == TipoCaja.ToUpper())) 
-                                               select o).ToList();
+                                  where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                                  ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
+                                  ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
+                                  ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
+                                  ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
+                                  ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) &&
+                                  ((TipoCamion == "") || (o.TipoCamion.ToUpper() == TipoCamion.ToUpper())) &&
+                                  ((TipoCaja == "") || (o.TipoCaja.ToUpper() == TipoCaja.ToUpper()))
+                                  select o).ToList();
                 if (transporte.Count() == 0)
                 {
                     TempData["errorFiltros"] = "No existe oferta de transporte que coincida con los parametros ingresados";
                     return RedirectToAction("MenuUsuarios", "Home");
                 }
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = null };
-                  return View(vista);
+                return View(vista);
             }
-             
+
             return View();
         }
 
@@ -185,7 +189,7 @@ namespace FlipWeb.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            
+
             return View();
         }
 
@@ -216,7 +220,7 @@ namespace FlipWeb.Controllers
                 return View(ofertaCarga);
             }
             WebImage image = new WebImage(FileBase.InputStream);
-            if(image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
+            if (image.ImageFormat == "jpg" || image.ImageFormat == "jpeg")
             {
                 ofertaCarga.Imagen1 = image.GetBytes();
             }
@@ -428,8 +432,8 @@ namespace FlipWeb.Controllers
             }
             if (ofertaCarga.OfertanteId == User.Identity.GetUserId())
             {
-                return RedirectToAction("DetallesOfertaCargaPropia", new {id = ofertaCarga.OfertaId });
-         
+                return RedirectToAction("DetallesOfertaCargaPropia", new { id = ofertaCarga.OfertaId });
+
             }
             return View(ofertaCarga);
         }
@@ -444,6 +448,186 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaCarga);
         }
+
+        public ActionResult DetallesOfertaCargaAdministrador(int? id)
+        {
+            OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+
+            if (ofertaCarga == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaCarga);
+        }
+
+        /// ////////////////////////////////////////////////////////////////////////////
+        /// 
+
+        public ActionResult DenunciarOferta(int idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            var userId = User.Identity.GetUserId();
+
+            if (db.Reportes.Any(r => r.ofertaDenunciadaId == idOferta && r.DeuncianteId == userId))
+            {
+                if (oferta is OfertaCarga)
+                {
+                    TempData["mensaje"] = "Ya has denunciado esta oferta. La misma se encuentra en revisión.";
+                    return RedirectToAction("DetailsOfertaCargaUser", new { id = idOferta });
+                }
+                if (oferta is OfertaTransporte)
+                {
+
+                    TempData["mensaje"] = "Ya has denunciado esta oferta. La misma se encuentra en revisión.";
+                    return RedirectToAction("DetailsOfertaTransporteUser", new { id = idOferta });
+                }
+
+            }
+            Session.Add("idOferta", idOferta);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DenunciarOferta([Bind(Include = "Motivo,Detalle")] Reporte reporte)
+        {
+            int idOferta = (int)Session["idOferta"];
+            var userId = User.Identity.GetUserId();
+            Oferta oferta = db.Ofertas.Find(idOferta);
+
+            reporte.DeuncianteId = userId;
+            reporte.ofertaDenunciadaId = idOferta;
+            reporte.DenunciadoId = oferta.OfertanteId;
+            reporte.Estado = "Abierto";
+
+            if (ModelState.IsValid)
+            {
+                db.Reportes.Add(reporte);
+                Session.Remove("idOferta");
+                db.SaveChanges();
+                if (oferta is OfertaCarga)
+                {
+                    TempData["mensajeok"] = "Oferta denunciada, un administrador revisará la misma.";
+                    return RedirectToAction("DetailsOfertaCargaUser", new { id = idOferta });
+                }
+                if (oferta is OfertaTransporte)
+                {
+                    TempData["mensajeok"] = "Oferta reportada, un administrador revisará su denuncia,";
+                    return RedirectToAction("DetailsOfertaTransporteUser", new { id = idOferta });
+                }
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
+        public ActionResult DarDeBajaOferta(int idOferta)
+        {
+            return View(idOferta);
+        }
+        public ActionResult DarDeBajaOfertaConfirmado(int idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            oferta.Estado = "Reportada";
+            db.Entry(oferta).State = EntityState.Modified;
+            db.SaveChanges();
+            if (oferta is OfertaCarga)
+            {
+                return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = idOferta });
+            }
+            if (oferta is OfertaTransporte)
+            {
+                return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = idOferta });
+            }
+
+            return RedirectToAction("ReportadosLista", "Home");
+        }
+        public ActionResult ReportadosLista()
+        {
+            var reportesAbiertos = (from o in db.Reportes
+                          where (o.Estado == "Abierto")
+                          select o).ToList();
+            var reportesCerrados = (from o in db.Reportes
+                              where (o.Estado == "Cerrado")
+                              select o).ToList();
+            ReporteViewModel vista = new ReporteViewModel() { ListadoReportesAbiertos = reportesAbiertos, ListadoReportesCerrados = reportesCerrados };
+            return View(vista);
+        }
+
+        public ActionResult CerrarReporte(int? idReporte)
+        {
+            var reporte = db.Reportes.Find(idReporte);
+            if(reporte != null)
+            {
+                reporte.Estado = "Cerrado";
+                db.Entry(reporte).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ReportadosLista", "Home");
+            }
+            return RedirectToAction("ReportadosLista", "Home");
+        }
+        public ActionResult BloquearCuentaUsuario(string id)
+        {
+            BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
+            bloquearViewModel.UsuarioId = id;
+            Session.Add("idUsuario", id);
+            return View(bloquearViewModel);
+
+        }
+        
+        public ActionResult DesbloquearUsuario(string idUsuario)
+        {
+            return View(idUsuario);
+        }
+
+       public ActionResult DesbloquearUsuarioConfirmado(string idUsuario)
+        {
+            var usuario = db.Users.Find(idUsuario);
+            usuario.LockoutEndDateUtc = null;
+            db.SaveChanges();
+            return RedirectToAction("DetailsUsers", new { id = idUsuario });
+        }
+
+        public ActionResult BloquearUsuarioConfirmado(string Duracion)
+         {
+            string usuarioId = (string)Session["idUsuario"];
+            var usuario = db.Users.Find(usuarioId);
+
+            if(Duracion == "sieteDias")
+            {
+                usuario.LockoutEndDateUtc = DateTime.Now.AddDays(2);
+                db.SaveChanges();
+            }
+            if (Duracion == "treintaDias")
+            {
+                usuario.LockoutEndDateUtc = DateTime.Now.AddDays(30);
+                db.SaveChanges();
+            }
+            if (Duracion == "unAño")
+            {
+                usuario.LockoutEndDateUtc = DateTime.Now.AddYears(1);
+                db.SaveChanges();
+            }
+            if (Duracion == "permanente")
+            {
+                usuario.LockoutEndDateUtc = DateTime.MaxValue;
+                db.SaveChanges();
+            }
+            Session.Remove("idUsuario");
+            return RedirectToAction("DetailsUsers", new { id = usuarioId });
+        }
+
+        public ActionResult VerOfertaAdministrador(int? idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            if (oferta is OfertaCarga)
+            {
+                return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = oferta.OfertaId });
+            }
+            if (oferta is OfertaTransporte)
+            {
+                return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = oferta.OfertaId });
+            }
+            return RedirectToAction("Menu", "Home");
+        } 
 
         public ActionResult DetailsOfertaTransporteUser(int? id)
         {
@@ -474,6 +658,17 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaTransporte);
         }
+        public ActionResult DetallesOfertaTransporteAdministrador(int? id)
+        {
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+
+            if (ofertaTransporte == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaTransporte);
+        }
+
 
         public ActionResult DetallesOfertaGeneral(int idOferta)
         {
@@ -483,6 +678,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
         }
 
+        
         public ActionResult FinalizarOferta(int idOferta)
         {
            return View(idOferta);
@@ -512,6 +708,7 @@ namespace FlipWeb.Controllers
             db.SaveChanges();
             return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
         }
+        
 
         public ActionResult ContactosList(int idOferta)
         {
@@ -538,7 +735,7 @@ namespace FlipWeb.Controllers
             IEnumerable<Contacto> listaContactados = db.Contactos.Where(c => c.IdContactante == userId);
             return View(listaContactados);
         }
-
+     
         public ActionResult CreateContacto(int idOferta)
         {
             //Con este if evitamos conflictos con volver acceder a esta instancia ya habiendo creado el contacto
@@ -576,6 +773,7 @@ namespace FlipWeb.Controllers
             contacto.IdOfertaContactada = idOfertaAux;
             contacto.IdContactante = userId;
             OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
+           
             if (OfertaCAux == null)
             {
                 OfertaTransporte OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
@@ -642,7 +840,7 @@ namespace FlipWeb.Controllers
             var Contactante = db.Users.Find(con.IdContactante);
             return View("DatosOfertante", Contactante);
         }
-
+        
         public ActionResult UsersList(string email = "")
         { 
             IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email );

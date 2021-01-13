@@ -177,13 +177,16 @@
     <Compile Include="Domain\Oferta.cs" />
     <Compile Include="Domain\OfertaCarga.cs" />
     <Compile Include="Domain\OfertaTransporte.cs" />
+    <Compile Include="Domain\Reporte.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BloquearUsuarioViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuUsuariosViewModel.cs" />
+    <Compile Include="Models\ReporteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -452,6 +455,13 @@
     <Content Include="Views\Home\BusquedaOfertaConFiltros.cshtml" />
     <Content Include="Views\Home\ContactadosList.cshtml" />
     <Content Include="Views\Home\DatosOfertantePrimerContacto.cshtml" />
+    <Content Include="Views\Home\DenunciarOferta.cshtml" />
+    <Content Include="Views\Home\ReportadosLista.cshtml" />
+    <Content Include="Views\Home\DetallesOfertaCargaAdministrador.cshtml" />
+    <Content Include="Views\Home\DetallesOfertaTransporteAdministrador.cshtml" />
+    <Content Include="Views\Home\DarDeBajaOferta.cshtml" />
+    <Content Include="Views\Home\BloquearCuentaUsuario.cshtml" />
+    <Content Include="Views\Home\DesbloquearUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

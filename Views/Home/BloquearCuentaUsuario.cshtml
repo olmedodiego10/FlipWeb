@@ -1,0 +1,56 @@
+﻿@model FlipWeb.Models.BloquearUsuarioViewModel
+@{
+    ViewBag.Title = "BloquearCuentaUsuario";
+}
+
+@{
+
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Seleccionar duración",
+        Value = ""
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "7 dias",
+        Value = "sieteDias"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "30 dias",
+        Value = "treintaDias"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "1 año",
+        Value = "unAño"
+
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Permanente",
+        Value = "permanente"
+
+    });
+}
+<h2>¿Estas segúro que deseas bloquear a este usuario?</h2>
+<h4>El usuario bloqueado no podrá acceder a la aplicación por el tiempo que sea definido. En caso de un bloqueo permanente, el usuario no podrá acceder a la aplicación a menos que se habilite manualmente el ingreso.</h4>
+
+
+@using (Html.BeginForm("BloquearUsuarioConfirmado", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h2>Selecciona duración de bloqueo del usuario</h2>
+
+
+    @Html.DropDownListFor(models => models.Duracion, listItems, htmlAttributes: new { @class = "form-control-lg" })
+
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Bloquear" , class="btn btn-success" />
+        @Html.ActionLink("Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+    </div>
+}

@@ -1,0 +1,113 @@
+﻿@model FlipWeb.Models.ReporteViewModel
+
+@{
+    ViewBag.Title = "ReportadosLista";
+}
+<script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
+
+<h2>Reportes abiertos</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Id oferta denunciada
+        </th>
+        <th>
+            Motivo
+        </th>
+        <th>
+            Detalle
+        </th>
+        <th>
+            Denunciante
+        </th>
+        <th>
+            Denunciado
+        </th>
+    </tr>
+
+    @foreach (var item in Model.ListadoReportesAbiertos)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ofertaDenunciadaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Detalle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeuncianteId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DenunciadoId)
+            </td>
+            <td>
+                @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }) |
+                @Html.ActionLink("Ver denunciante", "DetailsUsers", new { id = item.DeuncianteId }) |
+                @Html.ActionLink("Ver denunciado", "DetailsUsers", new { id = item.DenunciadoId })|
+                @Html.ActionLink("Cerrar reporte", "CerrarReporte", new { idReporte = item.ReporteId })
+
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+<input type="button" class="btn btn-light font-weight-bolder " onclick="reportesCerrados()" value="Ver reportes cerrados" />
+
+<div id="divReportesCerrados" style="display:none">
+    <h2>Reportes cerrados</h2>
+    <table class="table">
+        <tr>
+            <th>
+                Id oferta denunciada
+            </th>
+            <th>
+                Motivo
+            </th>
+            <th>
+                Detalle
+            </th>
+            <th>
+                Denunciante
+            </th>
+            <th>
+                Denunciado
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.ListadoReportesCerrados)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ofertaDenunciadaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Motivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detalle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeuncianteId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DenunciadoId)
+                </td>
+                <td>
+                    @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }) |
+                    @Html.ActionLink("Ver denunciante", "DetailsUsers", new { id = item.DeuncianteId }) |
+                    @Html.ActionLink("Ver denunciado", "DetailsUsers", new { id = item.DenunciadoId })|
+                </td>
+            </tr>
+
+        }
+
+    </table>
+</div>

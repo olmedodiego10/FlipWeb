@@ -53,6 +53,7 @@ namespace FlipWeb.Models
         public DbSet<OfertaCarga> OfertasCarga { get; set; }
         public DbSet<OfertaTransporte> OfertasTransporte { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
+        public DbSet<Reporte> Reportes { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

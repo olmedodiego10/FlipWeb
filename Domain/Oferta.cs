@@ -57,5 +57,12 @@ namespace FlipWeb.Domain
             else
                 return false;
         }
+        public bool ofertaReportada()
+        {
+            if (Estado == "Reportada")
+                return true;
+            else
+                return false;
+        }
     }
 }

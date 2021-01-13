@@ -6,7 +6,7 @@
 }
 
 <h2>Details</h2>
-
+@if(Model.LockoutEndDateUtc > DateTime.Now) { <h3>USUARIO BLOQUEADO</h3>}
 <div>
     <h4>Cliente</h4>
     <hr />
@@ -69,14 +69,24 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Volver al menú", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
-    @if (Model.RolString == "Administrador")
+    @if (Model.LockoutEndDateUtc > DateTime.Now)
     {
-        @Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+        @Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", "Home", routeValues: new { idUsuario = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
     }
-    @if (Model.RolString == "Cliente")
+    else
     {
-        @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+        @Html.ActionLink("Bloquear usuario", "BloquearCuentaUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+
+    }
+
+      @if (Model.RolString == "Administrador" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
+      {
+          @Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+     }
+    
+    @if (Model.RolString == "Cliente" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
+    {
+        @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
     }
 
 </p>
