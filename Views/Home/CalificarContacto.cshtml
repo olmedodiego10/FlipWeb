@@ -1,0 +1,79 @@
+﻿@model FlipWeb.Domain.Contacto
+
+@{
+    ViewBag.Title = "Calificar Contacto";
+}
+
+<h2>Calificar contacto</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ContactoId)
+    @Html.HiddenFor(model => model.Estado)
+    @Html.HiddenFor(model => model.IdOfertaContactada)
+    @Html.HiddenFor(model => model.FechaContacto)
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Calificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div>
+            <p>
+                En base a lo sucedido realizando el contacto.
+                <br />
+                ¿Cómo calificaría su experiencia con el ofertante?
+            </p>
+            <label>
+                @Html.RadioButtonFor(model => model.Calificacion, 1)
+                ★☆☆☆☆ - Muy mala
+            </label>
+        </div>
+        <div>
+            <label>
+                @Html.RadioButtonFor(model => model.Calificacion, 2)
+                ★★☆☆☆ - Mala
+            </label>
+        </div>
+        <div>
+            <label>
+                @Html.RadioButtonFor(model => model.Calificacion, 3)
+                ★★★☆☆ - Buena
+            </label>
+        </div>
+        <div>
+            <label>
+                @Html.RadioButtonFor(model => model.Calificacion, 4)
+                ★★★★☆ - Muy buena
+            </label>
+        </div>
+        <div>
+            <label>
+                @Html.RadioButtonFor(model => model.Calificacion, 5)
+                ★★★★★ - Excelente
+            </label>
+        </div>
+    </div>
+    <p class="text-danger" style="max-width:400px">@TempData["mensajeErrorCalificacion"]</p>
+</div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comentario, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Comentario, new { htmlAttributes = new { @class = "form-control" } })
+            <p class="text-danger" style="max-width:400px">@TempData["mensajeErrorComentario"]</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input class="btn btn-danger" type='button' onclick='history.back();' value='Volver' />
+            <input type="submit" value="Calificar" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}

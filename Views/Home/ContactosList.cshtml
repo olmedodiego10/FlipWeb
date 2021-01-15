@@ -12,9 +12,6 @@
             @Html.DisplayNameFor(model => model.Estado)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdContactante)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Calificacion)
         </th>
         <th>
@@ -27,16 +24,14 @@
     {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.FechaContacto)
+        @*@Html.DisplayFor(modelItem => item.FechaContacto)*@
+        @item.FechaContacto.ToString("MM/dd/yyyy")
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.IdOfertaContactada)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Estado)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IdContactante)
     </td>
     <td>
         @if (item.Calificacion == 0)

@@ -35,6 +35,10 @@ namespace FlipWeb.Controllers
 
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("MenuUsuarios", "Home");
+            }
             var cargas = db.OfertasCarga.ToList();
             var transporte = db.OfertasTransporte.ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
@@ -43,9 +47,9 @@ namespace FlipWeb.Controllers
 
         public ActionResult MenuUsuarios()
         {
-            var cargas  = (from o in db.OfertasCarga
-                            where (o.Estado == "En progreso")
-                                     select o).ToList();
+            var cargas = (from o in db.OfertasCarga
+                          where (o.Estado == "En progreso")
+                          select o).ToList();
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso")
                               select o).ToList();
@@ -460,9 +464,6 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
-        /// ////////////////////////////////////////////////////////////////////////////
-        /// 
-
         public ActionResult DenunciarOferta(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -540,14 +541,15 @@ namespace FlipWeb.Controllers
 
             return RedirectToAction("ReportadosLista", "Home");
         }
+
         public ActionResult ReportadosLista()
         {
             var reportesAbiertos = (from o in db.Reportes
-                          where (o.Estado == "Abierto")
-                          select o).ToList();
+                                    where (o.Estado == "Abierto")
+                                    select o).ToList();
             var reportesCerrados = (from o in db.Reportes
-                              where (o.Estado == "Cerrado")
-                              select o).ToList();
+                                    where (o.Estado == "Cerrado")
+                                    select o).ToList();
             ReporteViewModel vista = new ReporteViewModel() { ListadoReportesAbiertos = reportesAbiertos, ListadoReportesCerrados = reportesCerrados };
             return View(vista);
         }
@@ -555,7 +557,7 @@ namespace FlipWeb.Controllers
         public ActionResult CerrarReporte(int? idReporte)
         {
             var reporte = db.Reportes.Find(idReporte);
-            if(reporte != null)
+            if (reporte != null)
             {
                 reporte.Estado = "Cerrado";
                 db.Entry(reporte).State = EntityState.Modified;
@@ -564,6 +566,7 @@ namespace FlipWeb.Controllers
             }
             return RedirectToAction("ReportadosLista", "Home");
         }
+
         public ActionResult BloquearCuentaUsuario(string id)
         {
             BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
@@ -572,13 +575,13 @@ namespace FlipWeb.Controllers
             return View(bloquearViewModel);
 
         }
-        
+
         public ActionResult DesbloquearUsuario(string idUsuario)
         {
             return View(idUsuario);
         }
 
-       public ActionResult DesbloquearUsuarioConfirmado(string idUsuario)
+        public ActionResult DesbloquearUsuarioConfirmado(string idUsuario)
         {
             var usuario = db.Users.Find(idUsuario);
             usuario.LockoutEndDateUtc = null;
@@ -587,11 +590,11 @@ namespace FlipWeb.Controllers
         }
 
         public ActionResult BloquearUsuarioConfirmado(string Duracion)
-         {
+        {
             string usuarioId = (string)Session["idUsuario"];
             var usuario = db.Users.Find(usuarioId);
 
-            if(Duracion == "sieteDias")
+            if (Duracion == "sieteDias")
             {
                 usuario.LockoutEndDateUtc = DateTime.Now.AddDays(2);
                 db.SaveChanges();
@@ -627,7 +630,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = oferta.OfertaId });
             }
             return RedirectToAction("Menu", "Home");
-        } 
+        }
 
         public ActionResult DetailsOfertaTransporteUser(int? id)
         {
@@ -647,7 +650,7 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaTransporte);
         }
-        
+
         public ActionResult DetallesOfertaTransportePropia(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -658,6 +661,7 @@ namespace FlipWeb.Controllers
             }
             return View(ofertaTransporte);
         }
+
         public ActionResult DetallesOfertaTransporteAdministrador(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -669,7 +673,6 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
-
         public ActionResult DetallesOfertaGeneral(int idOferta)
         {
             if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
@@ -678,10 +681,9 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
         }
 
-        
         public ActionResult FinalizarOferta(int idOferta)
         {
-           return View(idOferta);
+            return View(idOferta);
         }
 
         public ActionResult FinalizarOfertaConfirmado(int idOferta)
@@ -708,7 +710,6 @@ namespace FlipWeb.Controllers
             db.SaveChanges();
             return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
         }
-        
 
         public ActionResult ContactosList(int idOferta)
         {
@@ -732,10 +733,11 @@ namespace FlipWeb.Controllers
         public ActionResult ContactadosList()
         {
             var userId = User.Identity.GetUserId();
-            IEnumerable<Contacto> listaContactados = db.Contactos.Where(c => c.IdContactante == userId);
-            return View(listaContactados);
+            //IEnumerable<Contacto> listaContactados = db.Contactos.Where(c => c.IdContactante == userId);
+            var user = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == userId);
+            return View(user.ListaContactados);
         }
-     
+
         public ActionResult CreateContacto(int idOferta)
         {
             //Con este if evitamos conflictos con volver acceder a esta instancia ya habiendo creado el contacto
@@ -760,47 +762,60 @@ namespace FlipWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
-        {// Busco en la bd porque necesito traer ListaContactos y Ofertante
+        {
             int idOfertaAux = (int)Session["idOferta"]; //id obtenido en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
             var userId = User.Identity.GetUserId();
-            if(db.Contactos.Any(c => c.IdOfertaContactada == idOfertaAux && c.IdContactante == userId))
+            //Verifico si contacto ya existe en toda la BD 
+            if (db.Contactos.Any(c => c.IdOfertaContactada == idOfertaAux && c.IdContactante == userId))
             {
                 TempData["mensaje"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
                 return RedirectToAction("DatosOfertante", new { idOferta = idOfertaAux });
+            }
+
+            //Verifico que último contacto de Usuario activo este calificado si usuario no es Premium
+            var userAux = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == userId); //Obtengo User con su lista de contactados
+            int Last = userAux.ListaContactados.Count - 1;
+            if (Last > 0)
+            {
+                if (userAux.ListaContactados[Last].Calificacion == 0)
+                {
+                    if (userAux.Premium == true)//CAMBIAR A FALSE
+                    {
+                        return RedirectToAction("Error", "Home"); //TEMPORAL
+                    }
+                }
             }
             contacto.FechaContacto = DateTime.Now;
             contacto.Estado = "En progreso";
             contacto.IdOfertaContactada = idOfertaAux;
             contacto.IdContactante = userId;
+            //Busco la oferta
             OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
-           
             if (OfertaCAux == null)
             {
                 OfertaTransporte OfertaTAux = db.OfertasTransporte.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOfertaAux);
-                if(OfertaTAux != null)
+                if (OfertaTAux != null)
                 {
                     OfertaTAux.ListaContactos.Add(contacto); //Agrego contacto a lista de contactos de la oferta
-                    var userAux = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == OfertaTAux.OfertanteId); //Obtengo User con su lista de contactados
                     userAux.ListaContactados.Add(contacto); //Agrego contacto a lista de contactados de User
                     db.Entry(OfertaTAux).State = EntityState.Modified;
                     db.Entry(userAux).State = EntityState.Modified;
                 }
                 else
                 {
-                    //entra si OfertaTAux == null y OfertaCAux == null
+                    //entra si OfertaTAux == null y OfertaCAux == null -- no debería suceder
                     return RedirectToAction("Error", "Home");
                 }
             }
             else
             {
                 OfertaCAux.ListaContactos.Add(contacto); //Agrego contacto a lista de contactos de la oferta
-                var userAux2 = db.Users.Include(o => o.ListaContactados).FirstOrDefault(u => u.Id == OfertaCAux.OfertanteId); //Obtengo User con su lista de contactados
-                userAux2.ListaContactados.Add(contacto);//Agrego contacto a lista de contactados de User
+                userAux.ListaContactados.Add(contacto);//Agrego contacto a lista de contactados de User
                 db.Entry(OfertaCAux).State = EntityState.Modified;
-                db.Entry(userAux2).State = EntityState.Modified;
+                db.Entry(userAux).State = EntityState.Modified;
             }
             if (ModelState.IsValid)
-            {//Si todo esta en orden debería poder guardar contacto en bd y correr SaveChanges();
+            {//Si todo esta en orden debería poder guardar contacto en bd y SaveChanges();
                 db.Contactos.Add(contacto);
                 Session.Remove("idOferta");
                 db.SaveChanges();
@@ -810,7 +825,40 @@ namespace FlipWeb.Controllers
             return RedirectToAction("Error", "Home");
         }
 
-        //Nota: el nombre de la vista de este método quedó mal y puede ser usado con cualquier usuario (ej. DatosContactante(int idContactante))
+        public ActionResult CalificarContacto(int idContacto)
+        {
+            Contacto con = db.Contactos.FirstOrDefault(c => c.ContactoId == idContacto);
+            if(con.Comentario != null && con.Calificacion > 0)
+            {
+                TempData["mensajeError"] = "Este contacto ya fue calificado.";
+                return RedirectToAction("ContactadosList", "Home");
+            }
+            return View(con);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CalificarContacto([Bind(Include = "ContactoId, IdOfertaContactada, Calificacion,Comentario,FechaContacto")] Contacto contacto)
+        {
+            if (contacto.Calificacion == 0)
+            {
+                TempData["mensajeErrorCalificacion"] = "Debe seleccionar una calificación.";
+                return View(contacto);
+            }
+            if (contacto.Comentario == null)
+            {
+                TempData["mensajeErrorComentario"] = "Debe escribir un comentario.";
+                return View(contacto);
+            }
+            contacto.Estado = "Finalizado";
+            contacto.IdContactante = User.Identity.GetUserId();
+            db.Entry(contacto).State = EntityState.Modified;
+            db.SaveChanges();
+            TempData["mensajeOk"] = "Contacto calificado.";
+            return RedirectToAction("ContactadosList", "Home");
+        }
+
+        //Nota: el nombre de la vista y de este método quedaron ma, puede ser usado con cualquier usuario (ej. ver DatosContactante(int idContactante))
         //se cargó una tarea de rename al backlog de tareas pendientes, NO intentar hacerlo rápido porque hay lugares que no cambia automático.
         public ActionResult DatosOfertante(int idOferta)
         {
@@ -824,8 +872,8 @@ namespace FlipWeb.Controllers
 
         public ActionResult DatosOfertantePrimerContacto(int idOferta)
         {
-        //Duplicamos esta instancia para evitar los posibles problemas que se generan entre la primera vez que se crea el contacto
-        //y las siguientes veces que el usuario por error o con otras intenciones intente acceder nuevamente ya habiendo contactado.
+            //Duplicamos esta instancia para evitar los posibles problemas que se generan entre la primera vez que se crea el contacto
+            //y las siguientes veces que el usuario por error o con otras intenciones intente acceder nuevamente ya habiendo contactado.
             Oferta oferta = db.Ofertas.Find(idOferta);
             var userAux = db.Users.Find(oferta.OfertanteId);
             return View(userAux);
@@ -840,10 +888,10 @@ namespace FlipWeb.Controllers
             var Contactante = db.Users.Find(con.IdContactante);
             return View("DatosOfertante", Contactante);
         }
-        
+
         public ActionResult UsersList(string email = "")
-        { 
-            IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email );
+        {
+            IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email);
             if (usuarios != null)
             {
                 return View(usuarios);
@@ -851,7 +899,7 @@ namespace FlipWeb.Controllers
             else
             {
                 return View();
-            }  
+            }
         }
 
         public ActionResult DetailsUsers(string id)

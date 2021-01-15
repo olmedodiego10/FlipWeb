@@ -20,6 +20,7 @@ namespace FlipWeb.Domain
         //[Range(1, 5)] se hace not null y no pasa el ModelState.IsValid al crearse
         [Display(Name = "Calificación")]
         public int Calificacion { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Comentario { get; set; }
         [Display(Name = "Fecha de contacto")]
         public DateTime FechaContacto { get; set; }

@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<FlipWeb.Domain.Contacto>
 
+@{
+    ViewBag.Title = "Contactados";
+}
+<p class="text-danger" style="max-width:400px">@TempData["mensajeError"]</p>
 <table class="table">
     <tr>
         <th>
@@ -22,43 +26,47 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.FechaContacto)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IdOfertaContactada)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Estado)
-    </td>
-    <td>
-        @if (item.Calificacion == 0)
-        {
-            @Html.Label("Calificación pendiente")
-        }
-        else
-        {
-            @Html.DisplayFor(modelItem => item.Calificacion)
-        }
-    </td>
-    <td>
-        @if (item.Comentario == null || item.Comentario == "")
-        {
-            @Html.Label("Sin comentario")
-        }
-        else
-        {
-            @Html.DisplayFor(modelItem => item.Comentario)
-        }
-    </td>
-    <td>
-        @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada }) |
-        @Html.ActionLink("Ver Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada })
-    </td>
-</tr>
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.FechaContacto)*@
+                @item.FechaContacto.ToString("MM/dd/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdOfertaContactada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @if (item.Calificacion == 0)
+                {
+                    @Html.Label("Calificación pendiente")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Calificacion)
+                }
+            </td>
+            <td>
+                @if (item.Comentario == null || item.Comentario == "")
+                {
+                    @Html.Label("Sin comentario")
+                }
+                else
+                {
+                <div style="width:300px">
+                    @Html.DisplayFor(modelItem => item.Comentario)
+                </div>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada }) |
+                @Html.ActionLink("Ver Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada }) |
+                @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
+            </td>
+        </tr>
     }
 
 </table>
 
-<input class = "btn btn-success" type='button' onclick='history.back();' value='Volver' />
+<input class="btn btn-success" type='button' onclick='history.back();' value='Volver' />
