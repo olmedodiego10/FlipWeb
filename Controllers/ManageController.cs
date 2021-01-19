@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FlipWeb.Models;
+using System.Collections.Generic;
+using FlipWeb.Domain;
 
 namespace FlipWeb.Controllers
 {
@@ -65,6 +67,8 @@ namespace FlipWeb.Controllers
 
             var userId = User.Identity.GetUserId();
             var UserAux = UserManager.FindById(userId);
+            List<Oferta> Ofertas = new ApplicationDbContext().Ofertas.Include("ListaContactos").Where(o => o.OfertanteId == userId).ToList();
+            List<Contacto> Contactos = Ofertas.SelectMany(O => O.ListaContactos).ToList();
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -77,7 +81,8 @@ namespace FlipWeb.Controllers
                 Apellido = UserAux.Apellido,
                 Cedula = UserAux.Cedula,
                 Celular = UserAux.Celular,
-                Telefono = UserAux.Telefono
+                Telefono = UserAux.Telefono,
+                ListaContactos = Contactos
             };
             return View(model);
         }

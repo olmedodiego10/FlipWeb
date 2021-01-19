@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using FlipWeb.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -33,6 +36,18 @@ namespace FlipWeb.Models
         [StringLength(20, ErrorMessage = "Límite de caracteres excedido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
+        public List<Contacto> ListaContactos { get; set; }
+
+        public double CalcularReputacion()
+        {
+            if(ListaContactos.Count == 0)
+            {
+                return 0.00;
+            }
+            double Rep = ListaContactos.Average(c => c.Calificacion);
+            return Math.Round(Rep, 2);
+        }
+
     }
 
     public class ManageLoginsViewModel

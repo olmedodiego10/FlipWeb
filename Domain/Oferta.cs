@@ -47,6 +47,10 @@ namespace FlipWeb.Domain
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaOferta { get; set; }
         public DateTime FechaCreacion { get; set; }
+        [NotMapped]
+        public double ReputacionOfertante { get; set; }
+        [NotMapped]
+        public List<String> UltimosComentarios { get; set; }
         [Display(Name = "Imagen ilustrativa")]
         public byte[] Imagen1 { get; set; }
 
@@ -64,5 +68,6 @@ namespace FlipWeb.Domain
             else
                 return false;
         }
+
     }
 }
