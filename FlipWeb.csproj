@@ -461,8 +461,10 @@
     <Content Include="Views\Home\DetallesOfertaTransporteAdministrador.cshtml" />
     <Content Include="Views\Home\DarDeBajaOferta.cshtml" />
     <Content Include="Views\Home\BloquearCuentaUsuario.cshtml" />
-    <Content Include="Views\Home\DesbloquearUsuario.cshtml" />
     <Content Include="Views\Home\CalificarContacto.cshtml" />
+    <Content Include="Views\Home\CerrarReporte.cshtml" />
+    <Content Include="Views\Home\BuscarReporte.cshtml" />
+    <Content Include="Views\Home\DesbloquearUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

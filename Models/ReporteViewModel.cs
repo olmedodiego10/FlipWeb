@@ -12,5 +12,9 @@ namespace FlipWeb.Models
     {
         public List<Reporte> ListadoReportesAbiertos { get; set; }
         public List<Reporte> ListadoReportesCerrados { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime Fecha { get; set; }
     }
 }

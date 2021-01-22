@@ -25,6 +25,14 @@ function reportesCerrados() {
     }
 }
 
+function reportesAbiertos() {
+    var x = document.getElementById("divReportesAbiertos");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 
 function divPaisPartida() {
     var y = document.getElementById("infoPaisPartida");

@@ -20,10 +20,20 @@ namespace FlipWeb.Domain
 
         public string DeuncianteId { get; set; }
 
+        public string CorreoDenunciante { get; set; }
+
+        public string CorreoDenunciado { get; set; }
+
         public string DenunciadoId { get; set; }
 
         public string Estado { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime Fecha { get; set; }
+
+       // [Required(ErrorMessage = "Debe ingresar la resolución del reporte antes de cerrarlo")]
+        public string Resolucion { get; set; }
 
         public bool ReporteAbierto()
         {

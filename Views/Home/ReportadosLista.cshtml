@@ -10,7 +10,7 @@
 <table class="table">
     <tr>
         <th>
-            Id oferta denunciada
+             Fecha
         </th>
         <th>
             Motivo
@@ -24,47 +24,57 @@
         <th>
             Denunciado
         </th>
+       
     </tr>
 
     @foreach (var item in Model.ListadoReportesAbiertos)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ofertaDenunciadaId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Detalle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeuncianteId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DenunciadoId)
-            </td>
-            <td>
-                @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }) |
-                @Html.ActionLink("Ver denunciante", "DetailsUsers", new { id = item.DeuncianteId }) |
-                @Html.ActionLink("Ver denunciado", "DetailsUsers", new { id = item.DenunciadoId })|
-                @Html.ActionLink("Cerrar reporte", "CerrarReporte", new { idReporte = item.ReporteId })
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Fecha)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Motivo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Detalle)
+    </td>
+    <td>
+        @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
 
-            </td>
-        </tr>
+    </td>
+    <td>
+        @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
+    </td>
+    
+    <td>
+        <div class="btn-group">
+         @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+         @Html.ActionLink("Cerrar reporte", "CerrarReporte", new { idReporte = item.ReporteId }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+        </div>
+    </td>
+</tr>
 
     }
 
 </table>
 
+<hr />
 <input type="button" class="btn btn-light font-weight-bolder " onclick="reportesCerrados()" value="Ver reportes cerrados" />
+
 
 <div id="divReportesCerrados" style="display:none">
     <h2>Reportes cerrados</h2>
+    @using (Html.BeginForm("BuscarReporte", "Home", FormMethod.Post))
+    {
+        <h5>Buscar reporte </h5>
+        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+        <button type="submit" class="btn btn-success">Búscar</button>
+    }
     <table class="table">
         <tr>
             <th>
-                Id oferta denunciada
+                Fecha
             </th>
             <th>
                 Motivo
@@ -78,34 +88,40 @@
             <th>
                 Denunciado
             </th>
-
+            <th>
+                Resolución
+            </th>
         </tr>
 
         @foreach (var item in Model.ListadoReportesCerrados)
         {
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ofertaDenunciadaId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Motivo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Detalle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeuncianteId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DenunciadoId)
-                </td>
-                <td>
-                    @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }) |
-                    @Html.ActionLink("Ver denunciante", "DetailsUsers", new { id = item.DeuncianteId }) |
-                    @Html.ActionLink("Ver denunciado", "DetailsUsers", new { id = item.DenunciadoId })|
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Motivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Detalle)
+        </td>
+        <td>
+            @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
+
+        </td>
+        <td>
+            @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Resolucion)
+        </td>
+        <td>
+            @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+           
+
+        </td>
+    </tr>
 
         }
 

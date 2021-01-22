@@ -1,9 +1,18 @@
-﻿@model string
+﻿@model FlipWeb.Models.BloquearUsuarioViewModel
+@{
+    ViewBag.Title = "DesbloquearUsuario";
+}
 
-<h2>¿Desea desbloquear usuario</h2>
+<h2>¿Está seguro que desea desbloquear el usuario?</h2>
 
+<h5>Al desbloquear el usuario, este podrá acceder nuevamente a la aplicación.</h5>
+
+@using (Html.BeginForm("DesbloquearUsuarioConfirmado", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
 <div class="col-md-offset-2 col-md-10">
-    @Html.ActionLink("Si. Desbloquear.", "DesbloquearUsuarioConfirmado", "Home", routeValues: new { idUsuario = Model }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    <input class="btn btn-danger" type='button' onclick='history.back();' value='Cancelar.' />
+    <input type="submit" value="Desbloquear" , class="btn btn-success" />
+    @Html.ActionLink("Cancelar", "DetailsUsers", "Home", routeValues: new { id = Model.UsuarioId }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
 </div>
+}

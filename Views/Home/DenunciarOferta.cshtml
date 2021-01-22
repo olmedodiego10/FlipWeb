@@ -3,12 +3,13 @@
     ViewBag.Title = "DenunciarOferta";
 }
 @{
+    <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 
     List<SelectListItem> listItems = new List<SelectListItem>();
     listItems.Add(new SelectListItem
     {
         Text = "Seleccionar motivo",
-        Value = ""
+        Value = "seleccionarMotivo"
     });
     listItems.Add(new SelectListItem
     {
@@ -31,7 +32,7 @@
     listItems.Add(new SelectListItem
     {
         Text = "Otros",
-        Value = "Otros"
+        Value = "otros"
 
     });
 }
@@ -48,8 +49,8 @@
 
     @Html.TextAreaFor(model => model.Detalle, new { @class = "form-control" })
 
-<div class="col-md-offset-2 col-md-10">
-    <input type="submit" value="Denunciar" , class="btn btn-success" />
-    @Html.ActionLink("No. Cambié de parecer. Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
-</div>
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Denunciar" , class="btn btn-success" />
+        @Html.ActionLink("No. Cambié de parecer. Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+    </div>
 }

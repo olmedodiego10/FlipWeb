@@ -8,6 +8,8 @@
 <h2>Details</h2>
 @if(Model.LockoutEndDateUtc > DateTime.Now) { <h3>USUARIO BLOQUEADO</h3>}
 <div>
+    <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
+
     <h4>Cliente</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -71,7 +73,7 @@
 <p>
     @if (Model.LockoutEndDateUtc > DateTime.Now)
     {
-        @Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", "Home", routeValues: new { idUsuario = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+        @Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
     }
     else
     {

@@ -82,6 +82,8 @@ namespace FlipWeb.Controllers
             return View(oferta);
         }
 
+        
+
         public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId)
         {
             Oferta ofertaCarga = db.Ofertas.Find(OfertaId);
@@ -557,9 +559,26 @@ namespace FlipWeb.Controllers
         public ActionResult DenunciarOferta([Bind(Include = "Motivo,Detalle")] Reporte reporte)
         {
             int idOferta = (int)Session["idOferta"];
+            if (reporte.Motivo == "seleccionarMotivo")
+            {
+                TempData["mensaje"] = "Es necesario seleccionar el motivo de la denuncia.";
+                return RedirectToAction("DenunciarOferta", new { idOferta = idOferta });
+
+            }
+            if(reporte.Motivo == "otros" && reporte.Detalle ==null)
+            {
+                TempData["mensaje"] = "En caso de seleccionar 'Otro' es necesario determinar el motivo en los detalles.";
+                return RedirectToAction("DenunciarOferta", new { idOferta = idOferta });
+            }
+
             var userId = User.Identity.GetUserId();
             Oferta oferta = db.Ofertas.Find(idOferta);
+            ApplicationUser denunciante = db.Users.Find(userId);
+            ApplicationUser denunciado = db.Users.Find(oferta.OfertanteId);
 
+            reporte.Fecha = DateTime.Now;
+            reporte.CorreoDenunciado = denunciado.Email;
+            reporte.CorreoDenunciante = denunciante.Email;
             reporte.DeuncianteId = userId;
             reporte.ofertaDenunciadaId = idOferta;
             reporte.DenunciadoId = oferta.OfertanteId;
@@ -620,15 +639,44 @@ namespace FlipWeb.Controllers
 
         public ActionResult CerrarReporte(int? idReporte)
         {
+            Session.Add("idReporte", idReporte);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CerrarReporte(string Resolucion)
+        {
+            int idReporte = (int)Session["idReporte"];
+            if(Resolucion == "")
+            {
+                TempData["mensaje"] = "La resolución es obligatoria para cerrar el reporte.";
+                return RedirectToAction("CerrarReporte", new { idReporte = idReporte });
+            }
             var reporte = db.Reportes.Find(idReporte);
             if (reporte != null)
             {
+                reporte.Resolucion = Resolucion;
                 reporte.Estado = "Cerrado";
                 db.Entry(reporte).State = EntityState.Modified;
                 db.SaveChanges();
+                Session.Remove("idReporte");
                 return RedirectToAction("ReportadosLista", "Home");
             }
             return RedirectToAction("ReportadosLista", "Home");
+        }
+
+        public ActionResult BuscarReporte(DateTime Fecha)
+        {
+            var reportesAbiertos = (from o in db.Reportes
+                                    where (o.Estado == "Abierto")
+                                    select o).ToList();
+
+            var reportesCerrados = (from r in db.Reportes
+                              where (DbFunctions.TruncateTime(r.Fecha) == DbFunctions.TruncateTime(Fecha) && r.Estado == "Cerrado")
+                              select r).ToList();
+            ReporteViewModel vista = new ReporteViewModel() { ListadoReportesAbiertos = reportesAbiertos, ListadoReportesCerrados = reportesCerrados };
+            return View(vista);
         }
 
         public ActionResult BloquearCuentaUsuario(string id)
@@ -640,17 +688,28 @@ namespace FlipWeb.Controllers
 
         }
 
-        public ActionResult DesbloquearUsuario(string idUsuario)
+        public ActionResult DesbloquearUsuario(string id)
         {
-            return View(idUsuario);
+            if (id != null)
+            {
+                BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
+                bloquearViewModel.UsuarioId = id;
+                Session.Add("idUsuario", id);
+                return View(bloquearViewModel);
+            }
+            return RedirectToAction("Menu", "Home");
         }
 
-        public ActionResult DesbloquearUsuarioConfirmado(string idUsuario)
+        public ActionResult DesbloquearUsuarioConfirmado()
         {
-            var usuario = db.Users.Find(idUsuario);
-            usuario.LockoutEndDateUtc = null;
+            string usuarioId = (string)Session["idUsuario"];
+
+            var usuario = db.Users.Find(usuarioId);
+            usuario.LockoutEndDateUtc = DateTime.Now;
             db.SaveChanges();
-            return RedirectToAction("DetailsUsers", new { id = idUsuario });
+            TempData["mensajeError"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
+
+            return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
 
         public ActionResult BloquearUsuarioConfirmado(string Duracion)
@@ -736,7 +795,7 @@ namespace FlipWeb.Controllers
                 else
                 {
                     //entra si OfertaTAux == null y OfertaCAux == null
-                    return RedirectToAction("Error", "Home");
+                    return RedirectToAction("Menu", "Home");
                 }
             }
             OfertaCAux.Estado = "Finalizada";
