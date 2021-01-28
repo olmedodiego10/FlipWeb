@@ -116,7 +116,8 @@ namespace FlipWeb.Controllers
             if (TipoOferta == "todasLasOfertas" && TipoCamion == "" && TipoCaja == "")
             {
                 var carg = (from o in db.OfertasCarga
-                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                            where (o.Estado == "En progreso") &&
+                            ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
@@ -125,7 +126,8 @@ namespace FlipWeb.Controllers
                             select o).ToList();
 
                 var transp = (from o in db.OfertasTransporte
-                              where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                              where (o.Estado == "En progreso") &&
+                              ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                               ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                               ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
                               ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
@@ -156,7 +158,8 @@ namespace FlipWeb.Controllers
             if (TipoOferta == "ofertaCarga")
             {
                 var carg = (from o in db.OfertasCarga
-                            where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                            where (o.Estado == "En progreso") &&
+                            ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
@@ -177,7 +180,8 @@ namespace FlipWeb.Controllers
             {
 
                 var transporte = (from o in db.OfertasTransporte
-                                  where ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
+                                  where (o.Estado == "En progreso") &&
+                                  ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                                   ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                                   ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
                                   ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&

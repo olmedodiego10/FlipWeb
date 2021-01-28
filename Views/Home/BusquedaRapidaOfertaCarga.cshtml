@@ -1,4 +1,5 @@
 ﻿@model FlipWeb.Domain.OfertaCarga
+@Styles.Render("~/Content/FlipStyleSheet.css")
 @{
     ViewBag.Title = "BusquedaRapidaOfertaCarga";
 }
@@ -15,66 +16,33 @@
     }
 </div>
 
-<h3>Oferta de Carga</h3>
-<div style="overflow-x:auto;">
-    <table class="table table-hover">
-        <tr>
-            <th>
-                Imagen ilustrativa
-            </th>
-            <th>
-                Codigo de oferta
-            </th>
-            <th>
-                País de partida
-            </th>
-            <th>
-                Ciudad de partida
-            </th>
-            <th>
-                País de destino
-            </th>
-            <th>
-                Ciudad de destino
-            </th>
-            <th>
-                Fecha de oferta
-            </th>
-            <th>
-                Requiere exclusividad
-            </th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.OfertaId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.RequiereExclusividad)
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "DetailsOfertaCargaUser", "Home", new { id = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-            </td>
-        </tr>
+<h3>Ofertas de Carga</h3>
+<div class="container2">
 
+    <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = item.OfertaId })">
+        <div class="card">
+            <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
 
-    </table>
+            <div class="encabezado">
+                <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+
+                <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
+
+                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+                @if (Model.RequiereExclusividad == true)
+                {
+                    <p><strong>Requiere exclusividad:</strong> Si</p>
+                }
+                else
+                {
+                    <p><strong>Requiere exclusividad:</strong> No</p>
+                }
+            </div>
+            <div class="card-footer">
+                <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+            </div>
+        </div>
+    </a>
+    }
 </div>
+

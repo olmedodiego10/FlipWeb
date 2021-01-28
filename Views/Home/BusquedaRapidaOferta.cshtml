@@ -1,87 +1,41 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
+@Styles.Render("~/Content/FlipStyleSheet.css")
 @{
     ViewBag.Title = "BusquedaRapidaOferta";
 }
 <h2>Menu</h2>
 <div>
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
-    
-            <h5>Busqueda oferta</h5>
-            @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
-            {
-                @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
-                <button type="submit" class="btn btn-success">Busqueda rapida</button>
-            }
+
+    <h5>Busqueda oferta</h5>
+    @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
+    {
+        @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+        <button type="submit" class="btn btn-success">Busqueda rapida</button>
+    }
 </div>
 
+<h3>Ofertas de Transporte</h3>
+<div class="container2">
+    <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = Model.OfertaId })">
+        <div class="card">
+            <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = Model.OfertaId })" />
+            <div class="encabezado">
+                <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
 
-<h3>Oferta de Transporte</h3>
-<div style="overflow-x:auto;">
-    <table class="table table-hover">
-        <tr>
-            <th>
-                Imagen ilustrativa
-            </th>
-            <th>
-               Codigo de oferta
-            </th>
-            <th>
-                País de partida
-            </th>
-            <th>
-                Ciudad de partida
-            </th>
-            <th>
-                País de destino
-            </th>
-            <th>
-                Ciudad de destino
-            </th>
-            <th>
-                Fecha de oferta
-            </th>
-            <th>
-                Tipo de caja
-            </th>
-            <th>
-                Tipo de camión
-            </th>
-            <th></th>
-        </tr>
+                <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
 
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfertaId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.TipoCaja)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.TipoCamion)
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "DetailsOfertaTransporteUser", "Home", new { id = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-            </td>
-        </tr>
+                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
 
+                <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => Model.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => Model.TipoCaja) </p>
+            </div>
 
-    </table>
+            <div class="card-footer">
+                <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+            </div>
+
+        </div>
+    </a>
+
 </div>
+
