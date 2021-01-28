@@ -1,28 +1,29 @@
 ﻿@using Microsoft.AspNet.Identity
+@Styles.Render("~/Content/FlipStyleSheet.css")
 
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-<ul class="nav navbar-nav navbar-right mr-auto">
-    <li class="nav-item">@Html.ActionLink("Menu ofertas", "MenuUsuarios", "Home", null, new { @class = "nav-link" })</li>
+        <ul class="nav navbar-nav navbar-right mr-auto">
+            <li class="nav-item">@Html.ActionLink("Menu ofertas", "MenuUsuarios", "Home", null, new { @class = "nav-link" })</li>
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="botondrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @User.Identity.GetUserName()
-        </a>
-        <div class="dropdown-menu " aria-labelledby="botondrop">
-            <a class="nav-item">@Html.ActionLink("Cambiar contraseña", "ChangePassword", "Manage", null, new { @class = "nav-link" })</a>
-            <a class="nav-item">@Html.ActionLink("Administrar perfil", "Index", "Manage", null, new { @class = "nav-link" })</a>
-            <a class="nav-item">@Html.ActionLink("Mis ofertas", "", "", null, new { @class = "nav-link" })</a>
-            <hr />
-            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
-        </div>
-    </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle bg-transparent" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @User.Identity.GetUserName()
+                </a>
+                <div class="dropdown-menu " id="barraMenu" aria-labelledby="botondrop">
+                    <a class="nav-item">@Html.ActionLink("Cambiar contraseña", "ChangePassword", "Manage", null, new { @class = "nav-link" })</a>
+                    <a class="nav-item">@Html.ActionLink("Administrar perfil", "Index", "Manage", null, new { @class = "nav-link" })</a>
+                    <a class="nav-item">@Html.ActionLink("Mis ofertas", "", "", null, new { @class = "nav-link" })</a>
+                    <hr />
+                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+                </div>
+            </li>
 
-</ul>
-   
+        </ul>
+
     }
 }
 else

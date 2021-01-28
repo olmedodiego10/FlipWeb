@@ -39,8 +39,12 @@ namespace FlipWeb.Controllers
             {
                 return RedirectToAction("MenuUsuarios", "Home");
             }
-            var cargas = db.OfertasCarga.ToList();
-            var transporte = db.OfertasTransporte.ToList();
+            var cargas = (from o in db.OfertasCarga
+                          where (o.Estado == "En progreso")
+                          select o).ToList();
+            var transporte = (from o in db.OfertasTransporte
+                              where (o.Estado == "En progreso")
+                              select o).ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
@@ -56,7 +60,17 @@ namespace FlipWeb.Controllers
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
-
+        public ActionResult MenuAdmins()
+        {
+            var cargas = (from o in db.OfertasCarga
+                          where (o.Estado == "En progreso")
+                          select o).ToList();
+            var transporte = (from o in db.OfertasTransporte
+                              where (o.Estado == "En progreso")
+                              select o).ToList();
+            MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
+            return View(vista);
+        }
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
             if (!idOferta.HasValue)
@@ -184,13 +198,7 @@ namespace FlipWeb.Controllers
             return View();
         }
 
-        public ActionResult MenuAdmins()
-        {
-            var cargas = db.OfertasCarga.ToList();
-            var transporte = db.OfertasTransporte.ToList();
-            MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
-            return View(vista);
-        }
+        
 
         public ActionResult About()
         {
@@ -666,15 +674,25 @@ namespace FlipWeb.Controllers
             return RedirectToAction("ReportadosLista", "Home");
         }
 
-        public ActionResult BuscarReporte(DateTime Fecha)
+        public ActionResult BuscarReporte(DateTime? Fecha)
         {
+            if(Fecha == null)
+            {
+                TempData["errorFecha"] = "Debes seleccionar una fecha para buscar un reporte.";
+                return RedirectToAction("ReportadosLista", "Home");
+            }
+
             var reportesAbiertos = (from o in db.Reportes
                                     where (o.Estado == "Abierto")
                                     select o).ToList();
-
             var reportesCerrados = (from r in db.Reportes
-                              where (DbFunctions.TruncateTime(r.Fecha) == DbFunctions.TruncateTime(Fecha) && r.Estado == "Cerrado")
-                              select r).ToList();
+                                    where (DbFunctions.TruncateTime(r.Fecha) == DbFunctions.TruncateTime(Fecha) && r.Estado == "Cerrado")
+                                    select r).ToList();
+            if(reportesCerrados.Count == 0)
+            {
+                TempData["errorFecha"] = "No se encontraron reportes en la fecha indicada.";
+                return RedirectToAction("ReportadosLista", "Home");
+            }
             ReporteViewModel vista = new ReporteViewModel() { ListadoReportesAbiertos = reportesAbiertos, ListadoReportesCerrados = reportesCerrados };
             return View(vista);
         }
@@ -686,30 +704,6 @@ namespace FlipWeb.Controllers
             Session.Add("idUsuario", id);
             return View(bloquearViewModel);
 
-        }
-
-        public ActionResult DesbloquearUsuario(string id)
-        {
-            if (id != null)
-            {
-                BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
-                bloquearViewModel.UsuarioId = id;
-                Session.Add("idUsuario", id);
-                return View(bloquearViewModel);
-            }
-            return RedirectToAction("Menu", "Home");
-        }
-
-        public ActionResult DesbloquearUsuarioConfirmado()
-        {
-            string usuarioId = (string)Session["idUsuario"];
-
-            var usuario = db.Users.Find(usuarioId);
-            usuario.LockoutEndDateUtc = DateTime.Now;
-            db.SaveChanges();
-            TempData["mensajeError"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
-
-            return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
 
         public ActionResult BloquearUsuarioConfirmado(string Duracion)
@@ -738,6 +732,29 @@ namespace FlipWeb.Controllers
                 db.SaveChanges();
             }
             Session.Remove("idUsuario");
+            return RedirectToAction("DetailsUsers", new { id = usuarioId });
+        }
+        public ActionResult DesbloquearUsuario(string id)
+        {
+            if (id != null)
+            {
+                BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
+                bloquearViewModel.UsuarioId = id;
+                Session.Add("idUsuario", id);
+                return View(bloquearViewModel);
+            }
+            return RedirectToAction("Menu", "Home");
+        }
+
+        public ActionResult DesbloquearUsuarioConfirmado()
+        {
+            string usuarioId = (string)Session["idUsuario"];
+
+            var usuario = db.Users.Find(usuarioId);
+            usuario.LockoutEndDateUtc = DateTime.Now;
+            db.SaveChanges();
+            TempData["mensajeError"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
+
             return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
 

@@ -1,159 +1,95 @@
 ﻿@model FlipWeb.Models.MenuUsuariosViewModel
-@{
-    ViewBag.Title = "Inicio";
-}
+@Styles.Render("~/Content/FlipStyleSheet.css")
 
-<div class="">
-    <h1>Ofertas recientes</h1>
-    @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
-    <h3>Ofertas de Carga</h3>
-    <div style="overflow-x:auto;">
-        <table class="table table-hover">
+    @{
+        ViewBag.Title = "Inicio";
+    }
 
-            <tr>
-                <th>
-                    Imagen ilustrativa
-                </th>
-                <th>
-                    País de partida
-                </th>
-                <th>
-                    Ciudad de partida
-                </th>
-                <th>
-                    País de destino
-                </th>
-                <th>
-                    Ciudad de destino
-                </th>
-                <th>
-                    Fecha de oferta
-                </th>
-                <th>
-                    Descripción de mercadería
-                </th>
-                <th>
-                    Requiere exclusividad
-                </th>
-                <th></th>
-            </tr>
+    <div class="">
+        <h1>Ofertas recientes</h1>
+        @*<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+            <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+        @if (Model.ListadoOfertasCarga != null)
+        {
+            <h3>Ofertas de Carga</h3>
+            <div class="container2">
+                @foreach (var item in Model.ListadoOfertasCarga)
+                {
 
-            @foreach (var item in Model.ListadoOfertasCarga)
-            {
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaCarga","Home", new { id= item.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescripcionMercaderia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequiereExclusividad)
-            </td>
-        </tr>
-            }
+                    <div class="card">
+                        <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
 
-        </table>
+                        <div class="encabezado">
+                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+                            @if (item.RequiereExclusividad == true)
+                            {
+                                <p><strong>Requiere exclusividad:</strong> Si</p>
+                            }
+                            else
+                            {
+                                <p><strong>Requiere exclusividad:</strong> No</p>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        }
+
+
+        @if (Model.ListadoOfertasTransporte != null)
+        {
+            <h3>Ofertas de Transporte</h3>
+            <div class="container2">
+                @foreach (var item in Model.ListadoOfertasTransporte)
+                {
+                    <div class="card">
+                        <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                        <div class="encabezado">
+                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+
+                            <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        }
     </div>
-    <h3>Ofertas de Transporte</h3>
-    <div style="overflow-x:auto;">
-        <table class="table table-hover">
-            <tr>
-                <th>
-                    Imagen ilustrativa
-                </th>
-                <th>
-                    País de partida
-                </th>
-                <th>
-                    Ciudad de partida
-                </th>
-                <th>
-                    País de destino
-                </th>
-                <th>
-                    Ciudad de destino
-                </th>
-                <th>
-                    Fecha de oferta
-                </th>
-                <th>
-                    Tipo de caja
-                </th>
-                <th>
-                    Tipo de camión
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model.ListadoOfertasTransporte)
-            {
-        <tr>
-            <td>
-                <img class="rounded border border-success" width="120" src="@Url.Action("getImageOfertaTransporte","Home", new { id= item.OfertaId})" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadPartida)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaisDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CiudadDestino)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaOferta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoCaja)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoCamion)
-            </td>
-        </tr>
-            }
-
-        </table>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Novedades</h2>
+            <p>
+                ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
+            </p>
+            @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
+        </div>
+        <div class="col-md-4">
+            <h2>Novedades</h2>
+            <p>
+                Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
+            </p>
+            @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
+        </div>
+        <div class="col-md-4">
+            <h2>Noticias</h2>
+            <p>El gobierno nacional pondrá énfasis en la recuperación de las rutas del norte del país, para generar más oportunidades de crecimiento en esa región.</p>
+            <p><a class="btn btn-success btn-outline" href="http://www.mtop.gub.uy/-/se-hara-hincapie-en-la-rehabilitacion-de-las-rutas-del-nor-1?p_p_state=maximized">Leer noticia &raquo;</a></p>
+        </div>
     </div>
-</div>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <h2>Novedades</h2>
-        <p>
-            ¡Ya puedes registrarte y comenzar a ver los detalles de las ofertas publicadas así como ofrecer las tuyas propias!
-        </p>
-        @Html.ActionLink("Registrarme", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
-    </div>
-    <div class="col-md-4">
-        <h2>Novedades</h2>
-        <p>
-            Estamos trabajando para mejorar tu experiencia, si tienes alguna sugerencia, te agradecemos ponerte en contacto con nosotros.
-        </p>
-        @Html.ActionLink("Contacto", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
-    </div>
-    <div class="col-md-4">
-        <h2>Noticias</h2>
-        <p>El gobierno nacional pondrá énfasis en la recuperación de las rutas del norte del país, para generar más oportunidades de crecimiento en esa región.</p>
-        <p><a class="btn btn-success btn-outline" href="http://www.mtop.gub.uy/-/se-hara-hincapie-en-la-rehabilitacion-de-las-rutas-del-nor-1?p_p_state=maximized">Leer noticia &raquo;</a></p>
-    </div>
-</div>
