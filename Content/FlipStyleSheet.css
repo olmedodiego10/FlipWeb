@@ -133,7 +133,7 @@ small {
 @media screen and (max-width: 800px) {
     .container2 .card {
         width: 450px;
-        height: 415px;
+        height: 515px;
         border: 2px thin;
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
         overflow: hidden;
@@ -141,8 +141,33 @@ small {
         text-align: left;
         transition: all 0.25s;
         background-color: transparent;
+
     }
+        .container2 .card img {
+            background-position: center;
+            background-size: cover;
+            width: auto;
+            height: 320px;
+        }
     }
 #barraMenu {
-    background-color: ##343a40;
+    background-color: #343a40;
 }
+
+#cardBusquedaRapida {
+    width: 450px;
+    height: 515px;
+    border: 2px thin;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 10px;
+    text-align: left; 
+    transition: all 0.25s;
+    background-color: transparent;
+}
+    #cardBusquedaRapida img {
+        background-position: center;
+        background-size: cover;
+        width: auto;
+        height: 320px;
+    }

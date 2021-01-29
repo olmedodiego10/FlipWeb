@@ -79,9 +79,9 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("MenuUsuarios", "Home");
             }
             Oferta oferta = db.Ofertas.Find(idOferta);
-            if (oferta == null)
+            if (oferta == null || oferta.Estado != "En progreso")
             {
-                TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta";
+                TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o la oferta no se encuentra activa.";
                 return RedirectToAction("MenuUsuarios", "Home");
             } // si la oferta es de carga redirecciona al action que muestra la oferta de carga
             if (oferta is OfertaCarga)
