@@ -64,46 +64,46 @@
     </div>
     <hr />
     @{
-        double Rep = Model.ReputacionOfertante;
+        double Rep = Model.ReputacionOfertante();
         if (Rep < 1)
         {
             <div style="font-weight:bold">
-                @(new HtmlString("Reputación: ★El Ofertante aún no ha generado reputación."))
+                @(new HtmlString("Reputación de Ofertante: ★El Ofertante aún no ha generado reputación."))
             </div>
             <br />
             @Html.Label("☆☆☆☆☆");
         }
-        else if (Rep > 1 && Rep < 2)
+        else if (Rep >= 1 && Rep < 2)
         {
-            @Html.Label("Reputación: ★", new { style = "font-weight:bold;" });
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★☆☆☆☆");
         }
-        else if (Rep > 2 && Rep < 3)
+        else if (Rep >= 2 && Rep < 3)
         {
-            @Html.Label("Reputación: ★", new { style = "font-weight:bold;" });
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★☆☆☆");
         }
-        else if (Rep > 3 && Rep < 4)
+        else if (Rep >= 3 && Rep < 4)
         {
-            @Html.Label("Reputación: ★", new { style = "font-weight:bold;" });
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★★☆☆");
         }
-        else if (Rep > 4 && Rep < 4.70)
+        else if (Rep >= 4 && Rep < 4.70)
         {
-            @Html.Label("Reputación: ★", new { style = "font-weight:bold;" });
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★★★☆");
         }
-        else if (Rep > 4.70 && Rep < 5.10)
+        else if (Rep > 4.70 && Rep < 5.50)
         {
-            @Html.Label("Reputación: ★", new { style = "font-weight:bold;" });
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★★★★");
@@ -116,13 +116,15 @@
         @Html.Label("Últimos comentarios de contactos:", new { style = "font-weight:bold;" });
         <hr />
 
-        if (Model.UltimosComentarios != null && Model.UltimosComentarios.Count() > 0)
+        List<String> U5CO = Model.Ultimos5ComentariosDeContactosOfertante();
+        if (U5CO != null && U5CO.Count() > 0)
         {
-            foreach (var comentario in Model.UltimosComentarios)
+            foreach (var comentario in U5CO)
             {
                 <div style="color: dimgray; font-style:italic">
                     @(new HtmlString("\"" + comentario + "\""))
                 </div>
+
                 <hr />
             }
         }

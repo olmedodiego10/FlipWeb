@@ -30,7 +30,7 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img  class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
 
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
@@ -49,7 +49,6 @@
             @Html.DisplayFor(model => model.FechaOferta)
         </section>
         <section class="col-md-4 text-md-right col-sm-12 text-sm-left ">
-
         </section>
         <section class="col-md-4 text-md-left col-sm-12 text-sm-left ">
             <h5>Requiere exclusividad</h5>
@@ -62,6 +61,78 @@
         @Html.DisplayFor(model => model.DescripcionMercaderia)
     </div>
     <hr />
+    @{
+        double Rep = Model.ReputacionOfertante();
+        if (Rep < 1)
+        {
+            <div style="font-weight:bold">
+                @(new HtmlString("Reputación: ★El Ofertante aún no ha generado reputación."))
+            </div>
+            <br />
+            @Html.Label("☆☆☆☆☆");
+        }
+        else if (Rep >= 1 && Rep < 2)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★☆☆☆☆");
+        }
+        else if (Rep >= 2 && Rep < 3)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★☆☆☆");
+        }
+        else if (Rep >= 3 && Rep < 4)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★☆☆");
+        }
+        else if (Rep >= 4 && Rep < 4.70)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★★☆");
+        }
+        else if (Rep > 4.70 && Rep < 5.50)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★★★");
+        }
+        else
+        {
+            @Html.Label("Error, por favor comunicarse para más información.");
+        }
+        <br />
+        @Html.Label("Últimos comentarios de contactos:", new { style = "font-weight:bold;" });
+        <hr />
+        List<String> U5CO = Model.Ultimos5ComentariosDeContactosOfertante();
+        if (U5CO != null && U5CO.Count() > 0)
+        {
+            foreach (var comentario in U5CO)
+            {
+                <div style="color: dimgray; font-style:italic">
+                    @(new HtmlString("\"" + comentario + "\""))
+                </div>
+                <hr />
+            }
+        }
+        else
+        {
+            <div style="color: dimgray; font-style:italic">
+                @(new HtmlString("Sin comentarios."))
+            </div>
+            <hr />
+        }
+
+    }
 </div>
 <div class="contacto">
     @Html.ActionLink("Ver contactos de Oferta", "ContactosList", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })

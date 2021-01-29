@@ -48,6 +48,29 @@ namespace FlipWeb.Models
             return Math.Round(Rep, 2);
         }
 
+        public List<String> Ultimos5ComentariosDeContactosOfertante()
+        {
+
+            int Last = ListaContactos.Count() - 1;
+            int i = 1;
+            List<String> Ultimos5Comentarios = new List<string>();
+            while (i < 5 && Last >= 0)
+            {
+                if (ListaContactos[Last].Comentario != null)
+                {
+                    Ultimos5Comentarios.Add(ListaContactos[Last].Comentario);
+                    i++;
+                    Last--;
+                }
+                else
+                {
+                    i++;
+                    Last--;
+                }
+            }
+            return Ultimos5Comentarios;
+        }
+
     }
 
     public class ManageLoginsViewModel

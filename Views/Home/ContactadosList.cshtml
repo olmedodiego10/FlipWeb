@@ -4,6 +4,7 @@
     ViewBag.Title = "Contactados";
 }
 <p class="text-danger" style="max-width:400px">@TempData["mensajeError"]</p>
+<p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <table class="table">
     <tr>
         <th>
@@ -54,15 +55,48 @@
                 }
                 else
                 {
-                <div style="width:300px">
-                    @Html.DisplayFor(modelItem => item.Comentario)
-                </div>
+                    <div style="width:300px">
+                        @Html.DisplayFor(modelItem => item.Comentario)
+                    </div>
                 }
             </td>
             <td>
                 @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada }) |
                 @Html.ActionLink("Ver Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada }) |
-                @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
+                @if (item.Calificacion == 0)
+                {
+                    @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
+
+                }
+                else if (item.Calificacion >= 1 && item.Calificacion < 2)
+                {
+                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+                    @Html.Label("★☆☆☆☆");
+                }
+                else if (item.Calificacion >= 2 && item.Calificacion < 3)
+                {
+                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+                    @Html.Label("★★☆☆☆");
+                }
+                else if (item.Calificacion >= 3 && item.Calificacion < 4)
+                {
+                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+                    @Html.Label("★★★☆☆");
+                }
+                else if (item.Calificacion >= 4 && item.Calificacion < 5)
+                {
+                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+                    @Html.Label("★★★★☆");
+                }
+                else if (item.Calificacion >= 5 && item.Calificacion < 6)
+                {
+                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+                    @Html.Label("★★★★★");
+                }
+                else
+                {
+                    @Html.Label("Error");
+                }
             </td>
         </tr>
     }
