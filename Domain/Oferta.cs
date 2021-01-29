@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlipWeb.Models;
 
 namespace FlipWeb.Domain
 {
@@ -47,10 +48,6 @@ namespace FlipWeb.Domain
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaOferta { get; set; }
         public DateTime FechaCreacion { get; set; }
-        [NotMapped]
-        public double ReputacionOfertante { get; set; }
-        [NotMapped]
-        public List<String> UltimosComentarios { get; set; }
         [Display(Name = "Imagen ilustrativa")]
         public byte[] Imagen1 { get; set; }
 
@@ -67,6 +64,46 @@ namespace FlipWeb.Domain
                 return true;
             else
                 return false;
+        }
+
+        public double ReputacionOfertante()
+        {
+            List<Oferta> Ofertas = new ApplicationDbContext().Ofertas.Include("ListaContactos").Where(o => o.OfertanteId == OfertanteId).ToList();
+            List<Contacto> Contactos = Ofertas.SelectMany(O => O.ListaContactos).ToList();
+
+            if (Contactos.Count == 0)
+            {
+                return 0.00;
+            }
+            else
+            {
+                return Math.Round(Contactos.Average(c => c.Calificacion), 2);
+            }
+        }
+
+        public List<String> Ultimos5ComentariosDeContactosOfertante()
+        {
+            //Obtengo todas las ofertas del ofertante porque las últimas 5 pueden no tener contactos calificados
+            List<Oferta> Ofertas = new ApplicationDbContext().Ofertas.Include("ListaContactos").Where(o => o.OfertanteId == OfertanteId).ToList();
+            List<Contacto> Contactos = Ofertas.SelectMany(O => O.ListaContactos).ToList();
+            int Last = Contactos.Count() - 1;
+            int i = 1;
+            List<String>  UltimosComentarios = new List<string>();
+            while (i < 5 && Last >= 0)
+            {
+                if (Contactos[Last].Comentario != null)
+                {
+                    UltimosComentarios.Add(Contactos[Last].Comentario);
+                    i++;
+                    Last--;
+                }
+                else
+                {
+                    i++;
+                    Last--;
+                }
+            }
+            return UltimosComentarios;
         }
 
     }

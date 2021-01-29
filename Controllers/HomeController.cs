@@ -60,6 +60,7 @@ namespace FlipWeb.Controllers
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
+        
         public ActionResult MenuAdmins()
         {
             var cargas = (from o in db.OfertasCarga
@@ -71,6 +72,7 @@ namespace FlipWeb.Controllers
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
+        
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
             if (!idOferta.HasValue)
@@ -95,9 +97,7 @@ namespace FlipWeb.Controllers
 
             return View(oferta);
         }
-
         
-
         public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId)
         {
             Oferta ofertaCarga = db.Ofertas.Find(OfertaId);
@@ -201,8 +201,6 @@ namespace FlipWeb.Controllers
 
             return View();
         }
-
-        
 
         public ActionResult About()
         {
@@ -453,39 +451,6 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("DetallesOfertaCargaPropia", new { id = ofertaCarga.OfertaId });
 
             }
-
-            //AGREGADO POR DIEGO
-            //Esto debería hacerse en la clase Oferta pero como la reputación y los últimos Contactos del ofertante varian
-            //y no se guardan en la bd para la Oferta, de momento no encontre mejor momento para hacerlo que en el controlador
-            List<Oferta> Ofertas = new ApplicationDbContext().Ofertas.Include("ListaContactos").Where(o => o.OfertanteId == ofertaCarga.OfertanteId).ToList();
-            List<Contacto> Contactos = Ofertas.SelectMany(O => O.ListaContactos).ToList();
-            if (Contactos.Count == 0)
-            {
-                ofertaCarga.ReputacionOfertante = 0.00;
-            }
-            else
-            {
-                ofertaCarga.ReputacionOfertante = Math.Round(Contactos.Average(c => c.Calificacion), 2);
-                int Last = Contactos.Count() - 1;
-                int i = 1;
-                ofertaCarga.UltimosComentarios = new List<string>();
-                while (i < 5 && Last >= 0)
-                {
-                    if (Contactos[Last].Comentario != null)
-                    {
-                        ofertaCarga.UltimosComentarios.Add(Contactos[Last].Comentario);
-                        i++;
-                        Last--;
-                    }
-                    else
-                    {
-                        i++;
-                        Last--;
-                    }
-                }
-
-            }
-            //FIN AGREGADO POR DIEGO
             return View(ofertaCarga);
         }
 
@@ -540,6 +505,40 @@ namespace FlipWeb.Controllers
                 return HttpNotFound();
             }
             return View(ofertaTransporte);
+        }
+
+        public ActionResult DetallesOfertaTransporteAdministrador(int? id)
+        {
+            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
+
+            if (ofertaTransporte == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ofertaTransporte);
+        }
+
+        //Unificar con DetallesOfertaGeneral - CUIDADO LAS LLAMADAS EN LAS VISTAS
+        public ActionResult VerOfertaAdministrador(int? idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            if (oferta is OfertaCarga)
+            {
+                return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = oferta.OfertaId });
+            }
+            if (oferta is OfertaTransporte)
+            {
+                return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = oferta.OfertaId });
+            }
+            return RedirectToAction("Menu", "Home");
+        }
+
+        public ActionResult DetallesOfertaGeneral(int idOferta)
+        {
+            if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
+                return RedirectToAction("DetailsOfertaCargaUser", "Home", new { id = idOferta });
+            else
+                return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
         }
 
         public ActionResult DenunciarOferta(int idOferta)
@@ -619,6 +618,7 @@ namespace FlipWeb.Controllers
         {
             return View(idOferta);
         }
+        
         public ActionResult DarDeBajaOfertaConfirmado(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -738,6 +738,7 @@ namespace FlipWeb.Controllers
             Session.Remove("idUsuario");
             return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
+        
         public ActionResult DesbloquearUsuario(string id)
         {
             if (id != null)
@@ -760,39 +761,6 @@ namespace FlipWeb.Controllers
             TempData["mensajeError"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
 
             return RedirectToAction("DetailsUsers", new { id = usuarioId });
-        }
-
-        public ActionResult VerOfertaAdministrador(int? idOferta)
-        {
-            Oferta oferta = db.Ofertas.Find(idOferta);
-            if (oferta is OfertaCarga)
-            {
-                return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = oferta.OfertaId });
-            }
-            if (oferta is OfertaTransporte)
-            {
-                return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = oferta.OfertaId });
-            }
-            return RedirectToAction("Menu", "Home");
-        }
-
-        public ActionResult DetallesOfertaTransporteAdministrador(int? id)
-        {
-            OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
-
-            if (ofertaTransporte == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ofertaTransporte);
-        }
-
-        public ActionResult DetallesOfertaGeneral(int idOferta)
-        {
-            if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
-                return RedirectToAction("DetailsOfertaCargaUser", "Home", new { id = idOferta });
-            else
-                return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
         }
 
         public ActionResult FinalizarOferta(int idOferta)
@@ -859,7 +827,7 @@ namespace FlipWeb.Controllers
             var userId = User.Identity.GetUserId();
             if (db.Contactos.Any(c => c.IdOfertaContactada == idOferta && c.IdContactante == userId))
             {
-                TempData["mensaje"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
+                TempData["mensajeError"] = "Este contacto ya fue realizado anteriormente por lo que el ofertante no será notificado";
                 return RedirectToAction("DatosOfertante", new { idOferta = idOferta });
             }
             //Duda: ESTO LO VE TODO EL MUNDO? R: Aparentemente se almacena en el servidor y no en el navegador.
@@ -895,7 +863,7 @@ namespace FlipWeb.Controllers
                 {
                     if (userAux.Premium == false)
                     {
-                        TempData["mensajeError"] = "Los usuarios gratuitos deben calificar y comentar el contacto previo para poder realizar uno nuevo.";
+                        TempData["mensajeError"] = "Los usuarios gratuitos deben calificar y comentar el contacto previo para poder realizar uno nuevo, en caso de no recordar su contacto previo, puede presionar en Volver y en el menu de Ofertas puede consultar la lista de Contactos ordenada por fecha en la opción Contactados.";
                         return RedirectToAction("CalificarContacto", "Home", new { idContacto = userAux.ListaContactados[Last].ContactoId });
                     }
                 }
@@ -970,14 +938,13 @@ namespace FlipWeb.Controllers
             db.Entry(contacto).State = EntityState.Modified;
             db.SaveChanges();
             TempData["mensajeOk"] = "Contacto calificado. Ya puede realizar un nuevo contacto en caso de que su cuenta sea gratuita.";
-            int idOfertaAux = (int)Session["idOferta"];
-            if (idOfertaAux == 0)
+            if (Session["idOferta"] == null)
             {
                 return RedirectToAction("ContactadosList", "Home");
             }
             else
             {
-                return RedirectToAction("DetallesOfertaGeneral", "Home", new { idOferta = idOfertaAux });
+                return RedirectToAction("DetallesOfertaGeneral", "Home", new { idOferta = (int)Session["idOferta"] });
             }
         }
 

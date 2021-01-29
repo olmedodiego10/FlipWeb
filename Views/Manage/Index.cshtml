@@ -75,35 +75,35 @@
             <br />
             @Html.Label("☆☆☆☆☆");
         }
-        else if (Rep > 1 && Rep < 2)
+        else if (Rep >= 1 && Rep < 2)
         {
             @Html.Label("Mi reputación: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★☆☆☆☆");
         }
-        else if (Rep > 2 && Rep < 3)
+        else if (Rep >= 2 && Rep < 3)
         {
             @Html.Label("Mi reputación: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★☆☆☆");
         }
-        else if (Rep > 3 && Rep < 4)
+        else if (Rep >= 3 && Rep < 4)
         {
             @Html.Label("Mi reputación: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★★☆☆");
         }
-        else if (Rep > 4 && Rep < 4.70)
+        else if (Rep >= 4 && Rep < 4.70)
         {
             @Html.Label("Mi reputación: ★", new { style = "font-weight:bold;" });
             @Rep
             <br />
             @Html.Label("★★★★☆");
         }
-        else if (Rep > 4.70 && Rep < 5.10)
+        else if (Rep > 4.70 && Rep < 5.50)
         {
             @Html.Label("Mi reputación: ★", new { style = "font-weight:bold;" });
             @Rep
@@ -117,42 +117,23 @@
         <br />
         @Html.Label("Últimos comentarios de contactos:", new { style = "font-weight:bold;" });
         <hr />
-        int Last = Model.ListaContactos.Count() - 1;
-        if (Last < 0)
+        List<String> U5CO = Model.Ultimos5ComentariosDeContactosOfertante();
+        if (U5CO != null && U5CO.Count() > 0)
         {
-            <div style="color: dimgray; font-style:italic">
-                @(new HtmlString("Aún no tienes contactos comentados."))
-            </div>
-            <hr />
+            foreach (var comentario in U5CO)
+            {
+                <div style="color: dimgray; font-style:italic">
+                    @(new HtmlString("\"" + comentario + "\""))
+                </div>
+                <hr />
+            }
         }
         else
         {
-            int i = 1;
-            while (i < 5)
-            {
-                if (Model.ListaContactos[Last] != null)
-                {
-                    if (Model.ListaContactos[Last].Comentario != null)
-                    {
-                        <div style="color: dimgray; font-style:italic">
-                            @(new HtmlString("\"" + Model.ListaContactos[Last].Comentario) + "\"")
-                        </div>
-                        <hr />
-                        i++;
-                        Last--;
-                    }
-                    else
-                    {
-                        i++;
-                        Last--;
-                    }
-                }
-                else
-                {
-                    @Html.Label("ERROR en Index de Contactos");
-                    i = 5;
-                }
-            }
+            <div style="color: dimgray; font-style:italic">
+                @(new HtmlString("Sin comentarios."))
+            </div>
+            <hr />
         }
     }
 </div>
