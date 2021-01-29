@@ -49,89 +49,88 @@ small {
 }
 
 
-#cardsMenu, a, a-hover {
+.containerCard a, a-hover {
     text-decoration: none;
     color: black;
 }
 
 
-.container2 {
+.containerCard {
     width: auto;
     max-width: 1200px;
-    height:auto;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 40px;
-   
 }
 
-   .container2 .card {
+    .containerCard .card {
         width: 250px;
         height: 415px;
-       border: 2px thin;
+        border: 2px thin;
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         margin: 10px;
         text-align: left;
         transition: all 0.25s;
-        background-color:transparent;
+        background-color: transparent;
     }
-        .container2 strong{
-             font-weight: 600;
-        }
-        .container2 .card:hover {
-            transform: translateY(-15px) translateX(-5px);
-            box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
-            color:black;
-        }
+    .containerCard strong {
+        font-weight: 600;
+    }
+    .containerCard .card:hover {
+        transform: translateY(-15px) translateX(-5px);
+        box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+        color: black;
+    }
 
-    .container2 .card img {
+    .containerCard .card img {
         background-position: center;
         background-size: cover;
         width: auto;
         height: 220px;
     }
 
-    .container2 .card .encabezado {
-        align-content:initial;
+    .containerCard .card .encabezado {
+        align-content: initial;
         width: auto;
         height: 150px;
-        
     }
 
-        .container2 .card h5 {
-            font-weight: 600;
-            font-size: 18px;
-            text-align:center;
-        }
+    .containerCard .card h5 {
+        font-weight: 600;
+        font-size: 18px;
+        text-align: center;
+    }
 
-        .container2 .card p {
-            text-align:center;
-            font-size: 15px;
-            font-weight: 300;
-        }
-        .container .card-footer {
-         height: 40px;
-         
-}
+    .containerCard .card p {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 300;
+    }
+    .containerCard .card-footer {
+        height: 40px;
+    }
 
-    .container2 .card a {
+    .containerCard .card a {
         text-decoration: none;
         color: black;
         width: 250px;
         height: 120px;
     }
-    .container2 .card a:hover {
-        color: black;
-    }
-    .container2 .card-footer p{
-        text-align-last:end;
-        font-size:11px;
+    
+    .containerCard .card a:hover {
+            color: black;
+        }
+
+    .containerCard .card-footer p {
+        text-align-last: end;
+        font-size: 11px;
     }
 
 @media screen and (max-width: 800px) {
-    .container2 .card {
+    .containerCard .card {
         width: 450px;
         height: 515px;
         border: 2px thin;
@@ -141,9 +140,8 @@ small {
         text-align: left;
         transition: all 0.25s;
         background-color: transparent;
-
     }
-        .container2 .card img {
+        .containerCard .card img {
             background-position: center;
             background-size: cover;
             width: auto;

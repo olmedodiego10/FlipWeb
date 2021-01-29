@@ -143,7 +143,7 @@
     @if (Model.ListadoOfertasCarga != null)
     {
         <h3>Ofertas de Carga</h3>
-        <div class="container2">
+        <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasCarga)
             {
 
@@ -179,7 +179,7 @@
     @if (Model.ListadoOfertasTransporte != null)
     {
         <h3>Ofertas de Transporte</h3>
-        <div class="container2">
+        <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
                 <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId })">
