@@ -465,6 +465,8 @@
     <Content Include="Views\Home\CerrarReporte.cshtml" />
     <Content Include="Views\Home\BuscarReporte.cshtml" />
     <Content Include="Views\Home\DesbloquearUsuario.cshtml" />
+    <Content Include="Views\Home\OfertasActivas.cshtml" />
+    <Content Include="Views\Home\HistorialOfertante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Models.MenuUsuariosViewModel
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "ListadoOfertas";
+    ViewBag.Title = "Listado Ofertas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
@@ -66,7 +66,7 @@
 
     }
     <h2>Menu</h2>
-
+    <hr />
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
     <p class="text-danger" style="max-width:500px">@TempData["errorFiltros"]</p>
     <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
@@ -143,6 +143,7 @@
     @if (Model.ListadoOfertasCarga != null)
     {
         <h3>Ofertas de Carga</h3>
+        <hr />
         <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasCarga)
             {
@@ -175,10 +176,11 @@
         </div>
     }
 
-
+    <hr />
     @if (Model.ListadoOfertasTransporte != null)
     {
         <h3>Ofertas de Transporte</h3>
+        <hr />
         <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
@@ -204,12 +206,13 @@
             }
         </div>
     }
+    <hr />
     <div class="row">
         @Html.ActionLink("Crear Oferta de Carga", "CreateOfertaCarga", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Crear Oferta de Transporte", "CreateOfertaTransporte", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Mis Ofertas activas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Mis Ofertas activas", "OfertasActivas", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Contactados", "ContactadosList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Historial de Ofertas creadas*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Historial de Ofertas creadas", "HistorialOfertante", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Administradores", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
 
     </div>

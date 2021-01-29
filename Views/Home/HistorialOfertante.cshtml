@@ -1,0 +1,92 @@
+﻿@model FlipWeb.Models.MenuUsuariosViewModel
+@Styles.Render("~/Content/FlipStyleSheet.css")
+
+@{
+    ViewBag.Title = "Historial de Ofertas creadas";
+}
+
+<div class="">
+    <h1>Historial de Ofertas creadas</h1>
+    <hr />
+    <h3>Ofertas de Carga</h3>
+    <hr />
+    @if (Model.ListadoOfertasCarga.Count == 0)
+    {
+        <div style="color: dimgray; font-style:italic">
+            <h4>
+                @(new HtmlString("Aún no se han creado ofertas de carga."))
+            </h4>
+        </div>
+    }
+    else if (Model.ListadoOfertasCarga != null)
+    {
+        <div class="containerCard">
+            @foreach (var item in Model.ListadoOfertasCarga)
+            {
+                <a class="text-decoration-none " href="@Url.Action("DetallesOfertaCargaPropia", "Home", new { id = item.OfertaId })">
+                    <div class="card">
+                        <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+
+                        <div class="encabezado">
+                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+                            @if (item.RequiereExclusividad == true)
+                            {
+                                <p><strong>Requiere exclusividad:</strong> Si</p>
+                            }
+                            else
+                            {
+                                <p><strong>Requiere exclusividad:</strong> No</p>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    <hr />
+    <h3>Ofertas de Transporte</h3>
+    <hr />
+    @if (Model.ListadoOfertasTransporte.Count == 0)
+    {
+        <div style="color: dimgray; font-style:italic">
+            <h4>
+                @(new HtmlString("Aún no se han creado ofertas de transporte."))
+            </h4>
+        </div>
+    }
+    else if (Model.ListadoOfertasTransporte != null)
+    {
+        <div class="containerCard">
+            @foreach (var item in Model.ListadoOfertasTransporte)
+            {
+                <a class="text-decoration-none " href="@Url.Action("DetallesOfertaTransportePropia", "Home", new { id = item.OfertaId })">
+                    <div class="card">
+                        <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                        <div class="encabezado">
+                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+
+                            <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                        </div>
+
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+<hr />

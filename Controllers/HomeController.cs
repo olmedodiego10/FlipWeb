@@ -72,7 +72,47 @@ namespace FlipWeb.Controllers
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
-        
+
+        public ActionResult HistorialOfertante()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string UserId = User.Identity.GetUserId().ToString();
+                var cargas = (from o in db.OfertasCarga
+                              where (o.OfertanteId == UserId)
+                              select o).ToList();
+                var transporte = (from o in db.OfertasTransporte
+                                  where (o.OfertanteId == UserId)
+                                  select o).ToList();
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
+                return View(vista);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public ActionResult OfertasActivas()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string UserId = User.Identity.GetUserId().ToString();
+                var cargas = (from o in db.OfertasCarga
+                              where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
+                              select o).ToList();
+                var transporte = (from o in db.OfertasTransporte
+                                  where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
+                                  select o).ToList();
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
+                return View(vista);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
             if (!idOferta.HasValue)
@@ -948,7 +988,7 @@ namespace FlipWeb.Controllers
             }
         }
 
-        //Nota: el nombre de la vista y de este método quedaron ma, puede ser usado con cualquier usuario (ej. ver DatosContactante(int idContactante))
+        //Nota: el nombre de la vista y de este método quedaron mal, puede ser usado con cualquier usuario (ej. ver DatosContactante(int idContactante))
         //se cargó una tarea de rename al backlog de tareas pendientes, NO intentar hacerlo rápido porque hay lugares que no cambia automático.
         public ActionResult DatosOfertante(int idOferta)
         {
