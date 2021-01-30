@@ -1,0 +1,65 @@
+﻿@model List<FlipWeb.Domain.OfertaTransporte>
+@Styles.Render("~/Content/FlipStyleSheet.css")
+
+@{
+    ViewBag.Title = "Ofertas de transporte recientes";
+}
+
+<div class="">
+    <h1>Ofertas de transporte recientes</h1>
+    <hr />
+    @if (Model != null)
+    {
+        <div class="containerCard">
+            @foreach (var item in Model)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId })">
+                        <div class="card">
+                            <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                            <div class="encabezado">
+                                <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                                <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+
+                                <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
+                            </div>
+
+                            <div class="card-footer">
+                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            </div>
+
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a class="text-decoration-none " href="@Url.Action("Login", "Account")">
+                        <div class="card">
+                            <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                            <div class="encabezado">
+                                <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+
+                                <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+
+                                <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
+                            </div>
+
+                            <div class="card-footer">
+                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            </div>
+
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+    }
+    <hr />
+
+</div>

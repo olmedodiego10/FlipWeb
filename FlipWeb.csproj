@@ -467,6 +467,8 @@
     <Content Include="Views\Home\DesbloquearUsuario.cshtml" />
     <Content Include="Views\Home\OfertasActivas.cshtml" />
     <Content Include="Views\Home\HistorialOfertante.cshtml" />
+    <Content Include="Views\Home\ListarOfertasCarga.cshtml" />
+    <Content Include="Views\Home\ListarOfertasTransporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

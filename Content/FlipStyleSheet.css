@@ -129,6 +129,14 @@ small {
         font-size: 11px;
     }
 
+.card-footer {
+    background-color: green;
+}
+
+.card-footerText {
+    color: white;
+}
+
 @media screen and (max-width: 800px) {
     .containerCard .card {
         width: 450px;
@@ -149,7 +157,7 @@ small {
         }
     }
 #barraMenu {
-    background-color: #343a40;
+    background-color: #2ea94f;
 }
 
 #cardBusquedaRapida {

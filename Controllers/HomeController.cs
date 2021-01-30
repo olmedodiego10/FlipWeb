@@ -41,22 +41,38 @@ namespace FlipWeb.Controllers
             }
             var cargas = (from o in db.OfertasCarga
                           where (o.Estado == "En progreso")
-                          select o).ToList();
+                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso")
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
+        }
+
+        public ActionResult ListarOfertasCarga()
+        {
+            var cargas = (from o in db.OfertasCarga
+                          where (o.Estado == "En progreso")
+                          select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+            return View(cargas);
+        }
+
+        public ActionResult ListarOfertasTransporte()
+        {
+            var transporte = (from o in db.OfertasTransporte
+                              where (o.Estado == "En progreso")
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+            return View(transporte);
         }
 
         public ActionResult MenuUsuarios()
         {
             var cargas = (from o in db.OfertasCarga
                           where (o.Estado == "En progreso")
-                          select o).ToList();
+                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso")
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
@@ -65,10 +81,10 @@ namespace FlipWeb.Controllers
         {
             var cargas = (from o in db.OfertasCarga
                           where (o.Estado == "En progreso")
-                          select o).ToList();
+                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso")
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
@@ -80,10 +96,10 @@ namespace FlipWeb.Controllers
                 string UserId = User.Identity.GetUserId().ToString();
                 var cargas = (from o in db.OfertasCarga
                               where (o.OfertanteId == UserId)
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 var transporte = (from o in db.OfertasTransporte
                                   where (o.OfertanteId == UserId)
-                                  select o).ToList();
+                                  select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
                 return View(vista);
             }
@@ -100,10 +116,10 @@ namespace FlipWeb.Controllers
                 string UserId = User.Identity.GetUserId().ToString();
                 var cargas = (from o in db.OfertasCarga
                               where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 var transporte = (from o in db.OfertasTransporte
                                   where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
-                                  select o).ToList();
+                                  select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
                 return View(vista);
             }
@@ -163,7 +179,7 @@ namespace FlipWeb.Controllers
                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
                             ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
                             ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
-                            select o).ToList();
+                            select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
 
                 var transp = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso") &&
@@ -173,7 +189,7 @@ namespace FlipWeb.Controllers
                               ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
                               ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
                               ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
-                              select o).ToList();
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
 
                 if (transp.Count() == 0 && carg.Count == 0)
                 {
@@ -205,7 +221,7 @@ namespace FlipWeb.Controllers
                             ((PaisPartida == "") || (o.PaisPartida.ToUpper() == PaisPartida.ToUpper())) &&
                             ((CiudadDestino == "") || (o.CiudadDestino.ToUpper() == CiudadDestino.ToUpper())) &&
                             ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper()))
-                            select o).ToList();
+                            select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 if (carg.Count() == 0)
                 {
                     TempData["errorFiltros"] = "No existe oferta de carga que coincida con los parametros ingresados";
@@ -229,7 +245,7 @@ namespace FlipWeb.Controllers
                                   ((PaisDestino == "") || (o.PaisDestino.ToUpper() == PaisDestino.ToUpper())) &&
                                   ((TipoCamion == "") || (o.TipoCamion.ToUpper() == TipoCamion.ToUpper())) &&
                                   ((TipoCaja == "") || (o.TipoCaja.ToUpper() == TipoCaja.ToUpper()))
-                                  select o).ToList();
+                                  select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 if (transporte.Count() == 0)
                 {
                     TempData["errorFiltros"] = "No existe oferta de transporte que coincida con los parametros ingresados";

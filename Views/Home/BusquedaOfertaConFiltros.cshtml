@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Models.MenuUsuariosViewModel
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "ListadoOfertas";
+    ViewBag.Title = "Búsqueda Avanzada";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
@@ -99,7 +99,7 @@
                     @Html.DropDownListFor(model => model.TipoOferta, tiposDeOferta, htmlAttributes: new { @class = "form-control" })
                 </div>
                 <div class="mr-2 text-center">
-                    <h5>Origen</h5>
+                    <h5>Partida</h5>
                     <hr />
                     @Html.LabelFor(model => model.PaisPartida, htmlAttributes: new { @class = "control-label " })
                     @Html.DropDownListFor(model => model.PaisPartida, listItems, htmlAttributes: new { @class = "form-control" })
@@ -124,7 +124,7 @@
 
                 </div>
                 <div>
-                    <h5>Camion</h5>
+                    <h5>Camión</h5>
                     <hr />
                     @Html.LabelFor(model => model.TipoCamion, htmlAttributes: new { @class = "control-label" })
                     @Html.EditorFor(model => model.TipoCamion, new { htmlAttributes = new { @class = "form-control" } })
@@ -167,7 +167,7 @@
                                 }
                             </div>
                             <div class="card-footer">
-                                <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
                             </div>
                         </div>
                     </a>
@@ -196,7 +196,7 @@
                             </div>
 
                             <div class="card-footer">
-                                <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
                             </div>
 
                         </div>
@@ -204,3 +204,4 @@
                 }
             </div>
         }
+</div>

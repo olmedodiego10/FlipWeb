@@ -6,7 +6,6 @@
 }
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
 
-
 <div>
     @{
         List<SelectListItem> tiposDeOferta = new List<SelectListItem>();
@@ -142,7 +141,7 @@
 
     @if (Model.ListadoOfertasCarga != null)
     {
-        <h3>Ofertas de Carga</h3>
+        <h3>Ofertas de Carga ( @Html.ActionLink("Ver más", "ListarOfertasCarga") )</h3>
         <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasCarga)
             {
@@ -167,7 +166,7 @@
                             }
                         </div>
                         <div class="card-footer">
-                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
                     </div>
                 </a>
@@ -177,7 +176,7 @@
 
     @if (Model.ListadoOfertasTransporte != null)
     {
-        <h3>Ofertas de Transporte</h3>
+        <h3>Ofertas de Transporte ( @Html.ActionLink("Ver más", "ListarOfertasTransporte") )</h3>
         <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
@@ -195,7 +194,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
 
                     </div>
@@ -203,8 +202,9 @@
             }
         </div>
     }
-    @Html.ActionLink("Gestionar usuarios", "UsersList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    @Html.ActionLink("Ofertas de Carga*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    @Html.ActionLink("Ofertas de Transporte*", "Action", "Controller", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    @Html.ActionLink("Ver Ofertas reportadas", "ReportadosLista", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    @Html.ActionLink("Volver a Menu de Clientes", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+    <div class="row">
+        @Html.ActionLink("Gestionar usuarios", "UsersList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Ver Ofertas reportadas", "ReportadosLista", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @Html.ActionLink("Ver Menu de Clientes", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    </div>
+</div>
