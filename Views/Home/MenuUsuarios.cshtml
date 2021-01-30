@@ -76,7 +76,7 @@
             <h5>Busqueda oferta</h5>
             @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
             {
-                @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el Código de oferta...", @class = "form-control" })
                 <button type="submit" class="btn btn-success">Búsqueda rapida</button>
             }
         </section>
