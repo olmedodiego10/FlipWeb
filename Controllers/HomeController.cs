@@ -114,11 +114,12 @@ namespace FlipWeb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string UserId = User.Identity.GetUserId().ToString();
+                var today = DateTime.Now.Date;
                 var cargas = (from o in db.OfertasCarga
-                              where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
+                              where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= today)
                               select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 var transporte = (from o in db.OfertasTransporte
-                                  where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
+                                  where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= today)
                                   select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
                 return View(vista);
