@@ -65,8 +65,6 @@
         });
 
     }
-    <h2>Menu</h2>
-
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
     <p class="text-danger" style="max-width:500px">@TempData["errorFiltros"]</p>
 
@@ -75,7 +73,7 @@
             <h5>Busqueda oferta</h5>
             @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
             {
-                @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el Código de oferta...", @class = "form-control" })
                 <button type="submit" class="btn btn-success">Busqueda rapida</button>
             }
         </section>
