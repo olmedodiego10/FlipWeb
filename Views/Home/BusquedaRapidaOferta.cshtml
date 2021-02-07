@@ -14,28 +14,59 @@
         <button type="submit" class="btn btn-success">Busqueda rapida</button>
     }
 </div>
+@if (User.IsInRole("Cliente"))
+{
+    <h3>Oferta de Transporte</h3>
 
-<h3>Oferta de Transporte</h3>
-<div class="containerCard">
-    <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = Model.OfertaId })">
-        <div class="card" id="cardBusquedaRapida">
-            <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = Model.OfertaId })" />
-            <div class="encabezado">
-                <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+    <div class="containerCard">
+        <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = Model.OfertaId })">
+            <div class="card" id="cardBusquedaRapida">
+                <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = Model.OfertaId })" />
+                <div class="encabezado">
+                    <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
 
-                <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
+                    <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
 
-                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+                    <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
 
-                <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => Model.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => Model.TipoCaja) </p>
+                    <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => Model.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => Model.TipoCaja) </p>
+                </div>
+
+                <div class="card-footer">
+                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                </div>
+
             </div>
+        </a>
 
-            <div class="card-footer">
-                <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+    </div>
+
+}
+@if (User.IsInRole("Administrador"))
+{
+    <h3>Oferta de Transporte</h3>
+
+    <div class="containerCard">
+        <a class="text-decoration-none " href="@Url.Action("DetallesOfertaTransporteAdministrador", "Home", new { id = Model.OfertaId })">
+            <div class="card" id="cardBusquedaRapida">
+                <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = Model.OfertaId })" />
+                <div class="encabezado">
+                    <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+
+                    <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
+
+                    <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+
+                    <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => Model.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => Model.TipoCaja) </p>
+                </div>
+
+                <div class="card-footer">
+                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                </div>
+
             </div>
+        </a>
 
-        </div>
-    </a>
+    </div>
 
-</div>
-
+}

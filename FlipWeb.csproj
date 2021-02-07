@@ -453,6 +453,8 @@
     <Content Include="Views\Home\HistorialOfertante.cshtml" />
     <Content Include="Views\Home\ListarOfertasCarga.cshtml" />
     <Content Include="Views\Home\ListarOfertasTransporte.cshtml" />
+    <Content Include="Views\Home\ReActivarOferta.cshtml" />
+    <Content Include="Views\Home\HistorialAdministrador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -146,7 +146,7 @@
             @foreach (var item in Model.ListadoOfertasCarga)
             {
 
-                <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = item.OfertaId })">
+                <a class="text-decoration-none" href="@Url.Action("DetallesOfertaCargaAdministrador", "Home", new { id = item.OfertaId })">
                     <div class="card">
                         <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
 
@@ -180,7 +180,7 @@
         <div class="containerCard">
             @foreach (var item in Model.ListadoOfertasTransporte)
             {
-                <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId })">
+                <a class="text-decoration-none " href="@Url.Action("DetallesOfertaTransporteAdministrador", "Home", new { id = item.OfertaId })">
                     <div class="card">
                         <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
                         <div class="encabezado">
@@ -202,9 +202,11 @@
             }
         </div>
     }
-    <div class="row">
-        @Html.ActionLink("Gestionar usuarios", "UsersList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Ver Ofertas reportadas", "ReportadosLista", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Ver Menu de Clientes", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    </div>
+<div class="row">
+    @Html.ActionLink("Gestionar usuarios", "UsersList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-3 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Ver Ofertas reportadas", "ReportadosLista", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-3 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Historial de ofertas", "HistorialAdministrador", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-3 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Ver Menu de Clientes", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-3 col-sm-12 col-xs-12", @role = "button" })
+
+</div>
 </div>

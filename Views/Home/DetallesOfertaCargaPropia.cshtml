@@ -136,7 +136,7 @@
 </div>
 <div class="contacto">
     @Html.ActionLink("Ver contactos de Oferta", "ContactosList", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @if (Model.OfertaFinalizada())
+    @if (Model.OfertaFinalizada() || Model.FechaOferta.Date < DateTime.Now.Date)
     {<h3>Oferta FINALIZADA</h3>}
     else
     {

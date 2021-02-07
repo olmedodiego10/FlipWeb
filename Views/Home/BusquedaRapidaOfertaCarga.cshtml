@@ -15,34 +15,67 @@
         <button type="submit" class="btn btn-success">Busqueda rapida</button>
     }
 </div>
+@if (User.IsInRole("Cliente"))
+{
+    <h3>Oferta de Carga</h3>
+    <div class="containerCard">
 
-<h3>Oferta de Carga</h3>
-<div class="containerCard">
+        <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = Model.OfertaId })">
+            <div class="card" id="cardBusquedaRapida">
+                <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = Model.OfertaId })" />
 
-    <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = Model.OfertaId })">
-        <div class="card" id="cardBusquedaRapida">
-            <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = Model.OfertaId })" />
+                <div class="encabezado">
+                    <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
 
-            <div class="encabezado">
-                <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+                    <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
 
-                <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
-
-                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
-                @if (Model.RequiereExclusividad == true)
-                {
-                    <p><strong>Requiere exclusividad:</strong> Si</p>
-                }
-                else
-                {
-                    <p><strong>Requiere exclusividad:</strong> No</p>
-                }
+                    <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+                    @if (Model.RequiereExclusividad == true)
+                    {
+                        <p><strong>Requiere exclusividad:</strong> Si</p>
+                    }
+                    else
+                    {
+                        <p><strong>Requiere exclusividad:</strong> No</p>
+                    }
+                </div>
+                <div class="card-footer">
+                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                </div>
             </div>
-            <div class="card-footer">
-                <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
-            </div>
-        </div>
-    </a>
-    
-</div>
+        </a>
 
+    </div>
+}
+@if (User.IsInRole("Administrador"))
+{
+    <h3>Oferta de Carga</h3>
+    <div class="containerCard">
+
+        <a class="text-decoration-none" href="@Url.Action("DetallesOfertaCargaAdministrador", "Home", new { id = Model.OfertaId })">
+            <div class="card" id="cardBusquedaRapida">
+                <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = Model.OfertaId })" />
+
+                <div class="encabezado">
+                    <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+
+                    <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
+
+                    <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+                    @if (Model.RequiereExclusividad == true)
+                    {
+                        <p><strong>Requiere exclusividad:</strong> Si</p>
+                    }
+                    else
+                    {
+                        <p><strong>Requiere exclusividad:</strong> No</p>
+                    }
+                </div>
+                <div class="card-footer">
+                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+}

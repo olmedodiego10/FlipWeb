@@ -21,6 +21,8 @@ namespace FlipWeb.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
 
+        DateTime fechaActual = DateTime.Now;
+
         public ApplicationUserManager UserManager
         {
             get
@@ -35,15 +37,16 @@ namespace FlipWeb.Controllers
 
         public ActionResult Index()
         {
+           
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("MenuUsuarios", "Home");
             }
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso")
+                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                           select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             var transporte = (from o in db.OfertasTransporte
-                              where (o.Estado == "En progreso")
+                              where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
@@ -52,7 +55,7 @@ namespace FlipWeb.Controllers
         public ActionResult ListarOfertasCarga()
         {
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso")
+                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                           select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
             return View(cargas);
         }
@@ -60,7 +63,7 @@ namespace FlipWeb.Controllers
         public ActionResult ListarOfertasTransporte()
         {
             var transporte = (from o in db.OfertasTransporte
-                              where (o.Estado == "En progreso")
+                              where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
             return View(transporte);
         }
@@ -68,10 +71,10 @@ namespace FlipWeb.Controllers
         public ActionResult MenuUsuarios()
         {
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso")
+                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                           select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             var transporte = (from o in db.OfertasTransporte
-                              where (o.Estado == "En progreso")
+                              where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
@@ -80,10 +83,10 @@ namespace FlipWeb.Controllers
         public ActionResult MenuAdmins()
         {
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso")
+                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                           select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             var transporte = (from o in db.OfertasTransporte
-                              where (o.Estado == "En progreso")
+                              where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
@@ -109,16 +112,27 @@ namespace FlipWeb.Controllers
             }
         }
 
+        public ActionResult HistorialAdministrador()
+        {
+            var cargas = (from o in db.OfertasCarga
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+                var transporte = (from o in db.OfertasTransporte
+                                  select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+                MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
+                return View(vista);
+        }
+
         public ActionResult OfertasActivas()
         {
+           
             if (User.Identity.IsAuthenticated)
             {
                 string UserId = User.Identity.GetUserId().ToString();
                 var cargas = (from o in db.OfertasCarga
-                              where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
-                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+                              where (o.OfertanteId == UserId && o.Estado == "En progreso" &&  DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); 
                 var transporte = (from o in db.OfertasTransporte
-                                  where (o.OfertanteId == UserId && o.Estado == "En progreso" && o.FechaOferta >= DateTime.Now)
+                                  where (o.OfertanteId == UserId && o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                                   select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
                 MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
                 return View(vista);
@@ -131,32 +145,59 @@ namespace FlipWeb.Controllers
 
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
-            if (!idOferta.HasValue)
-            {
-                TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
-                return RedirectToAction("MenuUsuarios", "Home");
-            }
-            Oferta oferta = db.Ofertas.Find(idOferta);
-            if (oferta == null || oferta.Estado != "En progreso")
-            {
-                TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o la oferta no se encuentra activa.";
-                return RedirectToAction("MenuUsuarios", "Home");
-            } // si la oferta es de carga redirecciona al action que muestra la oferta de carga
-            if (oferta is OfertaCarga)
-            {
-                return RedirectToAction("BusquedaRapidaOfertaCarga", "Home", new { OfertaId = oferta.OfertaId });
-            }//si la oferta es de transporte muestra la vista con la oferta de transporte
-            if (oferta is OfertaTransporte)
-            {
-                return View(oferta);
-            }
+            
+            var userId = User.Identity.GetUserId();
+            var usuario = db.Users.Find(userId);
 
+            if (!idOferta.HasValue)
+                {
+                  if (User.IsInRole("Cliente"))
+                      {
+                    TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                      }
+                  if (User.IsInRole("Administrador"))
+                     {
+                    TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
+                    return RedirectToAction("HistorialAdministrador", "Home");
+                     }
+                }
+
+            Oferta oferta = db.Ofertas.Find(idOferta);
+
+            if (User.IsInRole("Cliente"))
+            {
+                if (oferta == null || oferta.Estado != "En progreso" || oferta.FechaOferta.Date < fechaActual.Date)
+                {
+                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o la oferta ya no se encuentra activa.";
+                    return RedirectToAction("MenuUsuarios", "Home");
+                }
+            }
+            if (User.IsInRole("Administrador"))
+            {
+                if (oferta == null)
+                {
+                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta.";
+                    return RedirectToAction("HistorialAdministrador", "Home");
+                }
+            }
+            // si la oferta es de carga redirecciona al action que muestra la oferta de carga
+            if (oferta is OfertaCarga)
+                {
+                    return RedirectToAction("BusquedaRapidaOfertaCarga", "Home", new { OfertaId = oferta.OfertaId });
+                }//si la oferta es de transporte muestra la vista con la oferta de transporte
+                if (oferta is OfertaTransporte)
+                {
+                    return View(oferta);
+                }
+            
             return View(oferta);
         }
         
         public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId)
         {
-            Oferta ofertaCarga = db.Ofertas.Find(OfertaId);
+            OfertaCarga ofertaCarga = db.OfertasCarga.Find(OfertaId);
+
             if (ofertaCarga != null)
             {
 
@@ -173,6 +214,7 @@ namespace FlipWeb.Controllers
             {
                 var carg = (from o in db.OfertasCarga
                             where (o.Estado == "En progreso") &&
+                            DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual) &&
                             ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
@@ -183,6 +225,7 @@ namespace FlipWeb.Controllers
 
                 var transp = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso") &&
+                               DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual) &&
                               ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                               ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                               ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
@@ -215,6 +258,7 @@ namespace FlipWeb.Controllers
             {
                 var carg = (from o in db.OfertasCarga
                             where (o.Estado == "En progreso") &&
+                            DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual) &&
                             ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                             ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                             ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
@@ -237,6 +281,7 @@ namespace FlipWeb.Controllers
 
                 var transporte = (from o in db.OfertasTransporte
                                   where (o.Estado == "En progreso") &&
+                                  DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual) &&
                                   ((CiudadPartida == "") || (o.CiudadPartida.ToUpper() == CiudadPartida.ToUpper())) &&
                                   ((FechaDesde == null) || (o.FechaOferta >= FechaDesde)) &&
                                   ((FechaHasta == null) || (o.FechaOferta <= FechaHasta)) &&
@@ -674,7 +719,7 @@ namespace FlipWeb.Controllers
         {
             return View(idOferta);
         }
-        
+      
         public ActionResult DarDeBajaOfertaConfirmado(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -691,6 +736,47 @@ namespace FlipWeb.Controllers
             }
 
             return RedirectToAction("ReportadosLista", "Home");
+        }
+        public ActionResult ReActivarOferta(int idOferta)
+        {
+            return View(idOferta);
+        }
+        public ActionResult ReActivarOfertaConfirmado(int idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+            if (oferta.FechaOferta.Date >= fechaActual.Date)
+            {
+                oferta.Estado = "En progreso";
+                db.Entry(oferta).State = EntityState.Modified;
+                db.SaveChanges();
+                if (oferta is OfertaCarga)
+                {
+                    TempData["mensajeOk"] = "Oferta activada";
+                    return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = idOferta });
+                }
+                if (oferta is OfertaTransporte)
+                {
+                    TempData["mensajeOk"] = "Oferta activada";
+                    return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = idOferta });
+                }
+            }
+            else
+            {
+                oferta.Estado = "Finalizada";
+                db.Entry(oferta).State = EntityState.Modified;
+                db.SaveChanges();
+                if (oferta is OfertaCarga)
+                {
+                    TempData["mensajeOk"] = "La oferta ha caducado.";
+                    return RedirectToAction("DetallesOfertaCargaAdministrador", new { id = idOferta });
+                }
+                if (oferta is OfertaTransporte)
+                {
+                    TempData["mensajeOk"] = "La oferta ha caducado.";
+                    return RedirectToAction("DetallesOfertaTransporteAdministrador", new { id = idOferta });
+                }
+            }
+            return RedirectToAction("MenuAdmins", "Home");
         }
 
         public ActionResult ReportadosLista()

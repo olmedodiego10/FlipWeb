@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "DetailsOfertaTransporteUser";
 }
+<p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
+<p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 @if (Model.ofertaReportada())
 {<h3>Oferta DADA DE BAJA</h3>}
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
@@ -150,15 +152,27 @@
     }
 
 }
+<div class="contacto">
+    @if (Model.ofertaReportada())
+    {<h3>Oferta DADA DE BAJA</h3>
+        if (Model.FechaOferta.Date >= DateTime.Now.Date)
+        {
+            @Html.ActionLink("Re-activar oferta", "ReActivarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        }
+    }
+    else
+    {
+        if (Model.FechaOferta.Date < DateTime.Now.Date)
+        {
+            <h3>Oferta FINALIZADA</h3>
+        }
+        else
+        {
+            @Html.ActionLink("Dar de baja", "DarDeBajaOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
 
-@if (Model.ofertaReportada())
-{<h3>Oferta DADA DE BAJA</h3>
-    @Html.ActionLink("Re-activar", "", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
-}
-else
-{
-    <div class="contacto">
-        @Html.ActionLink("Dar de baja", "DarDeBajaOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        }
 
-    </div>
-}
+    }
+    @Html.ActionLink("Ver ofertante", "DetailsUsers", "Home", routeValues: new { id = Model.OfertanteId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+
+</div>
