@@ -35,6 +35,7 @@ namespace FlipWeb.Controllers
             }
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
            
@@ -52,6 +53,23 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
 
+        [AllowAnonymous]
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        [Authorize]
         public ActionResult ListarOfertasCarga()
         {
             var cargas = (from o in db.OfertasCarga
@@ -60,6 +78,7 @@ namespace FlipWeb.Controllers
             return View(cargas);
         }
 
+        [Authorize]
         public ActionResult ListarOfertasTransporte()
         {
             var transporte = (from o in db.OfertasTransporte
@@ -68,6 +87,7 @@ namespace FlipWeb.Controllers
             return View(transporte);
         }
 
+        [Authorize]
         public ActionResult MenuUsuarios()
         {
             var cargas = (from o in db.OfertasCarga
@@ -80,6 +100,7 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
         
+        [Authorize(Roles = "Administrador")]
         public ActionResult MenuAdmins()
         {
             var cargas = (from o in db.OfertasCarga
@@ -92,6 +113,7 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
 
+        [Authorize]
         public ActionResult HistorialOfertante()
         {
             if (User.Identity.IsAuthenticated)
@@ -143,6 +165,7 @@ namespace FlipWeb.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
             
@@ -193,7 +216,8 @@ namespace FlipWeb.Controllers
             
             return View(oferta);
         }
-        
+
+        [Authorize]
         public ActionResult BusquedaRapidaOfertaCarga(int? OfertaId)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Find(OfertaId);
@@ -207,6 +231,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuUsuarios", "Home");
         }
 
+        [Authorize]
         public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
 
@@ -303,21 +328,9 @@ namespace FlipWeb.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
         // GET
+        [Authorize]
         public ActionResult CreateOfertaCarga()
         {
             return View();
@@ -328,6 +341,7 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult CreateOfertaCarga([Bind(Include = "OfertaId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad,Imagen1")] OfertaCarga ofertaCarga)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
@@ -371,6 +385,7 @@ namespace FlipWeb.Controllers
         }
 
         // GET
+        [Authorize]
         public ActionResult EditOfertaCarga(int idOferta)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Find(idOferta);
@@ -383,6 +398,7 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult EditOfertaCarga([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,DescripcionMercaderia,RequiereExclusividad,Imagen1")] OfertaCarga ofertaCarga)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
@@ -428,6 +444,7 @@ namespace FlipWeb.Controllers
         }
 
         // GET
+        [Authorize]
         public ActionResult CreateOfertaTransporte()
         {
             return View();
@@ -438,6 +455,7 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult CreateOfertaTransporte([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
@@ -480,6 +498,7 @@ namespace FlipWeb.Controllers
         }
 
         // GET
+        [Authorize]
         public ActionResult EditOfertaTransporte(int idOferta)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Find(idOferta);
@@ -492,6 +511,7 @@ namespace FlipWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult EditOfertaTransporte([Bind(Include = "OfertaId,OfertanteId,Estado,Detalles,PaisPartida,CiudadPartida,DireccionPartida,PaisDestino,CiudadDestino,DireccionDestino,FechaOferta,FechaCreacion,MedidasCaja,TipoCaja,TipoCamion,ITV,HabilitacionBromatologica,Costo,Imagen1")] OfertaTransporte ofertaTransporte)
         {
             HttpPostedFileBase FileBase = Request.Files[0];
@@ -536,6 +556,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
+        [Authorize]
         public ActionResult DetailsOfertaCargaUser(int? id)
         {
             if (id == null)
@@ -555,6 +576,7 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
+        [Authorize]
         public ActionResult DetallesOfertaCargaPropia(int? id)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -567,6 +589,7 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
+        [Authorize]
         public ActionResult DetallesOfertaCargaAdministrador(int? id)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -578,6 +601,7 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
+        [Authorize]
         public ActionResult DetailsOfertaTransporteUser(int? id)
         {
             if (id == null)
@@ -597,6 +621,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
+        [Authorize]
         public ActionResult DetallesOfertaTransportePropia(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -608,6 +633,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
+        [Authorize]
         public ActionResult DetallesOfertaTransporteAdministrador(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -619,7 +645,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
-        //Unificar con DetallesOfertaGeneral - CUIDADO LAS LLAMADAS EN LAS VISTAS
+        [Authorize(Roles = "Administrador")]
         public ActionResult VerOfertaAdministrador(int? idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -634,6 +660,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("Menu", "Home");
         }
 
+        [Authorize]
         public ActionResult DetallesOfertaGeneral(int idOferta)
         {
             if (db.OfertasCarga.Any(o => o.OfertaId == idOferta))
@@ -642,6 +669,7 @@ namespace FlipWeb.Controllers
                 return RedirectToAction("DetailsOfertaTransporteUser", "Home", new { id = idOferta });
         }
 
+        [Authorize]
         public ActionResult DenunciarOferta(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -668,6 +696,7 @@ namespace FlipWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DenunciarOferta([Bind(Include = "Motivo,Detalle")] Reporte reporte)
         {
             int idOferta = (int)Session["idOferta"];
@@ -715,11 +744,13 @@ namespace FlipWeb.Controllers
             return RedirectToAction("Error", "Home");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult DarDeBajaOferta(int idOferta)
         {
             return View(idOferta);
         }
-      
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult DarDeBajaOfertaConfirmado(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -779,6 +810,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuAdmins", "Home");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReportadosLista()
         {
             var reportesAbiertos = (from o in db.Reportes
@@ -791,6 +823,7 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult CerrarReporte(int? idReporte)
         {
             Session.Add("idReporte", idReporte);
@@ -799,6 +832,7 @@ namespace FlipWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public ActionResult CerrarReporte(string Resolucion)
         {
             int idReporte = (int)Session["idReporte"];
@@ -820,6 +854,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("ReportadosLista", "Home");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult BuscarReporte(DateTime? Fecha)
         {
             if(Fecha == null)
@@ -843,6 +878,7 @@ namespace FlipWeb.Controllers
             return View(vista);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult BloquearCuentaUsuario(string id)
         {
             BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
@@ -852,6 +888,7 @@ namespace FlipWeb.Controllers
 
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult BloquearUsuarioConfirmado(string Duracion)
         {
             string usuarioId = (string)Session["idUsuario"];
@@ -880,7 +917,8 @@ namespace FlipWeb.Controllers
             Session.Remove("idUsuario");
             return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
-        
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult DesbloquearUsuario(string id)
         {
             if (id != null)
@@ -893,6 +931,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("Menu", "Home");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult DesbloquearUsuarioConfirmado()
         {
             string usuarioId = (string)Session["idUsuario"];
@@ -905,11 +944,13 @@ namespace FlipWeb.Controllers
             return RedirectToAction("DetailsUsers", new { id = usuarioId });
         }
 
+        [Authorize]
         public ActionResult FinalizarOferta(int idOferta)
         {
             return View(idOferta);
         }
 
+        [Authorize]
         public ActionResult FinalizarOfertaConfirmado(int idOferta)
         {
             OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
@@ -935,6 +976,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("DetallesOfertaCargaPropia", "Home", new { id = idOferta });
         }
 
+        [Authorize]
         public ActionResult ContactosList(int idOferta)
         {
             OfertaCarga OfertaCAux = db.OfertasCarga.Include(o => o.ListaContactos).FirstOrDefault(o => o.OfertaId == idOferta);
@@ -954,6 +996,7 @@ namespace FlipWeb.Controllers
             return View(OfertaCAux.ListaContactos);
         }
 
+        [Authorize]
         public ActionResult ContactadosList()
         {
             var userId = User.Identity.GetUserId();
@@ -962,6 +1005,7 @@ namespace FlipWeb.Controllers
             return View(user.ListaContactados);
         }
 
+        [Authorize]
         public ActionResult CreateContacto(int idOferta)
         {
             //Con este if evitamos conflictos con volver acceder a esta instancia ya habiendo creado el contacto
@@ -985,6 +1029,7 @@ namespace FlipWeb.Controllers
         //3) Guardar Contacto en la lista de contactados del User que es el Cliente "Contactante"
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
         {
             int idOfertaAux = (int)Session["idOferta"]; //id obtenido en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
@@ -1050,6 +1095,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("Error", "Home");
         }
 
+        [Authorize]
         public ActionResult CalificarContacto(int idContacto)
         {
             Contacto con = db.Contactos.FirstOrDefault(c => c.ContactoId == idContacto);
@@ -1063,6 +1109,7 @@ namespace FlipWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult CalificarContacto([Bind(Include = "ContactoId, IdOfertaContactada, Calificacion,Comentario,FechaContacto")] Contacto contacto)
         {
             if (contacto.Calificacion == 0)
@@ -1092,6 +1139,7 @@ namespace FlipWeb.Controllers
 
         //Nota: el nombre de la vista y de este método quedaron mal, puede ser usado con cualquier usuario (ej. ver DatosContactante(int idContactante))
         //se cargó una tarea de rename al backlog de tareas pendientes, NO intentar hacerlo rápido porque hay lugares que no cambia automático.
+        [Authorize]
         public ActionResult DatosOfertante(int idOferta)
         {
             //No podemos pasar como parámetro de ruta el id de los usuarios debido a que es muy complejo
@@ -1102,6 +1150,7 @@ namespace FlipWeb.Controllers
             return View(userAux);
         }
 
+        [Authorize]
         public ActionResult DatosOfertantePrimerContacto(int idOferta)
         {
             //Duplicamos esta instancia para evitar los posibles problemas que se generan entre la primera vez que se crea el contacto
@@ -1111,6 +1160,7 @@ namespace FlipWeb.Controllers
             return View(userAux);
         }
 
+        [Authorize]
         public ActionResult DatosContactante(int idContacto)
         {
             //No podemos pasar como parámetro de ruta el id de los usuarios debido a que es muy complejo
@@ -1121,6 +1171,7 @@ namespace FlipWeb.Controllers
             return View("DatosOfertante", Contactante);
         }
 
+        [Authorize]
         public ActionResult UsersList(string email = "")
         {
             IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email);
@@ -1134,6 +1185,7 @@ namespace FlipWeb.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult DetailsUsers(string id)
         {
             if (id == null)
@@ -1148,6 +1200,7 @@ namespace FlipWeb.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult AssignRoleAdministrador()
         {
             return View();
@@ -1155,6 +1208,7 @@ namespace FlipWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public ActionResult AssignRoleAdministrador(string id)
         {
             var user = db.Users.Find(id);
@@ -1174,6 +1228,7 @@ namespace FlipWeb.Controllers
             return RedirectToAction("UsersList", "Home");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult AssignRoleCliente()
         {
             return View();
@@ -1181,6 +1236,7 @@ namespace FlipWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public ActionResult AssignRoleCliente(string id)
         {
             var user = db.Users.Find(id);

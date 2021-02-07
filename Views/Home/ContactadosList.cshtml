@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Contactados";
 }
+<h1>Contactados</h1>
 <p class="text-danger" style="max-width:400px">@TempData["mensajeError"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
 <table class="table">
@@ -17,7 +18,7 @@
             @Html.DisplayNameFor(model => model.Estado)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Calificacion)
+            @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Comentario)
@@ -41,11 +42,39 @@
             <td>
                 @if (item.Calificacion == 0)
                 {
-                    @Html.Label("Calificación pendiente")
+                    @Html.Label("Pendiente")
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.Calificacion)
+                    if (item.Calificacion == 0)
+                    {
+                        @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
+
+                    }
+                    else if (item.Calificacion >= 1 && item.Calificacion < 2)
+                    {
+                        @Html.Label("★☆☆☆☆");
+                    }
+                    else if (item.Calificacion >= 2 && item.Calificacion < 3)
+                    {
+                        @Html.Label("★★☆☆☆");
+                    }
+                    else if (item.Calificacion >= 3 && item.Calificacion < 4)
+                    {
+                        @Html.Label("★★★☆☆");
+                    }
+                    else if (item.Calificacion >= 4 && item.Calificacion < 5)
+                    {
+                        @Html.Label("★★★★☆");
+                    }
+                    else if (item.Calificacion >= 5 && item.Calificacion < 6)
+                    {
+                        @Html.Label("★★★★★");
+                    }
+                    else
+                    {
+                        @Html.Label("Error");
+                    }
                 }
             </td>
             <td>
@@ -62,41 +91,7 @@
             </td>
             <td>
                 @Html.ActionLink("Datos de contacto", "DatosOfertante", new { idOferta = item.IdOfertaContactada }) |
-                @Html.ActionLink("Ver Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada }) |
-                @if (item.Calificacion == 0)
-                {
-                    @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
-
-                }
-                else if (item.Calificacion >= 1 && item.Calificacion < 2)
-                {
-                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
-                    @Html.Label("★☆☆☆☆");
-                }
-                else if (item.Calificacion >= 2 && item.Calificacion < 3)
-                {
-                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
-                    @Html.Label("★★☆☆☆");
-                }
-                else if (item.Calificacion >= 3 && item.Calificacion < 4)
-                {
-                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
-                    @Html.Label("★★★☆☆");
-                }
-                else if (item.Calificacion >= 4 && item.Calificacion < 5)
-                {
-                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
-                    @Html.Label("★★★★☆");
-                }
-                else if (item.Calificacion >= 5 && item.Calificacion < 6)
-                {
-                    @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
-                    @Html.Label("★★★★★");
-                }
-                else
-                {
-                    @Html.Label("Error");
-                }
+                @Html.ActionLink("Oferta", "DetallesOfertaGeneral", new { idOferta = item.IdOfertaContactada })
             </td>
         </tr>
     }
