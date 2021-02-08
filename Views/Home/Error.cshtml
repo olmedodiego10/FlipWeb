@@ -2,10 +2,10 @@
     ViewBag.Title = "Error";
 }
 
-<h2>Error</h2>
+<h2 style="color:red;">Error :(</h2>
 <div>
-    <h1 style="color:red;">Error.</h1>
-    <h2>Se recomienda reportar o ponerse en contacto con Administrador</h2>
+    <p class="text-danger" style="max-width:400px">@TempData["mensajeError"]</p>
+    <h3>Se recomienda reportar o ponerse en contacto con Administrador.</h3>
 </div>
 
 @section Scripts {

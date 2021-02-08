@@ -62,6 +62,12 @@ namespace FlipWeb.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -389,6 +395,12 @@ namespace FlipWeb.Controllers
         public ActionResult EditOfertaCarga(int idOferta)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Find(idOferta);
+            string Userid = User.Identity.GetUserId();
+            if(Userid != ofertaCarga.OfertanteId)
+            {
+                TempData["mensajeError"] = "La oferta de código: " + idOferta + " no te pertenece.";
+                return RedirectToAction("Error", "Home");
+            }
             TempData["FechaOriginalOferta"] = ofertaCarga.FechaOferta;
             return View(ofertaCarga);
         }
@@ -502,6 +514,12 @@ namespace FlipWeb.Controllers
         public ActionResult EditOfertaTransporte(int idOferta)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Find(idOferta);
+            string Userid = User.Identity.GetUserId();
+            if (Userid != ofertaTransporte.OfertanteId)
+            {
+                TempData["mensajeError"] = "La oferta de código: " + idOferta + " no te pertenece.";
+                return RedirectToAction("Error", "Home");
+            }
             TempData["FechaOriginalOferta"] = ofertaTransporte.FechaOferta;
             return View(ofertaTransporte);
         }
@@ -589,7 +607,7 @@ namespace FlipWeb.Controllers
             return View(ofertaCarga);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult DetallesOfertaCargaAdministrador(int? id)
         {
             OfertaCarga ofertaCarga = db.OfertasCarga.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
@@ -633,7 +651,7 @@ namespace FlipWeb.Controllers
             return View(ofertaTransporte);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         public ActionResult DetallesOfertaTransporteAdministrador(int? id)
         {
             OfertaTransporte ofertaTransporte = db.OfertasTransporte.Include("ListaContactos").FirstOrDefault(o => o.OfertaId == id);
