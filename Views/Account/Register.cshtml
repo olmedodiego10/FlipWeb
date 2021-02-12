@@ -60,8 +60,12 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-success btn-outline" value="Registrarse" />
+        <div class="">
+            @*@Html.ActionLink("Volver", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-2 col-sm-12 col-xs-12", @role = "button" })*@
+            @*<input class="btn btn-success col-md-2 col-sm-12 col-xs-12" type='button' onclick='history.back();' value='Volver' />*@
+            <input type="submit" class="btn btn-success btn-outline col-md-2 col-sm-12 col-xs-12" value="Registrarse" />
+            <br />
+            @Html.ActionLink("Volver", "Index", "Home")
         </div>
     </div>
 }

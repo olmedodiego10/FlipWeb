@@ -1,7 +1,7 @@
 ﻿@using FlipWeb.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Inicio de Sesión";
+    ViewBag.Title = "Inicio de sesión";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -37,11 +37,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Iniciar sesión" class="btn btn-success" />
+                    <div class="">
+                        @*@Html.ActionLink("Volver", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })*@
+                        <input type="submit" value="Iniciar sesión" class="btn btn-success col-md-4 col-sm-12 col-xs-12" />
                     </div>
                 </div>
                 <p>
+                    @Html.ActionLink("Volver", "Index", "Home")
+                    <br />
                     @Html.ActionLink("Registrar un usuario nuevo", "Register")
                 </p>
                 @* Enable this once you have account confirmation enabled for password reset functionality
