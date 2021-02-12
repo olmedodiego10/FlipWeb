@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "DetailsOfertaTransporteUser";
+    ViewBag.Title = "Detalles de oferta";
 }
 
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
@@ -13,6 +13,8 @@
 <div>
     <hr />
     <div>
+        <h5> Código de Oferta </h5> # @Html.DisplayFor(model => model.OfertaId)
+        <hr />
         <h5> Precio </h5> $ @Html.DisplayFor(model => model.Costo)
     </div>
     <hr />
@@ -26,7 +28,7 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="330" height="90" alt="imgf" />
 
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
@@ -70,9 +72,11 @@
     </div>
     <hr />
 
-    <div class="col-md-12">
-        <h5>Detalles</h5>
-        @Html.DisplayFor(model => model.Detalles)
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Detalles</h5>
+            @Html.DisplayFor(model => model.Detalles)
+        </div>
     </div>
 </div>
 <hr />
@@ -150,8 +154,8 @@
     }
 
     }
-    <div class="contacto">
-        @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-        @Html.ActionLink("Denunciar oferta", "DenunciarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-
-    </div>
+<div class="contacto">
+    @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Denunciar oferta", "DenunciarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Volver al menu", "MenuUsuarios", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+</div>
