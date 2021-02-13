@@ -1,10 +1,10 @@
 ﻿@model FlipWeb.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "Datos Ofertante";
+    ViewBag.Title = "Datos de contacto";
 }
 
-<h2>Datos del usuario</h2>
+<h2>Datos de contacto</h2>
 
 <p class="text-danger" style="max-width:500px">@TempData["mensajeError"]</p>
 <p class="text-success" style="max-width:500px">@TempData["mensajeOk"]</p>
@@ -54,6 +54,7 @@
 
     </dl>
 </div>
-<input class="btn btn-success" type='button' onclick='history.back();' value='Volver' />
-@Html.ActionLink("Volver al menu", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+<input class="btn btn-success col-md-4 col-sm-12 col-xs-12" type='button' onclick='history.back();' value='Volver' />
+<br />
+<input type="button" value="Volver al menu de ofertas" , class="btn btn-success col-md-4 col-sm-12 col-xs-12" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
 

@@ -18,7 +18,7 @@
             @Html.DisplayNameFor(model => model.Estado)
         </th>
         <th>
-            @Html.Label("Tu calificación:", new { style = "font-weight:bold;" });
+            @Html.Label("Tu calificación", new { style = "font-weight:bold;" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Comentario)
@@ -42,16 +42,11 @@
             <td>
                 @if (item.Calificacion == 0)
                 {
-                    @Html.Label("Pendiente")
+                    @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
                 }
                 else
                 {
-                    if (item.Calificacion == 0)
-                    {
-                        @Html.ActionLink("Calificar", "CalificarContacto", new { idContacto = item.ContactoId })
-
-                    }
-                    else if (item.Calificacion >= 1 && item.Calificacion < 2)
+                    if (item.Calificacion >= 1 && item.Calificacion < 2)
                     {
                         @Html.Label("★☆☆☆☆");
                     }
@@ -97,5 +92,5 @@
     }
 
 </table>
-
-<input class="btn btn-success" type='button' onclick='history.back();' value='Volver' />
+<input type="button" value="Volver" , class="btn btn-success col-md-4 col-sm-12 col-xs-12" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
+@*<input class="btn btn-success" type='button' onclick='history.back();' value='Volver' />*@
