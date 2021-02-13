@@ -880,6 +880,12 @@ namespace FlipWeb.Controllers
                 TempData["errorFecha"] = "Debes seleccionar una fecha para buscar un reporte.";
                 return RedirectToAction("ReportadosLista", "Home");
             }
+            DateTime fecha = Fecha.Value;
+            if(fecha > DateTime.Now.Date)
+            {
+                TempData["errorFecha"] = "La fecha ingresada no puede ser posterior al dia actual.";
+                return RedirectToAction("ReportadosLista", "Home");
+            }
 
             var reportesAbiertos = (from o in db.Reportes
                                     where (o.Estado == "Abierto")
@@ -911,7 +917,11 @@ namespace FlipWeb.Controllers
         {
             string usuarioId = (string)Session["idUsuario"];
             var usuario = db.Users.Find(usuarioId);
-
+            if(Duracion == "")
+            {
+                TempData["mensaje"] = "Es necesario seleccionar una duración.";
+                return RedirectToAction("BloquearCuentaUsuario", new { id = usuarioId });
+            }
             if (Duracion == "sieteDias")
             {
                 usuario.LockoutEndDateUtc = DateTime.Now.AddDays(2);
@@ -1190,19 +1200,39 @@ namespace FlipWeb.Controllers
         }
 
         [Authorize]
-        public ActionResult UsersList(string email = "")
+        public ActionResult UsersList()
         {
-            IEnumerable<ApplicationUser> usuarios = db.Users.Where(u => u.Email == email);
-            if (usuarios != null)
-            {
-                return View(usuarios);
-            }
-            else
-            {
-                return View();
-            }
+            var userId = User.Identity.GetUserId();
+            IEnumerable<ApplicationUser> usuarios = (from u in db.Users
+                                                     where u.Id != userId
+                                                     select u).Take(5);
+            return View(usuarios);
         }
 
+        public ActionResult BuscarUsuario(string email)
+        {
+            if(email == "")
+            {
+                TempData["mensaje"] = "Debe ingresar un email.";
+               return RedirectToAction("UsersList", "Home");
+            }
+            else 
+            {
+                IEnumerable<ApplicationUser> usuario = (from u in db.Users
+                                                        where u.Email == email
+                                                        select u);
+                if (usuario.Count() == 0)
+                {
+                    TempData["mensaje"] = "No existe usuario registrado con el email ingresado.";
+                   return RedirectToAction("UsersList", "Home");
+                }
+                else
+                {
+                    return View(usuario);
+                }
+            }
+            
+        }
         [Authorize]
         public ActionResult DetailsUsers(string id)
         {

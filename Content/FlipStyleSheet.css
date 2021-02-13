@@ -155,11 +155,17 @@ small {
             width: auto;
             height: 320px;
         }
+    #imgLineas {
+        width: 100px;
+        margin-left: 5px;
+    }
     }
 #barraMenu {
     background-color: #353a40;
 }
-
+@media screen and (max-width: 800px){
+ 
+}
 #cardBusquedaRapida {
     width: 450px;
     height: 515px;
@@ -177,3 +183,8 @@ small {
         width: auto;
         height: 320px;
     }
+#imgLineas {
+    width: 200px;
+    align-content:center;
+    margin-left:85px;
+}

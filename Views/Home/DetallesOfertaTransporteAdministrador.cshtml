@@ -29,7 +29,7 @@
 
         </section>
         <section class=" col-md-4 ">
-            <img class=" d-md-flex d-sm-none d-none" src="~/Images/lineas.png" width="350" height="70" alt="imgf" />
+            <img id="imgLineas" class="d-md-flex d-sm-none d-none" src="~/Images/camiondibujo2.png" alt="imgf" />
 
         </section>
         <section class=" col-md-4 text-md-left col-sm-12 text-sm-left">
@@ -157,7 +157,7 @@
     {<h3>Oferta DADA DE BAJA</h3>
         if (Model.FechaOferta.Date >= DateTime.Now.Date)
         {
-            @Html.ActionLink("Re-activar oferta", "ReActivarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+            @Html.ActionLink("Reactivar oferta", "ReActivarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         }
     }
     else

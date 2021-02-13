@@ -5,63 +5,84 @@
 }
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
 
-<h2>Reportes abiertos</h2>
+<hr />
+<h3>Reportes abiertos</h3>
+<hr />
+@if (Model.ListadoReportesAbiertos.Count == 0)
+{
+    <div style="color: dimgray; font-style:italic">
+        <h4>
+            @(new HtmlString("No hay reportes abiertos."))
+        </h4>
+    </div>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Motivo
+            </th>
+            <th>
+                Detalle
+            </th>
+            <th>
+                Denunciante
+            </th>
+            <th>
+                Denunciado
+            </th>
 
-<table class="table">
-    <tr>
-        <th>
-             Fecha
-        </th>
-        <th>
-            Motivo
-        </th>
-        <th>
-            Detalle
-        </th>
-        <th>
-            Denunciante
-        </th>
-        <th>
-            Denunciado
-        </th>
-       
-    </tr>
+        </tr>
 
-    @foreach (var item in Model.ListadoReportesAbiertos)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Fecha)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Motivo)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Detalle)
-    </td>
-    <td>
-        @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
+        @foreach (var item in Model.ListadoReportesAbiertos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Motivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detalle)
+                </td>
+                <td>
+                    @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
 
-    </td>
-    <td>
-        @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
-    </td>
-    
-    <td>
-        <div class="btn-group">
-         @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-         @Html.ActionLink("Cerrar reporte", "CerrarReporte", new { idReporte = item.ReporteId }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
-        </div>
-    </td>
-</tr>
+                </td>
+                <td>
+                    @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
+                </td>
 
-    }
+                <td>
+                    <div class="btn-group">
+                        @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
+                        @Html.ActionLink("Cerrar reporte", "CerrarReporte", new { idReporte = item.ReporteId }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+                    </div>
+                </td>
+            </tr>
 
-</table>
+        }
 
+    </table>
+}
 <hr />
 <input type="button" class="btn btn-light font-weight-bolder " onclick="reportesCerrados()" value="Ver reportes cerrados" />
 
+@if (Model.ListadoReportesCerrados.Count == 0)
+{
+    <div style="color: dimgray; font-style:italic">
+        <h4>
+            @(new HtmlString("No hay reportes cerrados."))
+        </h4>
+    </div>
+}
+else
+{
 <p class="text-danger" style="max-width:500px">@TempData["errorFecha"]</p>
 
 <div id="divReportesCerrados" style="display:none">
@@ -97,34 +118,35 @@
         @foreach (var item in Model.ListadoReportesCerrados)
         {
 
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Motivo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Detalle)
-        </td>
-        <td>
-            @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Motivo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detalle)
+                </td>
+                <td>
+                    @Html.ActionLink(item.CorreoDenunciante, "DetailsUsers", new { id = item.DeuncianteId })
 
-        </td>
-        <td>
-            @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Resolucion)
-        </td>
-        <td>
-            @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-           
+                </td>
+                <td>
+                    @Html.ActionLink(item.CorreoDenunciado, "DetailsUsers", new { id = item.DenunciadoId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Resolucion)
+                </td>
+                <td>
+                    @Html.ActionLink("Ver oferta", "VerOfertaAdministrador", new { idOferta = item.ofertaDenunciadaId }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
 
-        </td>
-    </tr>
+
+                </td>
+            </tr>
 
         }
 
     </table>
 </div>
+}
