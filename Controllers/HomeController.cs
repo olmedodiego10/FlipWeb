@@ -1036,7 +1036,7 @@ namespace FlipWeb.Controllers
         [Authorize]
         public ActionResult CreateContacto(int idOferta)
         {
-            //Con este if evitamos conflictos con volver acceder a esta instancia ya habiendo creado el contacto
+            //Con este if evitamos conflictos con volver acceder al POST ya habiendo creado el contacto
             //ej: por ruta / por botón atrás (history.back())
             var userId = User.Identity.GetUserId();
             if (db.Contactos.Any(c => c.IdOfertaContactada == idOferta && c.IdContactante == userId))
@@ -1060,6 +1060,10 @@ namespace FlipWeb.Controllers
         [Authorize]
         public ActionResult CreateContacto([Bind(Include = "ContactoId,Calificacion,Comentario,FechaContacto")] Contacto contacto)
         {
+            if(Session["idOferta"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int idOfertaAux = (int)Session["idOferta"]; //id obtenido en DetallesOfertaTransporteCliente / DetallesOfertaCargaCliente
             var userId = User.Identity.GetUserId();
             //Verifico si contacto ya existe en toda la BD 
@@ -1157,6 +1161,7 @@ namespace FlipWeb.Controllers
             TempData["mensajeOk"] = "Contacto calificado. Ya puede realizar un nuevo contacto en caso de que su cuenta sea gratuita.";
             if (Session["idOferta"] == null)
             {
+                TempData["mensajeError"] = "Ocurrió un error con el código de la oferta seleccionada. ";
                 return RedirectToAction("ContactadosList", "Home");
             }
             else
