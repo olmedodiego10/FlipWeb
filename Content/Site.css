@@ -40,6 +40,10 @@ textarea {
     background-color: rgba(255,255,255,0.8);
 }
 
+.btn {
+    margin-top: 5px;
+}
+
 /*===========================outline=buttons===========================================================*/
 .btn-outline {
     background-color: transparent;

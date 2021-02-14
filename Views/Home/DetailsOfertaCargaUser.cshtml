@@ -1,8 +1,7 @@
 ﻿@model FlipWeb.Domain.OfertaCarga
 @Styles.Render("~/Content/FlipStyleSheet.css")
-
 @{
-    ViewBag.Title = "DetailsOfertaCargaUser";
+    ViewBag.Title = "Detalles de oferta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -13,6 +12,10 @@
 <div>
     <div class="fondoImagen">
         <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaCarga", "Home", new { id = Model.OfertaId })" />
+    </div>
+    <hr />
+    <div>
+        <h5> Código de Oferta </h5> # @Html.DisplayFor(model => model.OfertaId)
     </div>
     <hr />
     <div class="row">
@@ -54,7 +57,15 @@
         </section>
         <section class="col-md-4 text-md-left col-sm-12 text-sm-left ">
             <h5>Requiere exclusividad</h5>
-            @Html.DisplayFor(model => model.RequiereExclusividad)
+            @*@Html.DisplayFor(model => model.RequiereExclusividad)*@
+            @if (Model.RequiereExclusividad == true)
+            {
+                @Html.Label("SI");
+            }
+            else
+            {
+                @Html.Label("NO");
+            }
         </section>
     </div>
     <hr />
@@ -141,5 +152,5 @@
 <div class="contacto">
     @Html.ActionLink("Contactar", "CreateContacto", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
     @Html.ActionLink("Denunciar oferta", "DenunciarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-
+    @Html.ActionLink("Volver al menu", "MenuUsuarios", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
 </div>

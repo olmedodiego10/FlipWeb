@@ -14,7 +14,7 @@ namespace FlipWeb.Domain
         public int ContactoId { get; set; }
         //Estados: En Progreso, Cerrado, Reporte
         public string Estado { get; set; }
-        [Display(Name = "Oferta nro.")]
+        [Display(Name = "Código de oferta")]
         public int IdOfertaContactada { get; set; }
         public string IdContactante { get; set; }
         //[Range(1, 5)] se hace not null y no pasa el ModelState.IsValid al crearse

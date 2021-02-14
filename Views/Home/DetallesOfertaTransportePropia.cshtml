@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "DetailsOfertaTransporteUser";
+    ViewBag.Title = "Detalles de oferta publicada";
 }
 
 <h4>Oferta de Transporte</h4>
@@ -13,6 +13,7 @@
 </div>
 <hr />
 <div>
+    <h5> Código de oferta </h5> # @Html.DisplayFor(model => model.OfertaId)
     <h5> Precio </h5> $ @Html.DisplayFor(model => model.Costo)
 </div>
 <hr />
@@ -70,93 +71,99 @@
 </div>
 <hr />
 
-<div class="col-md-12">
-    <h5>Detalles</h5>
-    @Html.DisplayFor(model => model.Detalles)
+<div class="row">
+    <div class="col-md-12">
+        <h5>Detalles</h5>
+        @Html.DisplayFor(model => model.Detalles)
+    </div>
 </div>
-<hr />
-
-@{
-    double Rep = Model.ReputacionOfertante();
-    if (Rep < 1)
-    {
-        <div style="font-weight:bold">
-            @(new HtmlString("Reputación de Ofertante: ★El Ofertante aún no ha generado reputación."))
-        </div>
-        <br />
-        @Html.Label("☆☆☆☆☆");
-    }
-    else if (Rep >= 1 && Rep < 2)
-    {
-        @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
-        @Rep
-        <br />
-        @Html.Label("★☆☆☆☆");
-    }
-    else if (Rep >= 2 && Rep < 3)
-    {
-        @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
-        @Rep
-        <br />
-        @Html.Label("★★☆☆☆");
-    }
-    else if (Rep >= 3 && Rep < 4)
-    {
-        @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
-        @Rep
-        <br />
-        @Html.Label("★★★☆☆");
-    }
-    else if (Rep >= 4 && Rep < 4.70)
-    {
-        @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
-        @Rep
-        <br />
-        @Html.Label("★★★★☆");
-    }
-    else if (Rep > 4.70 && Rep < 5.50)
-    {
-        @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
-        @Rep
-        <br />
-        @Html.Label("★★★★★");
-    }
-    else
-    {
-        @Html.Label("Error, por favor comunicarse para más información.");
-    }
-    <br />
-    @Html.Label("Últimos comentarios de contactos:", new { style = "font-weight:bold;" });
     <hr />
 
-    List<String> U5CO = Model.Ultimos5ComentariosDeContactosOfertante();
-    if (U5CO != null && U5CO.Count() > 0)
-    {
-        foreach (var comentario in U5CO)
+    @{
+        double Rep = Model.ReputacionOfertante();
+        if (Rep < 1)
+        {
+            <div style="font-weight:bold">
+                @(new HtmlString("Reputación de Ofertante: ★El Ofertante aún no ha generado reputación."))
+            </div>
+            <br />
+            @Html.Label("☆☆☆☆☆");
+        }
+        else if (Rep >= 1 && Rep < 2)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★☆☆☆☆");
+        }
+        else if (Rep >= 2 && Rep < 3)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★☆☆☆");
+        }
+        else if (Rep >= 3 && Rep < 4)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★☆☆");
+        }
+        else if (Rep >= 4 && Rep < 4.70)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★★☆");
+        }
+        else if (Rep > 4.70 && Rep < 5.50)
+        {
+            @Html.Label("Reputación de Ofertante: ★", new { style = "font-weight:bold;" });
+            @Rep
+            <br />
+            @Html.Label("★★★★★");
+        }
+        else
+        {
+            @Html.Label("Error, por favor comunicarse para más información.");
+        }
+        <br />
+        @Html.Label("Últimos comentarios de contactos:", new { style = "font-weight:bold;" });
+        <hr />
+
+        List<String> U5CO = Model.Ultimos5ComentariosDeContactosOfertante();
+        if (U5CO != null && U5CO.Count() > 0)
+        {
+            foreach (var comentario in U5CO)
+            {
+                <div style="color: dimgray; font-style:italic">
+                    @(new HtmlString("\"" + comentario + "\""))
+                </div>
+                <hr />
+            }
+        }
+        else
         {
             <div style="color: dimgray; font-style:italic">
-                @(new HtmlString("\"" + comentario + "\""))
+                @(new HtmlString("Sin comentarios."))
             </div>
             <hr />
         }
-    }
-    else
-    {
-        <div style="color: dimgray; font-style:italic">
-            @(new HtmlString("Sin comentarios."))
-        </div>
-        <hr />
+
     }
 
-}
+    <div class="contacto">
+        @Html.ActionLink("Ver contactos de Oferta", "ContactosList", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        @if (Model.OfertaFinalizada() || Model.FechaOferta.Date < DateTime.Now.Date)
+        {
+            <h3>Oferta FINALIZADA</h3>
+        }
+        else
+        {
+            @Html.ActionLink("Modificar", "EditOfertaTransporte", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
+            @Html.ActionLink("Finalizar oferta", "FinalizarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
+        }
+        @Html.ActionLink("Volver al menu", "MenuUsuarios", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
 
-<div class="contacto">
-    @Html.ActionLink("Ver contactos de Oferta", "ContactosList", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-    @if (Model.OfertaFinalizada() || Model.FechaOferta.Date < DateTime.Now.Date)
-    {<h3>Oferta FINALIZADA</h3>}
-    else
-    {
-        @Html.ActionLink("Modificar", "EditOfertaTransporte", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
-        @Html.ActionLink("Finalizar oferta", "FinalizarOferta", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12", @role = "button" })
-    }
-</div>
+    </div>

@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "DetailsOfertaTransporteUser";
+    ViewBag.Title = "Detalles oferta Admin";
 }
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
@@ -16,6 +16,8 @@
 <div>
     <hr />
     <div>
+        <h5> Código de oferta </h5> # @Html.DisplayFor(model => model.OfertaId)
+        <hr />
         <h5> Precio </h5> $ @Html.DisplayFor(model => model.Costo)
     </div>
     <hr />
@@ -72,10 +74,11 @@
         </section>
     </div>
     <hr />
-
-    <div class="col-md-12">
-        <h5>Detalles</h5>
-        @Html.DisplayFor(model => model.Detalles)
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Detalles</h5>
+            @Html.DisplayFor(model => model.Detalles)
+        </div>
     </div>
 </div>
 <hr />
@@ -174,5 +177,6 @@
 
     }
     @Html.ActionLink("Ver ofertante", "DetailsUsers", "Home", routeValues: new { id = Model.OfertanteId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
-
+    @Html.ActionLink("Volver al menu de Clientes", "MenuUsuarios", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+    @Html.ActionLink("Volver al menu de Administradores", "MenuAdmins", "Home", routeValues: new { idOferta = Model.OfertaId }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
 </div>
