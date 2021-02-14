@@ -3,9 +3,19 @@
 @{
     ViewBag.Title = "Contactados";
 }
-<h1>Contactados</h1>
 <p class="text-danger" style="max-width:400px">@TempData["mensajeError"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
+<h1>Contactados</h1>
+@if (Model.Count() == 0)
+{
+    <div style="color: dimgray; font-style:italic">
+        <h4>
+            @(new HtmlString("Aún no has realizado ningún contacto."))
+        </h4>
+    </div>
+}
+else
+{
 <table class="table">
     <tr>
         <th>
@@ -92,5 +102,6 @@
     }
 
 </table>
+}
 <input type="button" value="Volver" , class="btn btn-success col-md-4 col-sm-12 col-xs-12" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
 @*<input class="btn btn-success" type='button' onclick='history.back();' value='Volver' />*@

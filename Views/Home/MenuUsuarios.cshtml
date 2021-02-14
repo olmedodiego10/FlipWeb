@@ -138,70 +138,92 @@
         }
     </div>
     <hr />
-    @if (Model.ListadoOfertasCarga != null)
-    {
-        <h3>Ofertas de Carga ( @Html.ActionLink("Ver más", "ListarOfertasCarga") )</h3>
-        <hr />
-        <div class="containerCard">
-            @foreach (var item in Model.ListadoOfertasCarga)
-            {
-
-                <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = item.OfertaId })">
-                    <div class="card">
-                        <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
-                        <div class="encabezado">
-                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
-
-                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
-
-                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
-                            @if (item.RequiereExclusividad == true)
-                            {
-                                <p><strong>Requiere exclusividad:</strong> Si</p>
-                            }
-                            else
-                            {
-                                <p><strong>Requiere exclusividad:</strong> No</p>
-                            }
-                        </div>
-                        <div class="card-footer">
-                            <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
-                        </div>
-                    </div>
-                </a>
-            }
+    @if (Model.ListadoOfertasCarga.Count == 0)
+    { <h3>Ofertas de Carga</h3>
+        <div style="color: dimgray; font-style:italic">
+            <h4>
+                @(new HtmlString("No existen ofertas de carga activas por el momento."))
+            </h4>
         </div>
     }
-
-    <hr />
-    @if (Model.ListadoOfertasTransporte != null)
+    else
     {
-<h3>Ofertas de Transporte ( @Html.ActionLink("Ver más", "ListarOfertasTransporte") )</h3>
-        <hr />
-        <div class="containerCard">
-            @foreach (var item in Model.ListadoOfertasTransporte)
-            {
-                <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId })">
-                    <div class="card">
-                        <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
-                        <div class="encabezado">
-                            <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
+        if (Model.ListadoOfertasCarga != null)
+        {
+            <h3>Ofertas de Carga ( @Html.ActionLink("Ver más", "ListarOfertasCarga") )</h3>
+            <hr />
+            <div class="containerCard">
+                @foreach (var item in Model.ListadoOfertasCarga)
+                {
 
-                            <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+                    <a class="text-decoration-none" href="@Url.Action("DetailsOfertaCargaUser", "Home", new { id = item.OfertaId })">
+                        <div class="card">
+                            <img class="card-img-top" src="@Url.Action("getImageOfertaCarga", "Home", new { id = item.OfertaId })" />
+                            <div class="encabezado">
+                                <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
 
-                            <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+                                <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
 
-                            <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
+                                <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+                                @if (item.RequiereExclusividad == true)
+                                {
+                                    <p><strong>Requiere exclusividad:</strong> Si</p>
+                                }
+                                else
+                                {
+                                    <p><strong>Requiere exclusividad:</strong> No</p>
+                                }
+                            </div>
+                            <div class="card-footer">
+                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            </div>
                         </div>
+                    </a>
+                }
+            </div>
+        }
+    }
+    <hr />
+    @if (Model.ListadoOfertasTransporte.Count == 0)
+    { <h3>Ofertas de Transporte</h3>
 
-                        <div class="card-footer">
-                            <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
-                        </div>
+    <div style="color: dimgray; font-style:italic">
+        <h4>
+            @(new HtmlString("No existen ofertas de transporte activas por el momento."))
+        </h4>
+    </div>
+    }
+    else
+    {
+    if (Model.ListadoOfertasTransporte != null)
+    {
+    <h3>Ofertas de Transporte ( @Html.ActionLink("Ver más", "ListarOfertasTransporte") )</h3>
+    <hr />
+    <div class="containerCard">
+        @foreach (var item in Model.ListadoOfertasTransporte)
+        {
+            <a class="text-decoration-none " href="@Url.Action("DetailsOfertaTransporteUser", "Home", new { id = item.OfertaId })">
+                <div class="card">
+                    <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = item.OfertaId })" />
+                    <div class="encabezado">
+                        <h5>@Html.DisplayFor(modelItem => item.CiudadPartida) - @Html.DisplayFor(modelItem => item.CiudadDestino)</h5>
 
+                        <p><strong>@Html.DisplayFor(modelItem => item.PaisPartida) - @Html.DisplayFor(modelItem => item.PaisDestino)</strong></p>
+
+                        <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => item.FechaOferta)</p>
+
+                        <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => item.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => item.TipoCaja) </p>
                     </div>
-                </a>
-            }
-        </div>
+
+                    <div class="card-footer">
+                        <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                    </div>
+
+                </div>
+            </a>
+        }
+    </div>
+    }
     }
     <hr />
     <div class="row">

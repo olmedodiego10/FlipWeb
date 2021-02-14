@@ -6,7 +6,7 @@
 
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 <p class="text-success" style="max-width:400px">@TempData["mensajeOk"]</p>
-<h4>Oferta de Transporte</h4>
+<h4>@ViewBag.Title</h4>
 <div class="fondoImagen">
     <img class="img-fluid" id="imagen" src="@Url.Action("getImageOfertaTransporte","Home", new { id= Model.OfertaId})" />
 </div>
