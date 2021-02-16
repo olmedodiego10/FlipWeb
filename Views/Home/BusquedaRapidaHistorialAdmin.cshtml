@@ -1,0 +1,40 @@
+﻿@model FlipWeb.Domain.OfertaTransporte
+@Styles.Render("~/Content/FlipStyleSheet.css")
+@{
+    ViewBag.Title = "Busqueda rapida";
+}
+<h2>Menu</h2>
+<div>
+    <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
+
+    <h5>Busqueda oferta</h5>
+    @using (Html.BeginForm("BusquedaRapidaHistorialAdmin", "Home", FormMethod.Post))
+    {
+        @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+        <button type="submit" class="btn btn-success">Busqueda rapida</button>
+    }
+</div>
+
+  <h3>Oferta de Transporte</h3>
+    <div class="containerCard">
+        <a class="text-decoration-none " href="@Url.Action("DetallesOfertaTransporteAdministrador", "Home", new { id = Model.OfertaId })">
+            <div class="card" id="cardBusquedaRapida">
+                <img class="card-img-top" src="@Url.Action("getImageOfertaTransporte", "Home", new { id = Model.OfertaId })" />
+                <div class="encabezado">
+                    <h5>@Html.DisplayFor(modelItem => Model.CiudadPartida) - @Html.DisplayFor(modelItem => Model.CiudadDestino)</h5>
+
+                    <p><strong>@Html.DisplayFor(modelItem => Model.PaisPartida) - @Html.DisplayFor(modelItem => Model.PaisDestino)</strong></p>
+
+                    <p> <strong>Fecha: </strong>@Html.DisplayFor(modelItem => Model.FechaOferta)</p>
+
+                    <p> <strong>Camión: </strong>@Html.DisplayFor(modelItem => Model.TipoCamion)     <strong>Caja:</strong> @Html.DisplayFor(modelItem => Model.TipoCaja) </p>
+                </div>
+
+                <div class="card-footer">
+                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                </div>
+
+            </div>
+        </a>
+    </div>
+

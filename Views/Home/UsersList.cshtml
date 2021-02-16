@@ -2,11 +2,11 @@
 @model IEnumerable<FlipWeb.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "UsersList";
+    ViewBag.Title = "Usuarios";
 }
 <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 
-<h2>Lista de usuarios</h2>
+<h2>@ViewBag.Title</h2>
 <h5>Buscar usuario</h5>
 @using (Html.BeginForm("BuscarUsuario", "Home", FormMethod.Post))
 {
@@ -79,3 +79,5 @@
     }
 
 </table>
+<hr />
+@Html.ActionLink("Volver", "MenuAdmins", "Home")

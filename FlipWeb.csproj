@@ -458,6 +458,8 @@
     <Content Include="Views\Home\ReActivarOferta.cshtml" />
     <Content Include="Views\Home\HistorialAdministrador.cshtml" />
     <Content Include="Views\Home\BuscarUsuario.cshtml" />
+    <Content Include="Views\Home\BusquedaRapidaHistorialAdmin.cshtml" />
+    <Content Include="Views\Home\BusquedaRapidaOfertaCargaHistorialAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

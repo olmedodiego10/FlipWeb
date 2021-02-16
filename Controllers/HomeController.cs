@@ -174,42 +174,33 @@ namespace FlipWeb.Controllers
         [Authorize]
         public ActionResult BusquedaRapidaOferta(int? idOferta)
         {
-            
-            var userId = User.Identity.GetUserId();
-            var usuario = db.Users.Find(userId);
 
             if (!idOferta.HasValue)
-                {
-                  if (User.IsInRole("Cliente"))
-                      {
-                    TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
-                    return RedirectToAction("MenuUsuarios", "Home");
-                      }
-                  if (User.IsInRole("Administrador"))
-                     {
-                    TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
-                    return RedirectToAction("HistorialAdministrador", "Home");
-                     }
-                }
+            {
 
+                TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
+                return RedirectToAction("MenuUsuarios", "Home");
+
+            }
             Oferta oferta = db.Ofertas.Find(idOferta);
 
-            if (User.IsInRole("Cliente"))
+            var usuarioId = User.Identity.GetUserId();
+            var usuario = db.Users.Find(usuarioId);
+            if (oferta == null || oferta.Estado != "En progreso" || oferta.FechaOferta.Date < fechaActual.Date)
             {
-                if (oferta == null || oferta.Estado != "En progreso" || oferta.FechaOferta.Date < fechaActual.Date)
+
+                if (usuario.RolString == "Cliente")
                 {
-                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o la oferta ya no se encuentra activa.";
+                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o ya no se encuentra activa.";
                     return RedirectToAction("MenuUsuarios", "Home");
                 }
-            }
-            if (User.IsInRole("Administrador"))
-            {
-                if (oferta == null)
+                if (usuario.RolString == "Administrador")
                 {
-                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta.";
-                    return RedirectToAction("HistorialAdministrador", "Home");
+                    TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta o ya no se encuentra activa. Puedes buscar la misma en el Historial de Ofertas.";
+                    return RedirectToAction("MenuAdmins", "Home");
                 }
             }
+           
             // si la oferta es de carga redirecciona al action que muestra la oferta de carga
             if (oferta is OfertaCarga)
                 {
@@ -237,6 +228,42 @@ namespace FlipWeb.Controllers
             return RedirectToAction("MenuUsuarios", "Home");
         }
 
+        public ActionResult BusquedaRapidaHistorialAdmin(int idOferta)
+        {
+            Oferta oferta = db.Ofertas.Find(idOferta);
+
+            if (oferta == null)
+            {
+                TempData["errorBusqueda"] = "El id ingresado no corresponde a ninguna oferta";
+                return RedirectToAction("HistorialAdministrador", "Home");
+            }
+            else
+            {
+                if (oferta is OfertaCarga)
+                {
+                    return RedirectToAction("BusquedaRapidaOfertaCargaHistorialAdmin", "Home", new { OfertaId = oferta.OfertaId });
+                }//si la oferta es de transporte muestra la vista con la oferta de transporte
+                if (oferta is OfertaTransporte)
+                {
+                    return View(oferta);
+                }
+
+            }
+            return View();
+        }
+
+        public ActionResult BusquedaRapidaOfertaCargaHistorialAdmin(int OfertaId)
+        {
+            OfertaCarga ofertaCarga = db.OfertasCarga.Find(OfertaId);
+
+            if (ofertaCarga != null)
+            {
+
+                return View(ofertaCarga);
+
+            }
+            return RedirectToAction("HistorialAdministrador", "Home");
+        }
         [Authorize]
         public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
@@ -717,6 +744,10 @@ namespace FlipWeb.Controllers
         [Authorize]
         public ActionResult DenunciarOferta([Bind(Include = "Motivo,Detalle")] Reporte reporte)
         {
+            if (Session["idOferta"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int idOferta = (int)Session["idOferta"];
             if (reporte.Motivo == "seleccionarMotivo")
             {
@@ -831,6 +862,7 @@ namespace FlipWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult ReportadosLista()
         {
+
             var reportesAbiertos = (from o in db.Reportes
                                     where (o.Estado == "Abierto")
                                     select o).ToList();
@@ -844,6 +876,7 @@ namespace FlipWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult CerrarReporte(int? idReporte)
         {
+
             Session.Add("idReporte", idReporte);
             return View();
         }
@@ -853,6 +886,10 @@ namespace FlipWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult CerrarReporte(string Resolucion)
         {
+            if (Session["idReporte"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int idReporte = (int)Session["idReporte"];
             if(Resolucion == "")
             {
@@ -915,6 +952,10 @@ namespace FlipWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult BloquearUsuarioConfirmado(string Duracion)
         {
+            if (Session["idUsuario"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             string usuarioId = (string)Session["idUsuario"];
             var usuario = db.Users.Find(usuarioId);
             if(Duracion == "")
@@ -949,6 +990,10 @@ namespace FlipWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult DesbloquearUsuario(string id)
         {
+            if (Session["idOferta"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             if (id != null)
             {
                 BloquearUsuarioViewModel bloquearViewModel = new BloquearUsuarioViewModel();
@@ -1241,6 +1286,8 @@ namespace FlipWeb.Controllers
         [Authorize]
         public ActionResult DetailsUsers(string id)
         {
+            var userId = User.Identity.GetUserId();
+            TempData["usuarioId"] = userId;
             if (id == null)
             {
                 return RedirectToAction("Error", "Home");

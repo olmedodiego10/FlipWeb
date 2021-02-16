@@ -1,7 +1,10 @@
 ﻿@model FlipWeb.Domain.Reporte
+@Styles.Render("~/Content/FlipStyleSheet.css")
+
 @{
-    ViewBag.Title = "DenunciarOferta";
+    ViewBag.Title = "Denunciar Oferta";
 }
+<h1>@ViewBag.Title</h1>
 @{
     <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
 
@@ -47,8 +50,8 @@
 
     <h3>Cuentános más sobre tu denuncia</h3>
 
-    @Html.TextAreaFor(model => model.Detalle, new { @class = "form-control" })
-    
+    @Html.TextAreaFor(model => model.Detalle, new { @id = "areaDeTexto", @class = "form-control" })
+
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Denunciar" , class="btn btn-success" />
         @Html.ActionLink("No. Cambié de parecer. Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
