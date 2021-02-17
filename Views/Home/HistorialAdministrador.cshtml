@@ -8,11 +8,11 @@
 <div class="">
     <h1>@ViewBag.Title</h1>
     <hr />
-    <h5>Busqueda oferta</h5>
+    <h5>Búsqueda de oferta</h5>
     @using (Html.BeginForm("BusquedaRapidaHistorialAdmin", "Home", FormMethod.Post))
     {
         @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el código de oferta...", @class = "form-control" })
-        <button type="submit" class="btn btn-success">Busqueda rapida</button>
+        <button type="submit" class="btn btn-success">Búsqueda rápida</button>
     }
     <h3>Ofertas de Carga</h3>
     <hr />
@@ -49,7 +49,7 @@
                             }
                         </div>
                         <div class="card-footer">
-                            <p class="card-footerText">Codigo: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
                     </div>
                 </a>
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <p class="card-footerText">Codigo: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
 
                     </div>

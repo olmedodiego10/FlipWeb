@@ -70,11 +70,12 @@
 
     <div class="row">
         <section class="col-md-6">
-            <h5>Busqueda oferta</h5>
+            <h5>Búsqueda de ofertas</h5>
             @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
             {
-                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el Código de oferta...", @class = "form-control" })
-                <button type="submit" class="btn btn-success">Busqueda rapida</button>
+                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el código de oferta...", @class = "form-control" })
+                <button type="submit" class="btn btn-success">Búsqueda rápida</button>
+                @Html.ActionLink("Descargar manual de usuario Administrador", "DescargaManualUsuario", "Home")
             }
         </section>
         <section class="col-md-6  text-md-right ">

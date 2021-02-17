@@ -8,11 +8,11 @@
 <div>
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
 
-    <h5>Busqueda oferta</h5>
+    <h5>Búsqueda de ofertas</h5>
     @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
     {
         @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
-        <button type="submit" class="btn btn-success">Busqueda rapida</button>
+        <button type="submit" class="btn btn-success">Búsqueda rápida</button>
     }
 </div>
 @if (User.IsInRole("Cliente"))
@@ -40,7 +40,7 @@
                     }
                 </div>
                 <div class="card-footer">
-                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                    <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => Model.OfertaId)</p>
                 </div>
             </div>
         </a>
@@ -72,7 +72,7 @@
                     }
                 </div>
                 <div class="card-footer">
-                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                    <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => Model.OfertaId)</p>
                 </div>
             </div>
         </a>

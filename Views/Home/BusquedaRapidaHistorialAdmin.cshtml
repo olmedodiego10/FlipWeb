@@ -1,17 +1,17 @@
 ﻿@model FlipWeb.Domain.OfertaTransporte
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "Busqueda rapida";
+    ViewBag.Title = "Busqueda rápida";
 }
 <h2>Menu</h2>
 <div>
     <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
 
-    <h5>Busqueda oferta</h5>
+    <h5>Búsqueda de ofertas</h5>
     @using (Html.BeginForm("BusquedaRapidaHistorialAdmin", "Home", FormMethod.Post))
     {
         @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
-        <button type="submit" class="btn btn-success">Busqueda rapida</button>
+        <button type="submit" class="btn btn-success">Búsqueda rápida</button>
     }
 </div>
 
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <p>Codigo: @Html.DisplayFor(modelItem => Model.OfertaId)</p>
+                    <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => Model.OfertaId)</p>
                 </div>
 
             </div>

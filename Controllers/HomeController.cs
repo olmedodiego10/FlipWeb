@@ -54,6 +54,20 @@ namespace FlipWeb.Controllers
         }
 
         [AllowAnonymous]
+        public FileResult DescargaManualUsuario()
+        {
+            var sDocument = Server.MapPath("~/Files/manualusuario.pdf");
+            return File(sDocument, "application/pdf", sDocument);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public FileResult DescargaManualUsuarioAdmin()
+        {
+            var sDocument = Server.MapPath("~/Files/adminmanualusuarioadmin.pdf");
+            return File(sDocument, "application/pdf", sDocument);
+        }
+
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -140,6 +154,7 @@ namespace FlipWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult HistorialAdministrador()
         {
             var cargas = (from o in db.OfertasCarga
@@ -150,6 +165,7 @@ namespace FlipWeb.Controllers
                 return View(vista);
         }
 
+        [Authorize]
         public ActionResult OfertasActivas()
         {
            
@@ -178,7 +194,7 @@ namespace FlipWeb.Controllers
             if (!idOferta.HasValue)
             {
 
-                TempData["errorBusqueda"] = "Debe ingresar un codigo de oferta";
+                TempData["errorBusqueda"] = "Debe ingresar un código de oferta";
                 return RedirectToAction("MenuUsuarios", "Home");
 
             }
@@ -264,6 +280,7 @@ namespace FlipWeb.Controllers
             }
             return RedirectToAction("HistorialAdministrador", "Home");
         }
+        
         [Authorize]
         public ActionResult BusquedaOfertaConFiltros(string TipoOferta, string PaisPartida, string CiudadPartida, string PaisDestino, string CiudadDestino, DateTime? FechaDesde, DateTime? FechaHasta, string TipoCamion, string TipoCaja)
         {
@@ -817,10 +834,13 @@ namespace FlipWeb.Controllers
 
             return RedirectToAction("ReportadosLista", "Home");
         }
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReActivarOferta(int idOferta)
         {
             return View(idOferta);
         }
+        
         public ActionResult ReActivarOfertaConfirmado(int idOferta)
         {
             Oferta oferta = db.Ofertas.Find(idOferta);
@@ -1259,6 +1279,7 @@ namespace FlipWeb.Controllers
             return View(usuarios);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult BuscarUsuario(string email)
         {
             if(email == "")
@@ -1283,6 +1304,7 @@ namespace FlipWeb.Controllers
             }
             
         }
+        
         [Authorize]
         public ActionResult DetailsUsers(string id)
         {
