@@ -2,15 +2,16 @@
 @Styles.Render("~/Content/FlipStyleSheet.css")
 
 @{
-    ViewBag.Title = "Historial de Ofertas creadas";
+    ViewBag.Title = "Historial de ofertas creadas";
 }
 <p class="text-danger" style="max-width:500px">@TempData["errorBusqueda"]</p>
 <div class="">
     <h1>@ViewBag.Title</h1>
+    <hr />
     <h5>Busqueda oferta</h5>
     @using (Html.BeginForm("BusquedaRapidaHistorialAdmin", "Home", FormMethod.Post))
     {
-        @Html.TextBox("idOferta", "", new { @placeholder = "Id", @class = "form-control" })
+        @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el código de oferta...", @class = "form-control" })
         <button type="submit" class="btn btn-success">Busqueda rapida</button>
     }
     <h3>Ofertas de Carga</h3>
@@ -48,7 +49,7 @@
                             }
                         </div>
                         <div class="card-footer">
-                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Codigo: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
                     </div>
                 </a>
@@ -85,7 +86,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <p>Codigo: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                            <p class="card-footerText">Codigo: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                         </div>
 
                     </div>

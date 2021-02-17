@@ -1,12 +1,13 @@
 ﻿@model FlipWeb.Models.MenuUsuariosViewModel
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "Búsqueda Avanzada";
+    ViewBag.Title = "Búsqueda avanzada";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
 
-
+<h1>Búsqueda avanzada</h1>
+<hr />
 <div>
     @{
         List<SelectListItem> tiposDeOferta = new List<SelectListItem>();
@@ -83,12 +84,13 @@
     </div>
 
 
-    <div id="divBusquedaAvanzada" style="display:none">
+    <div id="divBusquedaAvanzada" style="display:block">
 
         @using (Html.BeginForm("BusquedaOfertaConFiltros", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-
-            <h3>Busqueda avanzada</h3>
+        <hr />
+            <h3>Búsqueda avanzada</h3>
+        <hr />
             <div class=" form-inline align-items-start">
                 <div class="mr-2">
                     <h5>Tipo de oferta</h5>
@@ -141,6 +143,7 @@
         
         {
             <h3>Ofertas de Carga</h3>
+            <hr />
             <div class="containerCard">
                 @foreach (var item in Model.ListadoOfertasCarga)
                 {
@@ -165,7 +168,7 @@
                                 }
                             </div>
                             <div class="card-footer">
-                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                                <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                             </div>
                         </div>
                     </a>
@@ -176,7 +179,9 @@
 
         @if (Model.ListadoOfertasTransporte != null)
         {
+            <hr />
             <h3>Ofertas de Transporte</h3>
+            <hr />
             <div class="containerCard">
                 @foreach (var item in Model.ListadoOfertasTransporte)
                 {
@@ -194,7 +199,7 @@
                             </div>
 
                             <div class="card-footer">
-                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                                <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                             </div>
 
                         </div>

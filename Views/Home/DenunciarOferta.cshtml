@@ -2,7 +2,7 @@
 @Styles.Render("~/Content/FlipStyleSheet.css")
 
 @{
-    ViewBag.Title = "Denunciar Oferta";
+    ViewBag.Title = "Denunciar oferta";
 }
 <h1>@ViewBag.Title</h1>
 @{
@@ -42,18 +42,26 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    <hr />
     <h2>Selecciona el motivo por el que quieres denunciar esta oferta</h2>
-
+    <small>
+        *Nuestros administradores realizaran un análisis del caso y tomarán medidas si es necesario.
+    </small>
+    <small>
+        *Es importante saber que el caso de denuncias reiteradas sin un motivo comprobable resultaran en medidas tomadas con respecto al denunciante y no el denunciado.
+    </small>
 
     @Html.DropDownListFor(model => model.Motivo, listItems, htmlAttributes: new { @class = "form-control-lg" })
+    <hr />
 
-    <h3>Cuentános más sobre tu denuncia</h3>
+    <h5>Cuéntanos  más sobre tu denuncia</h5>
 
-    @Html.TextAreaFor(model => model.Detalle, new { @id = "areaDeTexto", @class = "form-control" })
-
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Denunciar" , class="btn btn-success" />
-        @Html.ActionLink("No. Cambié de parecer. Cancelar.", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+    @Html.TextAreaFor(model => model.Detalle, new { @class = "form-control" })
+    <hr />
+    <div class="row col-md-offset-2 col-md-10">
+        <input type="submit" value="Denunciar" , class="btn btn-danger col-md-4 col-sm-12 col-xs-12" />
+    </div>
+    <div class="row col-md-offset-2 col-md-10">
+        <input type="button" value="No. Cambié de parecer. Cancelar." , class="btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
     </div>
 }

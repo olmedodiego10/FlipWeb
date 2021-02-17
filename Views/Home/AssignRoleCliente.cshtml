@@ -2,10 +2,10 @@
 @model FlipWeb.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "AssignRoleAdministrador";
+    ViewBag.Title = "Asignar rol Cliente";
 }
 
-<h2>Asignar Cliente</h2>
+<h2>Asignar rol Cliente</h2>
 
 @using (Html.BeginForm())
 {
@@ -19,8 +19,10 @@
         <h3>¿Desea asignar rol de Cliente?</h3>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Si, asignar rol" , class="btn btn-success" />
-                @Html.ActionLink("Cancelar.", "UsersList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline", @role = "button" })
+                <input type="submit" value="Si, asignar rol" , class="btn btn-success col-md-4 col-sm-12 col-xs-12" />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Cancelar" , class="btn btn-success col-md-4 col-sm-12 col-xs-12" onclick="location.href='@Url.Action("UsersList","Home")'" />
             </div>
         </div>
     </div>

@@ -74,7 +74,7 @@
             <h5>Busqueda oferta</h5>
             @using (Html.BeginForm("BusquedaRapidaOferta", "Home", FormMethod.Post))
             {
-                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el Código de oferta...", @class = "form-control" })
+                @Html.TextBox("idOferta", "", new { @placeholder = "Ingrese el código de oferta...", @class = "form-control" })
                 <button type="submit" class="btn btn-success">Búsqueda rapida</button>
             }
         </section>
@@ -175,7 +175,7 @@
                                 }
                             </div>
                             <div class="card-footer">
-                                <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                                <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                             </div>
                         </div>
                     </a>
@@ -216,7 +216,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <p class="card-footerText">Código de oferta: @Html.DisplayFor(modelItem => item.OfertaId)</p>
+                        <p class="card-footerText">Código de oferta: #@Html.DisplayFor(modelItem => item.OfertaId)</p>
                     </div>
 
                 </div>
@@ -233,7 +233,6 @@
         @Html.ActionLink("Contactados", "ContactadosList", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Historial de Ofertas creadas", "HistorialOfertante", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
         @Html.ActionLink("Administradores", "MenuAdmins", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
-
     </div>
 </div>
 

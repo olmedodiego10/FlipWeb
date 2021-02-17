@@ -8,6 +8,11 @@
     min-height: 1000px;
 }
 
+td {
+    border-left: solid 1px rgba(144, 144, 144, 0.5);
+    padding-right: 25px;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-top: 60px;
