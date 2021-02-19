@@ -242,9 +242,12 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Images\android-chrome-192x192.png" />
     <Content Include="Images\apple-touch-icon.png" />
+    <Content Include="Images\borrarLuego.jpg" />
     <Content Include="Images\browserconfig.xml" />
     <Content Include="Images\camiondibujo.png" />
     <Content Include="Images\camiondibujo2.png" />
+    <Content Include="Images\Diego.jpg" />
+    <Content Include="Images\FacebookLogo.png" />
     <Content Include="Images\favicon-16x16.png" />
     <Content Include="Images\favicon-32x32.png" />
     <Content Include="Images\favicon.ico" />
@@ -254,10 +257,12 @@
     <Content Include="Images\flipLogoV.jpg" />
     <Content Include="Images\fondoruta.jpg" />
     <Content Include="Images\flipLogoTransp.png" />
+    <Content Include="Images\InstagramLogo.png" />
     <Content Include="Images\lineas.png" />
     <Content Include="Images\LogoFlip.jpg" />
     <Content Include="Images\mstile-150x150.png" />
     <Content Include="Images\safari-pinned-tab.svg" />
+    <Content Include="Images\TwitterLogo.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
