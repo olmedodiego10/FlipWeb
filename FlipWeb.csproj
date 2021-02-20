@@ -244,9 +244,10 @@
     <Content Include="Images\apple-touch-icon.png" />
     <Content Include="Images\borrarLuego.jpg" />
     <Content Include="Images\browserconfig.xml" />
+    <Content Include="Images\bruno.jpeg" />
     <Content Include="Images\camiondibujo.png" />
     <Content Include="Images\camiondibujo2.png" />
-    <Content Include="Images\Diego.jpg" />
+    <Content Include="Images\diego.jpg" />
     <Content Include="Images\FacebookLogo.png" />
     <Content Include="Images\favicon-16x16.png" />
     <Content Include="Images\favicon-32x32.png" />
