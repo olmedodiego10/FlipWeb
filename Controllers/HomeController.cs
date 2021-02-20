@@ -56,14 +56,14 @@ namespace FlipWeb.Controllers
         [AllowAnonymous]
         public FileResult DescargaManualUsuario()
         {
-            var sDocument = Server.MapPath("~/Files/manualusuario.pdf");
+            var sDocument = Server.MapPath("~/Files/manualusuarioflip.pdf");
             return File(sDocument, "application/pdf", sDocument);
         }
 
         [Authorize(Roles = "Administrador")]
         public FileResult DescargaManualUsuarioAdmin()
         {
-            var sDocument = Server.MapPath("~/Files/adminmanualusuarioadmin.pdf");
+            var sDocument = Server.MapPath("~/Files/manualusuarioflipadmin.pdf");
             return File(sDocument, "application/pdf", sDocument);
         }
 
