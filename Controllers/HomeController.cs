@@ -1226,7 +1226,6 @@ namespace FlipWeb.Controllers
             TempData["mensajeOk"] = "Contacto calificado. Ya puede realizar un nuevo contacto en caso de que su cuenta sea gratuita.";
             if (Session["idOferta"] == null)
             {
-                TempData["mensajeError"] = "Ocurrió un error con el código de la oferta seleccionada. ";
                 return RedirectToAction("ContactadosList", "Home");
             }
             else

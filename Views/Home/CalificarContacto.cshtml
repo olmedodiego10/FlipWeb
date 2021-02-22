@@ -20,7 +20,7 @@
         @Html.HiddenFor(model => model.FechaContacto)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Calificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.Calificacion, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
                 <div>
                     <p>
@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input class="btn btn-danger" type='button' onclick='history.back();' value='Volver' />
+                <input type="button" value="Volver" , class="btn btn-danger" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
                 <input type="submit" value="Calificar" class="btn btn-success" />
             </div>
         </div>
