@@ -95,7 +95,7 @@ namespace FlipWeb.Controllers
         {
             var cargas = (from o in db.OfertasCarga
                           where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
-                          select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+                          select o).OrderByDescending(o => o.FechaCreacion).ToList();
             return View(cargas);
         }
 
@@ -104,7 +104,7 @@ namespace FlipWeb.Controllers
         {
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
-                              select o).OrderByDescending(o => o.FechaCreacion).ToList(); ;
+                              select o).OrderByDescending(o => o.FechaCreacion).ToList();
             return View(transporte);
         }
 
@@ -112,8 +112,8 @@ namespace FlipWeb.Controllers
         public ActionResult MenuUsuarios()
         {
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso" )
-                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
+                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
+                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); 
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
@@ -126,10 +126,10 @@ namespace FlipWeb.Controllers
         {
             var cargas = (from o in db.OfertasCarga
                           where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
-                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
+                          select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); 
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
-                              select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList(); ;
+                              select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
