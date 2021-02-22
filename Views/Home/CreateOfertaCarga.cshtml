@@ -103,7 +103,7 @@
             <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divDireccionPartida()">Click para saber más</a>
             <div id="infoDireccionPartida" style="display:none">
                 <small>
-                    Aquí debe indicar la dirección en la que se encuentra la carga.
+                    Aquí debe indicar la dirección en la que se encuentra la carga. No es obligatorio ser especifico. Puede indicar <strong>A convenir</strong> si desea ultimar los detalles de dirección en privado.
                 </small>
             </div>
         </div>
@@ -147,7 +147,7 @@
             <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divDireccionDestino()">Click para saber más</a>
             <div id="infoDireccionDestino" style="display:none">
                 <small>
-                    Aquí debe indicar la dirección a la que esta destinada la carga.
+                    Aquí debe indicar la dirección a la que esta destinada la carga. No es obligatorio ser especifico. Puede indicar <strong>A convenir</strong> si desea ultimar los detalles de dirección en privado.
                 </small>
             </div>
         </div>
@@ -219,7 +219,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Crear oferta de Carga" class="btn btn-success" />
-            @Html.ActionLink("Cancelar", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+            <input type="button" value="Cancelar" , class="btn btn-danger" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
         </div>
     </div>
 </div>

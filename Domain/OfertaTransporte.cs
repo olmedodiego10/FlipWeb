@@ -31,6 +31,7 @@ namespace FlipWeb.Domain
         [StringLength(30, ErrorMessage = "Limite de caracteres excedido")]
         [Display(Name = "Habilitación bromatológica")]
         public string HabilitacionBromatologica { get; set; }
+        [Display(Name = "Costo (USD / U$)")]
         [Required(ErrorMessage = "Campo requerido")]
         public decimal Costo { get; set; }
     }

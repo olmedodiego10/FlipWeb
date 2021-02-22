@@ -1,7 +1,7 @@
 ﻿@model FlipWeb.Domain.OfertaCarga
 @Styles.Render("~/Content/FlipStyleSheet.css")
 @{
-    ViewBag.Title = "CreateOfertaCarga";
+    ViewBag.Title = "Modificar oferta carga";
 }
 
 <script type="text/javascript" src="~/Scripts/FlipJS.js"></script>
@@ -53,7 +53,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Detalles, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Detalles, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Detalles, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="myFunction()">Click para saber más</a>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PaisPartida, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PaisPartida, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PaisPartida, listItems, htmlAttributes: new { @class = "form-control" })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divPaisPartida()">Click para saber más</a>
@@ -85,7 +85,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CiudadPartida, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CiudadPartida, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CiudadPartida, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divCiudadPartida()">Click para saber más</a>
@@ -99,21 +99,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DireccionPartida, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DireccionPartida, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DireccionPartida, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divDireccionPartida()">Click para saber más</a>
                 @Html.ValidationMessageFor(model => model.DireccionPartida, "", new { @class = "text-danger" })
                 <div id="infoDireccionPartida" style="display:none">
                     <small>
-                        Aquí debe indicar la dirección en la que se encuentra la carga.
+                        Aquí debe indicar la dirección en la que se encuentra la carga. No es obligatorio ser especifico. Puede indicar <strong>A convenir</strong> si desea ultimar los detalles de dirección en privado.
                     </small>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PaisDestino, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PaisDestino, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PaisDestino, listItems, htmlAttributes: new { @class = "form-control" })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divPaisDestino()">Click para saber más</a>
@@ -129,7 +129,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CiudadDestino, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CiudadDestino, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CiudadDestino, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divCiudadDestino()">Click para saber más</a>
@@ -143,21 +143,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DireccionDestino, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DireccionDestino, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DireccionDestino, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divDireccionDestino()">Click para saber más</a>
                 @Html.ValidationMessageFor(model => model.DireccionDestino, "", new { @class = "text-danger" })
                 <div id="infoDireccionDestino" style="display:none">
                     <small>
-                        Aquí debe indicar la dirección a la que esta destinada la carga.
+                        Aquí debe indicar la dirección a la que esta destinada la carga. No es obligatorio ser especifico. Puede indicar <strong>A convenir</strong> si desea ultimar los detalles de dirección en privado.
                     </small>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FechaOferta, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FechaOferta, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div id="EditFechaOferta">
                 <small><strong>Ingresar nuevamente la fecha límite de la oferta es requisito para poder modificarla, en caso de que no haya cambiado puede volver a ingresar la misma fecha nuevamente.</strong></small>
             </div>
@@ -178,7 +178,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DescripcionMercaderia, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DescripcionMercaderia, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DescripcionMercaderia, new { htmlAttributes = new { @class = "form-control" } })
                 <a class="btn btn-success btn-outline btn-xs saberMas" role="button" onclick="divDescripcionMercaderia()">Click para saber más</a>
@@ -192,7 +192,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RequiereExclusividad, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RequiereExclusividad, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             @Html.EditorFor(model => model.RequiereExclusividad)
             <div class="col-md-10">
                 <div class="checkbox">
@@ -208,7 +208,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Imagen1, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Imagen1, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
                 <div>
                     <img class="rounded border border-success" width="250" src="@Url.Action("getImageOfertaCarga","Home", new { id= Model.OfertaId})" />
@@ -228,7 +228,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Guardar" class="btn btn-success" />
-                @Html.ActionLink("Cancelar", "MenuUsuarios", "Home", routeValues: null, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+                <input type="button" value="Cancelar" , class="btn btn-danger" onclick="location.href='@Url.Action("MenuUsuarios","Home")'" />
             </div>
         </div>
     </div>

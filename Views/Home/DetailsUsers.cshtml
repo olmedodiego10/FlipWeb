@@ -2,11 +2,13 @@
 
 @{
     ViewBag.Title = "Detalles de usuario";
-   // Layout = "~/Views/Shared/_LayoutCli.cshtml";
+    // Layout = "~/Views/Shared/_LayoutCli.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
-@if(Model.LockoutEndDateUtc > DateTime.Now) { <h3>USUARIO BLOQUEADO</h3>}
+<hr />
+@if (Model.LockoutEndDateUtc > DateTime.Now)
+{<h3>USUARIO BLOQUEADO</h3>}
 <div>
     <p class="text-danger" style="max-width:500px">@TempData["mensaje"]</p>
     @if (Model.Id.ToString() == TempData["usuarioId"].ToString())
@@ -17,7 +19,6 @@
     {
         <h4>Cliente</h4>
     }
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Email)
@@ -80,24 +81,25 @@
     @if (Model.Id.ToString() != TempData["usuarioId"].ToString())
     {
 
-     if (Model.LockoutEndDateUtc > DateTime.Now)
-    {
-        @Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
-    }
-    else
-    {
-        @Html.ActionLink("Bloquear usuario", "BloquearCuentaUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger", @role = "button" })
+        if (Model.LockoutEndDateUtc > DateTime.Now)
+        {
+            @Html.ActionLink("Desbloquear usuario", "DesbloquearUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success btn-outline col-md-4 col-sm-12 col-xs-12", @role = "button" })
+            <br />
+        }
+        else
+        {
+            @Html.ActionLink("Bloquear usuario", "BloquearCuentaUsuario", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger col-md-4 col-sm-12 col-xs-12", @role = "button" })
+            <br />
+        }
 
-    }
+        if (Model.RolString == "Administrador" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
+        {
+            @Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        }
 
-    if (Model.RolString == "Administrador" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
-    {
-        @Html.ActionLink("Asignar rol Cliente", "AssignRoleCliente", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    }
-
-    if (Model.RolString == "Cliente" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
-    {
-        @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success", @role = "button" })
-    }
+        if (Model.RolString == "Cliente" && (Model.LockoutEndDateUtc < DateTime.Now || Model.LockoutEndDateUtc == null))
+        {
+            @Html.ActionLink("Asignar rol Administrador", "AssignRoleAdministrador", "Home", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-success col-md-4 col-sm-12 col-xs-12", @role = "button" })
+        }
     }
 </p>
