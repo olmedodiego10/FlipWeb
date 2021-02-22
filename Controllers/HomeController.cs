@@ -49,6 +49,7 @@ namespace FlipWeb.Controllers
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
                               select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
+
             MenuUsuariosViewModel vista = new MenuUsuariosViewModel() { ListadoOfertasTransporte = transporte, ListadoOfertasCarga = cargas };
             return View(vista);
         }
@@ -111,7 +112,7 @@ namespace FlipWeb.Controllers
         public ActionResult MenuUsuarios()
         {
             var cargas = (from o in db.OfertasCarga
-                          where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
+                          where (o.Estado == "En progreso" )
                           select o).OrderByDescending(o => o.FechaCreacion).Take(4).ToList();
             var transporte = (from o in db.OfertasTransporte
                               where (o.Estado == "En progreso" && DbFunctions.TruncateTime(o.FechaOferta) >= DbFunctions.TruncateTime(fechaActual))
@@ -411,7 +412,7 @@ namespace FlipWeb.Controllers
                 return View(ofertaCarga);
             }
 
-            ofertaCarga.FechaCreacion = DateTime.Now.Date;
+            ofertaCarga.FechaCreacion = DateTime.Now;
             if (ofertaCarga.FechaOferta < ofertaCarga.FechaCreacion)
             {
                 TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";
@@ -531,7 +532,7 @@ namespace FlipWeb.Controllers
                 return View(ofertaTransporte);
             }
 
-            ofertaTransporte.FechaCreacion = DateTime.Now.Date;
+            ofertaTransporte.FechaCreacion = DateTime.Now;
             if (ofertaTransporte.FechaOferta < ofertaTransporte.FechaCreacion)
             {
                 TempData["errorFecha"] = "Debe indicar una fecha futura en la que su oferta debe realizarse. Dicha oferta aparecerá disponible mientras no haya pasado su fecha indicada.";

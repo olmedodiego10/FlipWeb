@@ -240,6 +240,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Images\adrian.jpg" />
     <Content Include="Images\android-chrome-192x192.png" />
     <Content Include="Images\apple-touch-icon.png" />
     <Content Include="Images\borrarLuego.jpg" />
